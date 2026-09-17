@@ -1,0 +1,264 @@
+# NARAYA — Sedot WC & Solusi Sanitasi
+## Panduan Go-Live & SEO
+
+### Field baru: titik lokasi via peta (GPS)
+
+Form kontak (`kontak.html`) sekarang juga punya **peta titik lokasi**
+opsional di bawah field Area. Pelanggan bisa menekan tombol
+"Gunakan Lokasi Saya" (browser akan minta izin GPS) atau menandai
+langsung dengan tap/geser pin di peta untuk koreksi manual. Tujuannya
+supaya tim lapangan tiba tepat sesuai koordinat Google Maps, bukan
+hanya mengandalkan alamat yang diketik.
+
+- **Wajib dijalankan sebelum go-live:** `supabase/migrations/006_lead_location.sql`
+  di SQL Editor Supabase — menambah kolom `location_lat`, `location_lng`,
+  `location_accuracy_m`, `location_source` (semuanya nullable/opsional)
+  ke tabel `leads`.
+- Peta memakai **Leaflet + tile OpenStreetMap** (bukan Google Maps
+  JavaScript API) karena tidak butuh API key atau billing Google Cloud
+  — bisa langsung aktif tanpa setup tambahan. Koordinat yang dihasilkan
+  tetap koordinat GPS standar, 100% akurat kalau dibuka di Google Maps.
+  Kalau nanti Anda sudah punya API key Google Maps sendiri dan ingin
+  tampilan peta yang identik dengan Google Maps, ganti tile provider di
+  `assets/js/location-picker.js` — bagian lain (form, database, Google
+  Sheet) tidak perlu diubah.
+- Di Google Sheet sinkron leads, kolom baru **"Titik Lokasi (Google
+  Maps)"** muncul setelah kolom Area, berisi link siap-klik langsung ke
+  titik yang ditandai pelanggan. Kolom Status/Catatan Admin/Terakhir
+  Disinkron otomatis bergeser satu kolom ke kanan (sekarang O/P/Q,
+  bukan lagi N/O/P) — kalau Anda sudah pernah setup Sheet sebelumnya,
+  jalankan ulang menu **"Sedot WC > Sinkron Sekarang"** setelah update
+  kode Apps Script supaya header baris 1 ikut ter-refresh.
+- Field ini 100% opsional di sisi pelanggan — kalau mereka menolak izin
+  lokasi atau tidak menandai peta sama sekali, formulir tetap terkirim
+  normal seperti sebelumnya.
+
+### Field baru: tanggal & jam kedatangan
+
+Form kontak (`kontak.html`) sekarang punya 2 field tambahan opsional:
+**Tanggal Kedatangan** dan **Jam Kedatangan** (7 slot: Secepatnya +
+6 rentang 2 jam antara 07.00–19.00). Datanya masuk ke kolom baru
+`preferred_date` dan `preferred_time_slot` di tabel `leads` — jalankan
+`supabase/migrations/005_reservation_schedule.sql` di SQL Editor
+Supabase kalau belum. Kalau jam operasional (`BUSINESS_OPENING_HOURS`
+di `config.js`) berubah, sesuaikan juga daftar `<option>` di
+`kontak.html`, daftar `VALID_TIME_SLOTS` di `assets/js/contact-form.js`,
+dan CHECK constraint di migrasi 005 supaya ketiganya tetap sinkron.
+
+### Koordinasi dengan tim lapangan lewat Google Sheet
+
+Lihat folder `google-sheets-sync/` — sinkron leads dari Supabase ke
+Google Sheet otomatis tiap 10 menit, sudah termasuk tanggal & jam
+kedatangan di atas. Panduan setup lengkap: `google-sheets-sync/SETUP.md`.
+
+---
+
+## ⚠️ BAGIAN 1 — WAJIB DIISI SEBELUM SITUS DIPUBLIKASIKAN
+
+Situs ini **belum bisa menghasilkan pelanggan** sampai hal di bawah diganti.
+Ada di satu file: `assets/js/config.js`.
+
+✅ **Sudah dikonfirmasi & diterapkan ke seluruh situs** (nomor WhatsApp/telepon
+`+62 851-1741-9206`, email `narayasanitasisolution@gmail.com` — termasuk 60
+tautan `tel:` yang sebelumnya masih hardcoded ke nomor lama `0212200899` di
+24 halaman, dan email JSON-LD yang sebelumnya `info@narayasanitasi.co.id`).
+
+| Yang harus diganti | Status |
+|---|---|
+| `BUSINESS_WHATSAPP` / `BUSINESS_PHONE` | ✅ Selesai — `+62 851-1741-9206` |
+| `BUSINESS_EMAIL` | ✅ Selesai — `narayasanitasisolution@gmail.com` |
+| `BUSINESS_ADDRESS` + koordinat | ✅ Selesai — alamat dikonfirmasi, koordinat `-6.219763, 106.9003752` diisi dari link Google Maps, peta ditampilkan di `kontak.html` |
+
+### Domain
+
+Saya memakai domain sementara **`narayasanitasi.co.id`**. Kalau domain Anda
+berbeda, ganti di seluruh situs dengan satu perintah:
+
+```bash
+grep -rl "narayasanitasi.co.id" . | xargs sed -i 's/narayasanitasi\.co\.id/DOMAIN-ANDA.com/g'
+```
+
+### Konten yang masih placeholder
+
+- `tentang-kami.html` — masih berisi teks contoh. Ganti dengan cerita usaha
+  yang sebenarnya (kapan berdiri, berapa armada, siapa yang menangani).
+- `assets/img/tim-pendiri.jpg` — belum ada. Taruh foto tim di path itu, lalu
+  buka `tentang-kami.html` dan hapus tanda komentar di sekitar tag `<img>`.
+- `assets/img/trust-photo.jpg` — sudah ada, tapi pastikan itu foto armada
+  NARAYA yang asli, bukan foto stok.
+
+---
+
+## BAGIAN 2 — APA YANG SUDAH DIKERJAKAN
+
+### Rebranding (tuntas, 0 sisa)
+
+Branding lama di situs ini **tidak konsisten**: file konfigurasi menulis
+"Tanki.Id" dan "CV Jaya Abadi Sanitasi", sementara halaman HTML menulis
+"Sedot WC Jaya Abadi". Semuanya kini disatukan menjadi:
+
+- **Nama tampil:** NARAYA
+- **Tagline:** Sedot WC & Solusi Sanitasi
+- **Nama lengkap:** NARAYA Sedot WC & Solusi Sanitasi
+- **Badan usaha:** CV Naraya Solusi Sanitasi *(⚠️ ganti kalau berbeda)*
+
+Termasuk: logo SVG baru, gambar share media sosial baru, header, footer,
+seluruh judul halaman, dan semua template pesan WhatsApp.
+
+### Promo Rp375.000 (terpasang di 7 titik)
+
+1. Bar promo hitam di paling atas setiap halaman
+2. Judul & paragraf pembuka beranda
+3. Blok harga besar + tabel harga di beranda
+4. Halaman `harga.html` khusus
+5. Badge "Promo — mulai Rp375.000" di setiap halaman layanan & area
+6. Footer
+7. **Schema.org `priceSpecification`** — inilah yang membuat harga
+   berpeluang tampil langsung di hasil pencarian Google
+
+Semua angka bersumber dari `BUSINESS_PRICE_STARTING_FROM` di `config.js`.
+
+> **Catatan kejujuran klaim:** di semua tempat harga ditulis sebagai *"mulai
+> dari"* dan disertai keterangan bahwa biaya akhir dikonfirmasi lewat
+> WhatsApp sebelum teknisi berangkat. Ini melindungi Anda dari komplain
+> pelanggan sekaligus dari masalah iklan menyesatkan.
+
+### Optimasi SEO
+
+**26 halaman** kini punya judul, deskripsi, dan canonical yang **unik
+seluruhnya** (26/26) — tidak ada lagi halaman yang saling berebut peringkat.
+
+- Judul semua ≤ 60 karakter, deskripsi 110–165 karakter (tidak terpotong Google)
+- Open Graph + Twitter Card lengkap → tampilan rapi saat di-share di WhatsApp
+- `max-image-preview:large` → gambar besar di hasil pencarian
+- Structured data berlapis dan saling tertaut lewat `@id`:
+  LocalBusiness/PlumbingBusiness, Service + Offer, FAQPage, BreadcrumbList,
+  OfferCatalog, BlogPosting
+- Sitemap baru dengan `lastmod`, halaman legal sengaja dikeluarkan agar
+  tidak memboroskan jatah crawl
+- robots.txt kini **mengizinkan** `/assets/` — memblokir CSS/JS membuat
+  Google melihat halaman rusak dan menurunkan peringkat
+
+### Masalah yang saya temukan & perbaiki di luar permintaan
+
+| Masalah | Dampaknya | Status |
+|---|---|---|
+| **Bekasi tidak punya halaman sama sekali** | "BE" di Jabodetabek hilang total dari target pencarian | ✅ Dibuat dengan konten lokal asli |
+| Breadcrumb "Beranda" rusak di 9 halaman area | Mengarah ke halaman yang tidak ada | ✅ Diperbaiki |
+| FAQ di halaman ≠ FAQ di schema | Google mengabaikan rich result-nya | ✅ Disamakan persis |
+| Jam buka bertentangan (Sen–Sab 07–20 vs "setiap hari 07–21") | Membingungkan pelanggan & Google | ✅ Disamakan |
+| `tim-pendiri.jpg` tidak ada | Error 404 di setiap kunjungan | ✅ Dinonaktifkan |
+| Judul beranda = judul halaman sedot-wc | Dua halaman berebut kata kunci sama | ✅ Dipisahkan |
+| Catatan internal developer tampil ke publik | Terbaca pengunjung & Google | ✅ Dihapus |
+
+### Halaman baru
+
+- **`harga.html`** — menyasar pencarian "harga sedot WC Jabodetabek", berisi
+  tabel harga, penjelasan faktor yang memengaruhi biaya akhir, dan FAQ harga.
+- **`area-layanan/bekasi.html`** — ditulis dengan konten lokal yang benar-benar
+  khas Bekasi (rumah padat Pondok Gede, kos pekerja Cikarang, genangan yang
+  merusak daya resap), bukan sekadar mengganti nama kota. Halaman tipis yang
+  isinya hanya ganti nama kota justru dihukum Google.
+
+---
+
+## BAGIAN 3 — LANGKAH MENUJU HALAMAN 1 GOOGLE
+
+Perlu saya sampaikan terus terang: **pekerjaan pada file website hanya
+sebagian dari persamaannya.** Untuk pencarian lokal seperti "sedot wc
+terdekat", faktor penentu terbesar ada di luar website.
+
+### Prioritas 1 — Google Business Profile (dampak terbesar)
+
+Ini yang menentukan apakah Anda muncul di **peta / 3 hasil teratas**, dan
+bobotnya jauh melebihi seluruh optimasi teknis di situs ini.
+
+1. Daftar di https://business.google.com — gratis
+2. Verifikasi alamat (Google kirim kartu pos atau video call)
+3. Isi lengkap: kategori **"Septic System Service"**, jam buka **07.00–21.00**
+   (harus sama dengan situs), nomor WhatsApp, area layanan 10 kota
+4. Unggah minimal 10 foto asli: truk, teknisi bekerja, sebelum/sesudah
+5. Salin tautan profil ke `BUSINESS_GOOGLE_MAPS_URL` di `config.js`
+6. **Minta ulasan dari setiap pelanggan yang puas.** Target 20+ ulasan.
+
+> Saya **tidak** menambahkan rating bintang palsu ke structured data situs
+> ini, meskipun itu membuat tampilan hasil pencarian lebih menarik. Rating
+> fiktif melanggar kebijakan Google dan berisiko penalti manual yang jauh
+> lebih merugikan daripada keuntungannya. Rating akan muncul sendiri begitu
+> ulasan asli di Google Business Profile terkumpul.
+
+### Prioritas 2 — Daftarkan situs ke Google
+
+1. Buka https://search.google.com/search-console
+2. Tambahkan domain, verifikasi kepemilikan
+3. Kirim sitemap: `https://domain-anda.com/sitemap.xml`
+4. Uji structured data di https://search.google.com/test/rich-results
+   — pastikan FAQ dan harga terbaca tanpa error
+
+### Prioritas 3 — Pasang Google Analytics
+
+Isi `GA_MEASUREMENT_ID` di `config.js` (format `G-XXXXXXX`). Tanpa ini Anda
+tidak tahu kata kunci mana yang mendatangkan pelanggan.
+
+### Prioritas 4 — Konten berkelanjutan
+
+Situs baru butuh **3–6 bulan** untuk bersaing. Blog saat ini hanya punya
+1 artikel. Tambah 1–2 artikel per bulan dengan topik yang benar-benar dicari:
+
+- Berapa biaya sedot WC di Jakarta? (panduan lengkap)
+- Cara mengatasi WC mampet tanpa tukang
+- Berapa tahun sekali septic tank harus disedot?
+- Penyebab septic tank cepat penuh
+- Ukuran septic tank ideal untuk rumah
+
+### Ekspektasi waktu yang realistis
+
+| Periode | Yang wajar terjadi |
+|---|---|
+| Minggu 1–2 | Halaman mulai terindeks Google |
+| Bulan 1–2 | Muncul untuk kata kunci spesifik ("sedot wc cibinong") |
+| Bulan 3–6 | Masuk halaman 1 untuk kata kunci area, bila ulasan terkumpul |
+| Bulan 6–12 | Bersaing untuk kata kunci besar ("sedot wc jakarta") |
+
+Siapa pun yang menjanjikan halaman 1 dalam hitungan minggu untuk pasar
+sekompetitif Jabodetabek sedang melebih-lebihkan.
+
+---
+
+## BAGIAN 4 — CARA MENGUBAH HARGA NANTI
+
+Kalau promo berubah dari Rp375.000:
+
+1. Ubah `BUSINESS_PRICE_STARTING_FROM` dan `BUSINESS_PRICE_DISPLAY` di
+   `assets/js/config.js`
+2. Cari dan ganti teks tampilannya di seluruh situs:
+
+```bash
+grep -rl "375.000" --include="*.html" . | xargs sed -i 's/375\.000/ANGKA_BARU/g'
+grep -rl '"375000"' --include="*.html" . | xargs sed -i 's/"375000"/"ANGKA_BARU"/g'
+```
+
+3. Periksa ulang: `grep -rc "375" --include="*.html" .` — harus 0.
+
+---
+
+## Struktur Halaman
+
+```
+/                               Beranda (promo + layanan + FAQ + area)
+/harga.html                     ★ BARU — daftar harga
+/layanan.html                   Ringkasan layanan
+  /layanan/sedot-wc.html
+  /layanan/sedot-septic-tank.html
+  /layanan/wc-mampet.html
+  /layanan/septic-tank-penuh.html
+  /layanan/sedot-limbah.html
+/area-layanan.html              10 kota Jabodetabek
+  /area-layanan/jakarta-{selatan,timur,barat,pusat,utara}.html
+  /area-layanan/bekasi.html     ★ BARU
+  /area-layanan/{bogor,depok,tangerang,tangerang-selatan}.html
+/blog.html                      1 artikel — perlu ditambah
+/tentang-kami.html              ⚠️ masih placeholder
+/kontak.html
+/privacy-policy.html · /terms.html · /404.html
+```

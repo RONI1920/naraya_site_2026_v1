@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Logo NARAYA">
+  <title>NARAYA — Sedot WC &amp; Solusi Sanitasi</title>
+  <defs>
+    <linearGradient id="nrDrop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#10A28F"/>
+      <stop offset="100%" stop-color="#0C7A6B"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Cincin luar: siklus sanitasi yang tertutup & bersih -->
+  <circle cx="50" cy="50" r="44" fill="none" stroke="#0D2B29" stroke-width="5"/>
+
+  <!-- Tetes air: inti identitas "solusi sanitasi" -->
+  <path d="M50 20
+           C 62 36, 70 46, 70 56
+           a 20 20 0 0 1 -40 0
+           c 0 -10, 8 -20, 20 -36 Z"
+        fill="url(#nrDrop)"/>
+
+  <!-- Huruf N tersembunyi di dalam tetes (inisial NARAYA) -->
+  <path d="M42 66 L42 46 L58 62 L58 42"
+        fill="none" stroke="#FFFFFF" stroke-width="5.5"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Aksen amber: sorot cepat-tanggap -->
+  <path d="M78 26 a 34 34 0 0 1 6 20"
+        fill="none" stroke="#F5A524" stroke-width="5" stroke-linecap="round"/>
+</svg>

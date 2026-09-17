@@ -1,0 +1,14 @@
+# robots.txt — NARAYA Sedot WC & Solusi Sanitasi
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /supabase/
+Disallow: /partials/
+Disallow: /*?*utm_
+
+# Izinkan aset agar Google bisa me-render halaman dengan benar.
+# Memblokir CSS/JS membuat Google melihat halaman rusak dan menurunkan peringkat.
+Allow: /assets/
+
+Sitemap: https://narayasanitasi.co.id/sitemap.xml

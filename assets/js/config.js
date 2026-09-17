@@ -119,8 +119,8 @@ window.SITE_CONFIG = Object.freeze({
   BUSINESS_TIKTOK: "",
 
   // ---- SITE ----------------------------------------------------------
-  BUSINESS_DOMAIN: "narayasanitasi.co.id",
-  SITE_URL: "https://narayasanitasi.co.id",
+  BUSINESS_DOMAIN: "narayasanitasisolution.my.id",
+  SITE_URL: "https://narayasanitasisolution.my.id",
   SITE_LANGUAGE: "id-ID",
 
   // ---- SUPABASE (public anon key only) --------------------------------

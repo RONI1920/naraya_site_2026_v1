@@ -61,7 +61,7 @@ Ada di satu file: `assets/js/config.js`.
 ✅ **Sudah dikonfirmasi & diterapkan ke seluruh situs** (nomor WhatsApp/telepon
 `+62 851-1741-9206`, email `narayasanitasisolution@gmail.com` — termasuk 60
 tautan `tel:` yang sebelumnya masih hardcoded ke nomor lama `0212200899` di
-24 halaman, dan email JSON-LD yang sebelumnya `info@narayasanitasi.co.id`).
+24 halaman, dan email JSON-LD yang sebelumnya `info@narayasanitasisolution.my.id`).
 
 | Yang harus diganti | Status |
 |---|---|
@@ -71,11 +71,11 @@ tautan `tel:` yang sebelumnya masih hardcoded ke nomor lama `0212200899` di
 
 ### Domain
 
-Saya memakai domain sementara **`narayasanitasi.co.id`**. Kalau domain Anda
+Saya memakai domain sementara **`narayasanitasisolution.my.id`**. Kalau domain Anda
 berbeda, ganti di seluruh situs dengan satu perintah:
 
 ```bash
-grep -rl "narayasanitasi.co.id" . | xargs sed -i 's/narayasanitasi\.co\.id/DOMAIN-ANDA.com/g'
+grep -rl "narayasanitasisolution.my.id" . | xargs sed -i 's/narayasanitasi\.co\.id/DOMAIN-ANDA.com/g'
 ```
 
 ### Konten yang masih placeholder

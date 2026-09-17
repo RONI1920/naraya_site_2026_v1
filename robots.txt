@@ -11,4 +11,4 @@ Disallow: /*?*utm_
 # Memblokir CSS/JS membuat Google melihat halaman rusak dan menurunkan peringkat.
 Allow: /assets/
 
-Sitemap: https://narayasanitasi.co.id/sitemap.xml
+Sitemap: https://narayasanitasisolution.my.id/sitemap.xml

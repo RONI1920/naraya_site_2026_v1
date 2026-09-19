@@ -76,13 +76,13 @@ window.SITE_CONFIG = Object.freeze({
   // Only state hours the business actually keeps. Do not claim 24/7
   // unless that is genuinely true and confirmed by the owner.
   // ⚠️ Array dan teks tampilan HARUS cocok. Sebelumnya array menulis
-  // Senin–Sabtu 07:00–20:00 tapi teksnya "setiap hari 07.00–21.00" —
+  // Senin–Sabtu 07:00–21:00 tapi teksnya "setiap hari 07.00–21.00" —
   // ketidakcocokan seperti ini bisa memicu peringatan di Google Search
   // Console dan membingungkan calon pelanggan. Sudah disamakan.
   BUSINESS_OPENING_HOURS: [
-    { days: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"], opens: "07:00", closes: "20:00" },
+    { days: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"], opens: "07:00", closes: "21:00" },
   ],
-  BUSINESS_OPENING_HOURS_DISPLAY: "Setiap hari, 07.00–20.00",
+  BUSINESS_OPENING_HOURS_DISPLAY: "Setiap hari, 07.00–21.00",
 
   // ---- SERVICE AREAS ---------------------------------------------------
   // Used to build /area-layanan links + LocalBusiness "areaServed".

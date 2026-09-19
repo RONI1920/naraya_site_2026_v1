@@ -40,6 +40,23 @@
         });
       });
 
+      // Nomor telepon footer diambil dari config.js (SITE_CONFIG.BUSINESS_PHONE),
+      // supaya ganti nomor cukup di satu tempat. Elemen yang ditandai
+      // data-config-phone diisi href "tel:..." dan teks nomornya. Kalau
+      // nomor di config kosong, barisnya disembunyikan (tidak ada link kosong).
+      var phone = (window.SITE_CONFIG && window.SITE_CONFIG.BUSINESS_PHONE) || "";
+      document
+        .querySelectorAll(".site-footer [data-config-phone]")
+        .forEach(function (a) {
+          if (!phone) {
+            var row = a.closest("p");
+            if (row) row.hidden = true;
+            return;
+          }
+          a.setAttribute("href", "tel:" + phone.replace(/[^\d+]/g, ""));
+          a.textContent = phone;
+        });
+
       // Beri tahu script lain (tombol WhatsApp di footer, tahun berjalan
       // di #current-year) bahwa footer sudah ada di DOM dan siap di-wire —
       // keduanya baru muncul setelah fetch ini selesai, bukan langsung

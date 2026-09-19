@@ -55,7 +55,7 @@ window.SITE_CONFIG = Object.freeze({
 
   // ---- CONTACT ------------------------------------------------------
   // WhatsApp number in international format, digits only, no "+".
-  BUSINESS_WHATSAPP: "+6285117419206",
+  BUSINESS_WHATSAPP: "+6282298056092",
   // Phone number for tel: links, digits only or with leading 0.
   BUSINESS_PHONE: "+6285117419206",
   BUSINESS_EMAIL: "narayasanitasisolution@gmail.com",

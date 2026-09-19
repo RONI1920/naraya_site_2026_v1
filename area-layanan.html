@@ -257,35 +257,318 @@
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Area mana saja yang dilayani NARAYA?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "NARAYA melayani 10 wilayah Jabodetabek: Jakarta Selatan, Jakarta Timur, Jakarta Barat, Jakarta Pusat, Jakarta Utara, Bogor, Depok, Tangerang, Tangerang Selatan, dan Bekasi. Buka halaman kota untuk melihat contoh kecamatan dan kondisi wilayahnya."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Bagaimana kalau area saya belum ada di daftar?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tanyakan lewat WhatsApp. Sering kali lokasi di luar daftar tetap bisa kami jangkau. Kirim alamat lengkap Anda dan kami kabari apakah bisa dijadwalkan."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah harga sedot WC berbeda di tiap kota?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Harga mulai sama untuk seluruh area layanan, yaitu Rp375.000. Yang membedakan adalah jarak tempuh dan akses lokasi, dan itu selalu kami sampaikan di awal."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Berapa lama sampai teknisi datang?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Bergantung pada antrian jadwal yang sedang berjalan. Estimasi jadwal kami informasikan segera setelah Anda menghubungi NARAYA lewat WhatsApp."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah gang sempit bisa dilayani?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Bisa. Untuk lokasi yang tidak bisa dimasuki truk, NARAYA menggunakan selang panjang. Sampaikan kondisi akses saat chat agar peralatan disiapkan sesuai kebutuhan."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kapan saya membayar?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pembayaran dilakukan setelah pekerjaan selesai dan Anda memeriksa hasilnya. Metode yang diterima: tunai, transfer bank, dan QRIS."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body data-page-type="area_list" data-header-wa-message="generic">
 <a href="#main" class="skip-link">Langsung ke konten</a>
 <div id="site-header"></div>
 <main id="main">
+
   <section class="hero hero--compact">
     <div class="container">
       <p class="breadcrumb"><a href="index.html">Beranda</a> / Area Layanan</p>
       <h1>Area Layanan Sedot WC &amp; Septic Tank Jabodetabek</h1>
       <p class="price-badge">Promo — mulai Rp375.000</p>
-      <p class="hero__lead">NARAYA melayani sedot WC dan septic tank di 10 wilayah Jabodetabek. Klik nama kota Anda untuk melihat cakupan kecamatan dan estimasi harga. Jika area Anda belum tercantum, tanyakan lewat WhatsApp — sering kali tetap bisa kami jangkau.</p>
+      <p class="hero__lead">NARAYA melayani sedot WC dan septic tank di 10 wilayah Jabodetabek. Cari kecamatan atau kota Anda di bawah untuk melihat cakupan dan estimasi harga. Kalau belum tercantum, tanyakan lewat WhatsApp — sering kali tetap bisa kami jangkau.</p>
+      <div class="btn-row">
+        <a href="#" class="btn btn--secondary" data-wa-message="generic" data-wa-context="area-list-hero">Chat WhatsApp Sekarang</a>
+        <a href="tel:+6285117419206" class="btn btn--ghost">Telepon Sekarang</a>
+      </div>
     </div>
   </section>
-  <section class="section--raised">
+
+  <section class="section--raised" id="cek-area">
     <div class="container">
-      <ul class="area-chip-list">
-        <li><a class="area-chip" href="area-layanan/jakarta-selatan.html">Jakarta Selatan</a></li>
-        <li><a class="area-chip" href="area-layanan/jakarta-timur.html">Jakarta Timur</a></li>
-        <li><a class="area-chip" href="area-layanan/jakarta-barat.html">Jakarta Barat</a></li>
-        <li><a class="area-chip" href="area-layanan/jakarta-pusat.html">Jakarta Pusat</a></li>
-        <li><a class="area-chip" href="area-layanan/jakarta-utara.html">Jakarta Utara</a></li>
-        <li><a class="area-chip" href="area-layanan/bogor.html">Bogor</a></li>
-        <li><a class="area-chip" href="area-layanan/depok.html">Depok</a></li>
-        <li><a class="area-chip" href="area-layanan/tangerang.html">Tangerang</a></li>
-        <li><a class="area-chip" href="area-layanan/tangerang-selatan.html">Tangerang Selatan</a></li>
-        <li><a class="area-chip" href="area-layanan/bekasi.html">Bekasi</a></li>
+      <div class="section-head">
+        <h2>Cek apakah area Anda terjangkau</h2>
+        <p>Ketik nama kecamatan, kota, atau kawasan, misalnya Duren Sawit, BSD, atau Cikarang. Atau langsung pilih kota di bawah.</p>
+      </div>
+
+      <div class="area-finder" hidden>
+        <label class="area-finder__label" for="area-search">Nama kecamatan atau kota</label>
+        <input id="area-search" type="search" inputmode="search" autocomplete="off" autocapitalize="words" spellcheck="false" placeholder="Contoh: Duren Sawit" />
+        <p class="area-finder__status" id="area-finder-status" role="status" aria-live="polite"></p>
+      </div>
+
+      <ul class="area-grid" id="area-grid">
+        <li class="area-card" data-name="Jakarta Timur" data-keys="cakung|cipayung|ciracas|duren sawit|jatinegara|kramat jati|makasar|matraman|pasar rebo|pulogadung|klender">
+          <div class="area-card__media">
+            <img src="assets/img/area/jakarta-timur.webp" alt="" width="400" height="300" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/img/jakarta_timur.jpg'" />
+          </div>
+          <div class="area-card__body">
+            <h3 class="area-card__name"><a class="area-card__link" href="area-layanan/jakarta-timur.html">Jakarta Timur</a></h3>
+            <p class="area-card__areas">Cakung, Duren Sawit, Jatinegara</p>
+          </div>
+          <span class="area-card__chev" aria-hidden="true"></span>
+        </li>
+        <li class="area-card" data-name="Jakarta Selatan" data-keys="cilandak|jagakarsa|kebayoran baru|kebayoran lama|mampang prapatan|pancoran|pasar minggu|pesanggrahan|setiabudi|tebet|kemang|blok m">
+          <div class="area-card__media">
+            <img src="assets/img/area/jakarta-selatan.webp" alt="" width="400" height="300" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/img/jakarta_selatan.jpg'" />
+          </div>
+          <div class="area-card__body">
+            <h3 class="area-card__name"><a class="area-card__link" href="area-layanan/jakarta-selatan.html">Jakarta Selatan</a></h3>
+            <p class="area-card__areas">Kebayoran, Tebet, Pasar Minggu</p>
+          </div>
+          <span class="area-card__chev" aria-hidden="true"></span>
+        </li>
+        <li class="area-card" data-name="Jakarta Barat" data-keys="cengkareng|grogol petamburan|grogol|kalideres|kebon jeruk|kembangan|palmerah|taman sari|tambora">
+          <div class="area-card__media">
+            <img src="assets/img/area/jakarta-barat.webp" alt="" width="400" height="300" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/img/jakarta_barat.jpg'" />
+          </div>
+          <div class="area-card__body">
+            <h3 class="area-card__name"><a class="area-card__link" href="area-layanan/jakarta-barat.html">Jakarta Barat</a></h3>
+            <p class="area-card__areas">Cengkareng, Kalideres, Grogol</p>
+          </div>
+          <span class="area-card__chev" aria-hidden="true"></span>
+        </li>
+        <li class="area-card" data-name="Jakarta Pusat" data-keys="cempaka putih|gambir|johar baru|kemayoran|menteng|sawah besar|senen|tanah abang">
+          <div class="area-card__media">
+            <img src="assets/img/area/jakarta-pusat.webp" alt="" width="400" height="300" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/img/jakarta_pusat.jpeg'" />
+          </div>
+          <div class="area-card__body">
+            <h3 class="area-card__name"><a class="area-card__link" href="area-layanan/jakarta-pusat.html">Jakarta Pusat</a></h3>
+            <p class="area-card__areas">Tanah Abang, Menteng, Senen</p>
+          </div>
+          <span class="area-card__chev" aria-hidden="true"></span>
+        </li>
+        <li class="area-card" data-name="Jakarta Utara" data-keys="cilincing|kelapa gading|koja|pademangan|penjaringan|tanjung priok|pluit|sunter">
+          <div class="area-card__media">
+            <img src="assets/img/area/jakarta-utara.webp" alt="" width="400" height="300" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/img/jakarta_utara.jpg'" />
+          </div>
+          <div class="area-card__body">
+            <h3 class="area-card__name"><a class="area-card__link" href="area-layanan/jakarta-utara.html">Jakarta Utara</a></h3>
+            <p class="area-card__areas">Kelapa Gading, Tanjung Priok, Cilincing</p>
+          </div>
+          <span class="area-card__chev" aria-hidden="true"></span>
+        </li>
+        <li class="area-card" data-name="Bogor" data-keys="kota bogor|kabupaten bogor|bogor barat|bogor selatan|bogor tengah|bogor timur|bogor utara|tanah sareal|cibinong|citeureup|sentul">
+          <div class="area-card__media">
+            <img src="assets/img/area/bogor.webp" alt="" width="400" height="300" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/img/bogor.jpg'" />
+          </div>
+          <div class="area-card__body">
+            <h3 class="area-card__name"><a class="area-card__link" href="area-layanan/bogor.html">Bogor</a></h3>
+            <p class="area-card__areas">Kota &amp; Kab. Bogor, Cibinong, Sentul</p>
+          </div>
+          <span class="area-card__chev" aria-hidden="true"></span>
+        </li>
+        <li class="area-card" data-name="Depok" data-keys="beji|bojongsari|cilodong|cimanggis|cinere|cipayung|limo|pancoran mas|sawangan|sukmajaya|tapos">
+          <div class="area-card__media">
+            <img src="assets/img/area/depok.webp" alt="" width="400" height="300" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/img/depok.jpg'" />
+          </div>
+          <div class="area-card__body">
+            <h3 class="area-card__name"><a class="area-card__link" href="area-layanan/depok.html">Depok</a></h3>
+            <p class="area-card__areas">Sawangan, Cimanggis, Beji</p>
+          </div>
+          <span class="area-card__chev" aria-hidden="true"></span>
+        </li>
+        <li class="area-card" data-name="Tangerang" data-keys="batuceper|benda|cibodas|ciledug|cipondoh|jatiuwung|karang tengah|karawaci|larangan|neglasari|periuk|pinang">
+          <div class="area-card__media">
+            <img src="assets/img/area/tangerang.webp" alt="" width="400" height="300" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/img/tangerang.jpg'" />
+          </div>
+          <div class="area-card__body">
+            <h3 class="area-card__name"><a class="area-card__link" href="area-layanan/tangerang.html">Tangerang</a></h3>
+            <p class="area-card__areas">Cipondoh, Karawaci, Periuk</p>
+          </div>
+          <span class="area-card__chev" aria-hidden="true"></span>
+        </li>
+        <li class="area-card" data-name="Tangerang Selatan" data-keys="bsd|bsd city|bintaro|ciputat|ciputat timur|pamulang|pondok aren|serpong|serpong utara|setu|tangsel">
+          <div class="area-card__media">
+            <img src="assets/img/area/tangerang-selatan.webp" alt="" width="400" height="300" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/img/tangerang_selatan.jpeg'" />
+          </div>
+          <div class="area-card__body">
+            <h3 class="area-card__name"><a class="area-card__link" href="area-layanan/tangerang-selatan.html">Tangerang Selatan</a></h3>
+            <p class="area-card__areas">BSD, Serpong, Ciputat, Bintaro</p>
+          </div>
+          <span class="area-card__chev" aria-hidden="true"></span>
+        </li>
+        <li class="area-card" data-name="Bekasi" data-keys="kota bekasi|kabupaten bekasi|bantargebang|bekasi barat|bekasi selatan|bekasi timur|bekasi utara|jatiasih|jatisampurna|medan satria|mustika jaya|pondok gede|pondok melati|rawalumbu|cikarang|cibitung|tambun">
+          <div class="area-card__media">
+            <img src="assets/img/area/bekasi.webp" alt="" width="400" height="300" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/img/Bekasi.jpeg'" />
+          </div>
+          <div class="area-card__body">
+            <h3 class="area-card__name"><a class="area-card__link" href="area-layanan/bekasi.html">Bekasi</a></h3>
+            <p class="area-card__areas">Kota &amp; Kab. Bekasi, Cikarang, Cibitung</p>
+          </div>
+          <span class="area-card__chev" aria-hidden="true"></span>
+        </li>
       </ul>
+
+      <div class="area-empty" id="area-empty" hidden>
+        <h3>“<span id="area-empty-q"></span>” belum ada di daftar kami</h3>
+        <p>Itu belum tentu di luar jangkauan — sering kali tetap bisa kami layani. Kirim alamat lengkapnya lewat WhatsApp dan kami cek langsung.</p>
+        <a class="btn btn--secondary" id="area-empty-wa" href="#" target="_blank" rel="noopener">Tanya lewat WhatsApp</a>
+      </div>
     </div>
   </section>
+
+  <section>
+    <div class="container">
+      <div class="section-head">
+        <h2>Cara pesan, dari chat sampai selesai</h2>
+        <p>Prosesnya sama di semua wilayah.</p>
+      </div>
+      <ol class="steps">
+        <li class="step">
+          <span class="step__num">1</span>
+          <h3>Kirim lokasi dan kondisi</h3>
+          <p>Lewat WhatsApp, sebutkan alamat, jenis bangunan, dan kondisi WC atau septic tank Anda.</p>
+        </li>
+        <li class="step">
+          <span class="step__num">2</span>
+          <h3>Terima estimasi</h3>
+          <p>Kami balas dengan estimasi biaya dan jadwal. Harga final dikonfirmasi sebelum teknisi berangkat.</p>
+        </li>
+        <li class="step">
+          <span class="step__num">3</span>
+          <h3>Teknisi bekerja</h3>
+          <p>Untuk gang sempit yang tidak bisa dimasuki truk, kami pakai selang panjang.</p>
+        </li>
+        <li class="step">
+          <span class="step__num">4</span>
+          <h3>Periksa, lalu bayar</h3>
+          <p>Bayar setelah pekerjaan selesai dan Anda memeriksa hasilnya: tunai, transfer bank, atau QRIS.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section--raised">
+    <div class="container article-layout">
+      <article class="article">
+        <h2>Panduan memilih jasa sedot WC di Jabodetabek</h2>
+        <p class="article__lead">Sedot WC terlihat sederhana, tetapi biaya dan cara kerjanya berbeda dari satu lokasi ke lokasi lain. Penentunya biasanya bukan nama kota, melainkan akses jalan, kondisi tangki, dan jarak. Kalau tiga hal itu sudah Anda ketahui sebelum menghubungi kami, estimasinya jadi lebih akurat.</p>
+
+        <h3>Karakter wilayah memengaruhi septic tank</h3>
+        <p>Kondisi lingkungan ikut menentukan seberapa cepat septic tank penuh dan peralatan apa yang perlu dibawa. Dari yang kami tangani:</p>
+        <ul class="article__list">
+          <li><strong><a href="area-layanan/jakarta-timur.html">Jakarta Timur</a> dan <a href="area-layanan/jakarta-selatan.html">Jakarta Selatan</a>.</strong> Permukiman padat dengan akses yang bervariasi, dari jalan lebar sampai gang sempit. Untuk gang yang tidak bisa dimasuki truk, kami pakai selang panjang.</li>
+          <li><strong><a href="area-layanan/jakarta-barat.html">Jakarta Barat</a>.</strong> Campuran permukiman dan tempat usaha, seperti di Cengkareng, Kalideres, dan Grogol, jadi ruko cukup sering kami tangani.</li>
+          <li><strong><a href="area-layanan/jakarta-pusat.html">Jakarta Pusat</a>.</strong> Banyak bangunan lama dengan septic tank yang jarang dikuras, misalnya di sekitar Tanah Abang, Menteng, dan Senen. Penanganannya kami sesuaikan dengan usia dan kondisi instalasi.</li>
+          <li><strong><a href="area-layanan/jakarta-utara.html">Jakarta Utara</a>.</strong> Tanah yang lebih basah dan rawan rob di Kelapa Gading, Tanjung Priok, dan Cilincing bisa membuat septic tank lebih cepat penuh.</li>
+          <li><strong><a href="area-layanan/bogor.html">Bogor</a>.</strong> Curah hujan tinggi membuat septic tank lebih cepat penuh. Kami melayani Kota maupun Kabupaten Bogor.</li>
+          <li><strong><a href="area-layanan/depok.html">Depok</a>.</strong> Banyak kos mahasiswa dan perumahan cluster di Sawangan, Cimanggis, dan Beji.</li>
+          <li><strong><a href="area-layanan/tangerang.html">Tangerang</a> dan <a href="area-layanan/tangerang-selatan.html">Tangerang Selatan</a>.</strong> Tangerang berisi permukiman padat, ruko, dan area pergudangan. Tangerang Selatan banyak perumahan cluster modern, seperti BSD, Serpong, Ciputat, dan Bintaro, yang umumnya memakai septic tank individual.</li>
+          <li><strong><a href="area-layanan/bekasi.html">Bekasi</a>.</strong> Perumahan padat di Pondok Gede, Bekasi Timur, dan Jatiasih punya septic tank yang sering terjepit di bawah carport atau dapur. Di Cikarang, Cibitung, dan Tambun, kos pekerja dan kontrakan yang padat membuat tangki terisi lebih cepat. Sebagian wilayahnya juga dataran rendah yang rawan genangan.</li>
+        </ul>
+
+        <h3>Kapan septic tank perlu disedot</h3>
+        <p>Rumah tinggal biasa umumnya perlu disedot setiap beberapa tahun. Kos pekerja atau tempat usaha yang penghuninya padat bisa perlu disedot setiap enam bulan sampai satu tahun. Tanda-tanda septic tank penuh kami bahas di artikel <a href="blog/ciri-ciri-septic-tank-penuh.html">Ciri-ciri septic tank penuh</a>.</p>
+
+        <h3>Apa yang memengaruhi biaya</h3>
+        <p>Harga mulai Rp375.000 berlaku untuk pekerjaan standar di area terjangkau. Angka akhirnya bergantung pada:</p>
+        <ul class="article__list">
+          <li><strong>Volume.</strong> Tangki yang lama tidak pernah disedot butuh kapasitas lebih besar.</li>
+          <li><strong>Akses ke lokasi.</strong> Gang sempit membutuhkan selang tambahan dan waktu kerja lebih lama.</li>
+          <li><strong>Jarak tempuh.</strong> Lokasi di pinggir area layanan punya komponen biaya perjalanan.</li>
+          <li><strong>Kondisi khusus.</strong> Penyumbatan berat, tangki rusak, atau limbah tidak lazim perlu penanganan tambahan.</li>
+          <li><strong>Waktu pengerjaan.</strong> Permintaan di luar jam operasional normal dapat dikenakan penyesuaian.</li>
+        </ul>
+        <p>Estimasi yang mengikat kami kirim lewat WhatsApp sebelum teknisi berangkat. Kalau di lapangan ada perubahan biaya, kami sampaikan dan minta persetujuan Anda sebelum pekerjaan tambahan dilakukan. Rinciannya ada di halaman <a href="harga.html">Daftar Harga</a>.</p>
+
+        <h3>Siapkan ini sebelum menghubungi kami</h3>
+        <ul class="article__list">
+          <li>Alamat lengkap atau patokan. Di <a href="kontak.html">halaman Kontak</a> Anda juga bisa menandai titik lokasi di peta.</li>
+          <li>Jenis bangunan: rumah, kos, ruko, atau tempat usaha.</li>
+          <li>Kondisi akses: apakah truk bisa parkir di depan, atau harus melewati gang sempit.</li>
+          <li>Kondisi WC atau septic tank: mampet, penuh, atau sudah meluap, dan kapan terakhir disedot.</li>
+        </ul>
+        <p>Semakin lengkap infonya, semakin tepat estimasi dan peralatan yang kami siapkan.</p>
+      </article>
+
+      <aside class="article-aside" aria-label="Minta estimasi">
+        <div class="aside-card">
+          <p class="aside-card__price">Mulai Rp375.000</p>
+          <h3>Mau tahu harga pasti untuk lokasi Anda?</h3>
+          <p>Kirim lokasi dan kondisi WC atau septic tank lewat WhatsApp. Kami balas dengan estimasi biaya dan jadwal yang tersedia.</p>
+          <div class="aside-card__actions">
+            <a href="#" class="btn btn--primary btn--block" data-wa-message="harga" data-wa-context="area-list-article">Minta Estimasi Sekarang</a>
+            <a href="tel:+6285117419206" class="btn btn--on-dark btn--block">Telepon Sekarang</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2>Pertanyaan umum tentang area layanan</h2>
+      <div class="area-faq">
+      <details class="faq__item" data-question="Area mana saja yang dilayani NARAYA?"><summary>Area mana saja yang dilayani NARAYA?</summary><p>NARAYA melayani 10 wilayah Jabodetabek: Jakarta Selatan, Jakarta Timur, Jakarta Barat, Jakarta Pusat, Jakarta Utara, Bogor, Depok, Tangerang, Tangerang Selatan, dan Bekasi. Buka halaman kota untuk melihat contoh kecamatan dan kondisi wilayahnya.</p></details>
+      <details class="faq__item" data-question="Bagaimana kalau area saya belum ada di daftar?"><summary>Bagaimana kalau area saya belum ada di daftar?</summary><p>Tanyakan lewat WhatsApp. Sering kali lokasi di luar daftar tetap bisa kami jangkau. Kirim alamat lengkap Anda dan kami kabari apakah bisa dijadwalkan.</p></details>
+      <details class="faq__item" data-question="Apakah harga sedot WC berbeda di tiap kota?"><summary>Apakah harga sedot WC berbeda di tiap kota?</summary><p>Harga mulai sama untuk seluruh area layanan, yaitu Rp375.000. Yang membedakan adalah jarak tempuh dan akses lokasi, dan itu selalu kami sampaikan di awal.</p></details>
+      <details class="faq__item" data-question="Berapa lama sampai teknisi datang?"><summary>Berapa lama sampai teknisi datang?</summary><p>Bergantung pada antrian jadwal yang sedang berjalan. Estimasi jadwal kami informasikan segera setelah Anda menghubungi NARAYA lewat WhatsApp.</p></details>
+      <details class="faq__item" data-question="Apakah gang sempit bisa dilayani?"><summary>Apakah gang sempit bisa dilayani?</summary><p>Bisa. Untuk lokasi yang tidak bisa dimasuki truk, NARAYA menggunakan selang panjang. Sampaikan kondisi akses saat chat agar peralatan disiapkan sesuai kebutuhan.</p></details>
+      <details class="faq__item" data-question="Kapan saya membayar?"><summary>Kapan saya membayar?</summary><p>Pembayaran dilakukan setelah pekerjaan selesai dan Anda memeriksa hasilnya. Metode yang diterima: tunai, transfer bank, dan QRIS.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="section--ink">
+    <div class="container">
+      <h2>Lokasi Anda di Jabodetabek? Kirim alamatnya sekarang.</h2>
+      <p>Kami balas dengan estimasi biaya dan jadwal yang tersedia. Untuk pekerjaan rumah tangga, umumnya tidak perlu survei terpisah.</p>
+      <div class="btn-row">
+        <a href="#" class="btn btn--primary" data-wa-message="harga" data-wa-context="area-list-final-cta">Minta Estimasi via WhatsApp</a>
+        <a href="tel:+6285117419206" class="btn btn--on-dark">Telepon Sekarang</a>
+      </div>
+    </div>
+  </section>
+
 </main>
 <div id="site-footer"></div>
 <div class="sticky-cta">
@@ -298,6 +581,7 @@
 <script src="assets/js/analytics.js"></script>
 <script src="assets/js/whatsapp.js"></script>
 <script src="assets/js/consent.js"></script>
+<script src="assets/js/area-finder.js"></script>
 <script src="assets/js/main.js"></script>
 </body>
 </html>

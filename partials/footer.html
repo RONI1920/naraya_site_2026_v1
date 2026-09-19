@@ -33,10 +33,33 @@
       </div>
       <div>
         <h4>Kontak</h4>
-        <p>Telepon: <a href="tel:+6285117419206">+6285117419206</a></p>
+        <!-- Nomor diisi otomatis dari SITE_CONFIG.BUSINESS_PHONE (assets/js/config.js) oleh include-footer.js -->
+        <p>Telepon: <a href="#" data-config-phone></a></p>
         <p>WhatsApp: <a href="#" data-wa-message="generic" data-wa-context="footer">Chat Sekarang</a></p>
         <p>Jam operasional: setiap hari, 07.00&ndash;21.00</p>
-        <p>Jl. A Tanah 80, Duren Sawit, Jakarta Timur</p>
+        <p>Alamat: Jl. A Tanah 80, Duren Sawit, Jakarta Timur</p>
+
+        <!--
+          Peta kantor (kecil). Koordinat HARUS sama dengan BUSINESS_LATITUDE /
+          BUSINESS_LONGITUDE di assets/js/config.js.
+          - iframe lazy: baru dimuat saat footer hampir terlihat.
+          - Lapisan .footer-map__overlay menutupi iframe supaya di HP jari tidak
+            "nyangkut" di peta saat scroll; diketuk = buka Google Maps.
+        -->
+        <div class="footer-map">
+          <div class="footer-map__frame">
+            <iframe
+              src="https://www.google.com/maps?q=-6.219763,106.9003752&amp;z=17&amp;output=embed"
+              loading="lazy" referrerpolicy="no-referrer-when-downgrade" tabindex="-1"
+              title="Peta lokasi kantor NARAYA di Google Maps"></iframe>
+            <a class="footer-map__overlay" tabindex="-1" aria-hidden="true" target="_blank" rel="noopener"
+               href="https://www.google.com/maps/place/Jl.+A+Tanah+80,+RW.8,+Klender,+Kec.+Duren+Sawit,+Kota+Jakarta+Timur,+Daerah+Khusus+Ibukota+Jakarta+13470/@-6.2197697,106.9003993,21z/data=!4m6!3m5!1s0x2e69f359f90f6213:0x264df22866fce177!8m2!3d-6.219763!4d106.9003752!16s%2Fg%2F1hm5q6_fr"></a>
+          </div>
+          <a class="footer-map__btn" target="_blank" rel="noopener"
+             href="https://www.google.com/maps/dir/?api=1&amp;destination=-6.219763,106.9003752">
+            &#128205; Petunjuk Arah
+          </a>
+        </div>
       </div>
     </div>
 

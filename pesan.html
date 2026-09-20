@@ -4,20 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Naraya Sanitasi Solusion — Form Pemesanan</title>
+<link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --teal-900:#0E4749;
-    --teal-700:#155F5C;
-    --teal-500:#1B8A85;
+    --ring-dark:#0D2B29;
+    --drop-top:#10A28F;
+    --drop-bottom:#0C7A6B;
     --sand-50:#F6F3EC;
     --paper:#FFFFFF;
     --ink:#182420;
     --ink-soft:#5B6A64;
-    --amber-500:#E2A33B;
-    --amber-600:#C9872A;
+    --amber-500:#F5A524;
+    --amber-600:#D48912;
     --line:#DED7C6;
     --error:#B4423C;
     font-family:'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
@@ -32,21 +33,26 @@
   .wrap{max-width:480px;margin:0 auto;min-height:100%;background:var(--paper);}
 
   header.brand{
-    background:linear-gradient(160deg, var(--teal-900), var(--teal-700));
+    background:linear-gradient(160deg, var(--ring-dark), var(--drop-bottom));
     color:#fff;
-    padding:32px 24px 28px;
+    padding:28px 24px 26px;
     position:relative;
     overflow:hidden;
+    display:flex;
+    align-items:center;
+    gap:14px;
   }
-  header.brand svg.pipe{position:absolute; right:-20px; top:-20px; opacity:0.18; width:160px; height:160px;}
-  .brand-name{font-size:22px; font-weight:800; letter-spacing:-0.01em; margin:0 0 6px;}
-  .brand-tag{font-size:14.5px; color:#D7EDEA; margin:0; line-height:1.5; max-width:300px;}
+  header.brand svg.pipe{position:absolute; right:-24px; top:-24px; opacity:0.12; width:150px; height:150px;}
+  .brand-mark{flex-shrink:0; width:52px; height:52px;}
+  .brand-text{min-width:0;}
+  .brand-name{font-size:21px; font-weight:800; letter-spacing:-0.01em; margin:0 0 4px;}
+  .brand-tag{font-size:14px; color:#D7EDEA; margin:0; line-height:1.5;}
 
   main{padding:26px 24px 40px;}
   .section{margin-bottom:30px;}
   .section:last-of-type{margin-bottom:8px;}
   .section h2{
-    font-size:13px; font-weight:700; color:var(--teal-700);
+    font-size:13px; font-weight:700; color:var(--drop-bottom);
     margin:0 0 14px; padding-bottom:8px; border-bottom:1px solid var(--line);
   }
   label{display:block; font-size:13.5px; font-weight:600; color:var(--ink); margin:0 0 6px;}
@@ -59,7 +65,7 @@
     transition:border-color .15s ease;
   }
   input:focus, select:focus, textarea:focus{
-    outline:none; border-color:var(--teal-500); box-shadow:0 0 0 3px rgba(27,138,133,0.14);
+    outline:none; border-color:var(--drop-top); box-shadow:0 0 0 3px rgba(16,162,143,0.16);
   }
   textarea{resize:vertical; min-height:64px; line-height:1.5;}
   .row2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
@@ -68,12 +74,12 @@
   .map-actions{display:flex; gap:10px; margin-bottom:14px;}
   .btn-outline{
     flex:1; padding:10px 12px; font-size:13.5px; font-weight:600;
-    border:1.5px solid var(--teal-700); color:var(--teal-700); background:#fff;
+    border:1.5px solid var(--drop-bottom); color:var(--drop-bottom); background:#fff;
     border-radius:8px; cursor:pointer; font-family:inherit;
   }
   .btn-outline:active{background:#EFF7F6;}
   .loc-status{font-size:12.5px; color:var(--ink-soft); margin:0 0 14px; min-height:16px;}
-  .loc-status.ok{color:var(--teal-700); font-weight:600;}
+  .loc-status.ok{color:var(--drop-bottom); font-weight:600;}
 
   .submit-btn{
     width:100%; padding:15px; font-size:16px; font-weight:700; font-family:inherit;
@@ -97,7 +103,7 @@
   .success-view p{font-size:14.5px; color:var(--ink-soft); line-height:1.6; margin:0 auto; max-width:300px;}
   .success-view .order-ref{
     display:inline-block; margin-top:20px; padding:8px 16px; background:var(--sand-50);
-    border-radius:20px; font-size:13px; font-weight:600; color:var(--teal-700);
+    border-radius:20px; font-size:13px; font-weight:600; color:var(--drop-bottom);
   }
 
   footer{padding:16px 24px 26px; text-align:center; font-size:12px; color:#9AA6A0;}
@@ -108,8 +114,23 @@
 
   <header class="brand">
     <svg class="pipe" viewBox="0 0 160 160" fill="none"><path d="M20 140 L20 90 Q20 60 50 60 L110 60 Q140 60 140 30 L140 10" stroke="#fff" stroke-width="14" stroke-linecap="round"/></svg>
-    <p class="brand-name">Naraya Sanitasi Solusion</p>
-    <p class="brand-tag">Sedot WC &amp; perawatan septic tank. Isi form ini, tim kami akan menghubungi via WhatsApp untuk konfirmasi jadwal.</p>
+    <svg class="brand-mark" viewBox="0 0 100 100" role="img" aria-label="Logo NARAYA">
+      <defs>
+        <linearGradient id="nrDrop" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#10A28F"/>
+          <stop offset="100%" stop-color="#0C7A6B"/>
+        </linearGradient>
+      </defs>
+      <circle cx="50" cy="50" r="44" fill="#fff" stroke="#0D2B29" stroke-width="5"/>
+      <path d="M50 20 C 62 36, 70 46, 70 56 a 20 20 0 0 1 -40 0 c 0 -10, 8 -20, 20 -36 Z" fill="url(#nrDrop)"/>
+      <path d="M42 66 L42 46 L58 62 L58 42" fill="none" stroke="#FFFFFF" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M78 26 a 34 34 0 0 1 6 20" fill="none" stroke="#F5A524" stroke-width="5" stroke-linecap="round"/>
+    </svg>
+    <div class="brand-text">
+      <p class="brand-name">Naraya Sanitasi Solusion</p>
+      <p class="brand-tag">Lengkapi data pesanan Anda di bawah ini <br>
+        Tim kami akan segera memproses dan mengatur jadwal kedatangan ke lokasi Anda.</p>
+    </div>
   </header>
 
   <main>
@@ -195,9 +216,9 @@
     </form>
 
     <div class="success-view" id="success-view">
-      <svg viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="27" stroke="#1B8A85" stroke-width="2"/><path d="M17 29 L24 36 L39 20" stroke="#1B8A85" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="27" stroke="#10A28F" stroke-width="2"/><path d="M17 29 L24 36 L39 20" stroke="#10A28F" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <h2>Pesanan terkirim</h2>
-      <p>Terima kasih. Tim Naraya akan menghubungi Anda lewat WhatsApp untuk konfirmasi jadwal.</p>
+      <p>Terima kasih. Pesanan Anda sudah kami terima dan akan segera diproses tim lapangan.</p>
       <div class="order-ref" id="order-ref"></div>
     </div>
   </main>

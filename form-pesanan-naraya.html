@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Naraya Sanitasi Solusion — Form Pemesanan</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal-900:#0E4749;
+    --teal-700:#155F5C;
+    --teal-500:#1B8A85;
+    --sand-50:#F6F3EC;
+    --paper:#FFFFFF;
+    --ink:#182420;
+    --ink-soft:#5B6A64;
+    --amber-500:#E2A33B;
+    --amber-600:#C9872A;
+    --line:#DED7C6;
+    --error:#B4423C;
+    font-family:'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--sand-50);color:var(--ink);}
+  body{
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:480px;margin:0 auto;min-height:100%;background:var(--paper);}
+
+  header.brand{
+    background:linear-gradient(160deg, var(--teal-900), var(--teal-700));
+    color:#fff;
+    padding:32px 24px 28px;
+    position:relative;
+    overflow:hidden;
+  }
+  header.brand svg.pipe{position:absolute; right:-20px; top:-20px; opacity:0.18; width:160px; height:160px;}
+  .brand-name{font-size:22px; font-weight:800; letter-spacing:-0.01em; margin:0 0 6px;}
+  .brand-tag{font-size:14.5px; color:#D7EDEA; margin:0; line-height:1.5; max-width:300px;}
+
+  main{padding:26px 24px 40px;}
+  .section{margin-bottom:30px;}
+  .section:last-of-type{margin-bottom:8px;}
+  .section h2{
+    font-size:13px; font-weight:700; color:var(--teal-700);
+    margin:0 0 14px; padding-bottom:8px; border-bottom:1px solid var(--line);
+  }
+  label{display:block; font-size:13.5px; font-weight:600; color:var(--ink); margin:0 0 6px;}
+  .field{margin-bottom:16px;}
+  .hint{font-size:12.5px; color:var(--ink-soft); margin:5px 0 0; line-height:1.5;}
+
+  input[type=text], input[type=tel], input[type=date], input[type=time], select, textarea{
+    width:100%; padding:11px 12px; font-size:15px; font-family:inherit; color:var(--ink);
+    border:1.5px solid var(--line); border-radius:8px; background:#fff;
+    transition:border-color .15s ease;
+  }
+  input:focus, select:focus, textarea:focus{
+    outline:none; border-color:var(--teal-500); box-shadow:0 0 0 3px rgba(27,138,133,0.14);
+  }
+  textarea{resize:vertical; min-height:64px; line-height:1.5;}
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+
+  #map{height:220px; border-radius:10px; border:1.5px solid var(--line); margin-bottom:10px;}
+  .map-actions{display:flex; gap:10px; margin-bottom:14px;}
+  .btn-outline{
+    flex:1; padding:10px 12px; font-size:13.5px; font-weight:600;
+    border:1.5px solid var(--teal-700); color:var(--teal-700); background:#fff;
+    border-radius:8px; cursor:pointer; font-family:inherit;
+  }
+  .btn-outline:active{background:#EFF7F6;}
+  .loc-status{font-size:12.5px; color:var(--ink-soft); margin:0 0 14px; min-height:16px;}
+  .loc-status.ok{color:var(--teal-700); font-weight:600;}
+
+  .submit-btn{
+    width:100%; padding:15px; font-size:16px; font-weight:700; font-family:inherit;
+    background:var(--amber-500); color:#241705; border:none; border-radius:9px;
+    cursor:pointer; letter-spacing:0.01em;
+  }
+  .submit-btn:active{background:var(--amber-600);}
+  .submit-btn:disabled{opacity:0.55; cursor:default;}
+
+  .error-msg{font-size:12.5px; color:var(--error); margin-top:5px; display:none;}
+  .field.invalid input, .field.invalid select, .field.invalid textarea{border-color:var(--error);}
+  .field.invalid .error-msg{display:block;}
+
+  #form-status{
+    display:none; text-align:center; font-size:13.5px; color:var(--ink-soft); margin-top:14px;
+  }
+
+  .success-view{display:none; padding:60px 24px 50px; text-align:center;}
+  .success-view svg{width:56px; height:56px; margin-bottom:18px;}
+  .success-view h2{font-size:19px; font-weight:800; margin:0 0 10px;}
+  .success-view p{font-size:14.5px; color:var(--ink-soft); line-height:1.6; margin:0 auto; max-width:300px;}
+  .success-view .order-ref{
+    display:inline-block; margin-top:20px; padding:8px 16px; background:var(--sand-50);
+    border-radius:20px; font-size:13px; font-weight:600; color:var(--teal-700);
+  }
+
+  footer{padding:16px 24px 26px; text-align:center; font-size:12px; color:#9AA6A0;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brand">
+    <svg class="pipe" viewBox="0 0 160 160" fill="none"><path d="M20 140 L20 90 Q20 60 50 60 L110 60 Q140 60 140 30 L140 10" stroke="#fff" stroke-width="14" stroke-linecap="round"/></svg>
+    <p class="brand-name">Naraya Sanitasi Solusion</p>
+    <p class="brand-tag">Sedot WC &amp; perawatan septic tank. Isi form ini, tim kami akan menghubungi via WhatsApp untuk konfirmasi jadwal.</p>
+  </header>
+
+  <main>
+    <form id="order-form">
+
+      <div class="section">
+        <h2>DATA PEMESAN</h2>
+        <div class="field" id="f-nama">
+          <label for="nama">Nama lengkap</label>
+          <input type="text" id="nama" name="nama" placeholder="Contoh: Budi Santoso" required>
+          <p class="error-msg">Nama wajib diisi.</p>
+        </div>
+        <div class="field" id="f-wa">
+          <label for="whatsapp">Nomor WhatsApp</label>
+          <input type="tel" id="whatsapp" name="whatsapp" placeholder="08xxxxxxxxxx" required>
+          <p class="error-msg">Nomor WhatsApp wajib diisi.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>JENIS LAYANAN</h2>
+        <div class="field" id="f-layanan">
+          <label for="layanan">Pilih layanan</label>
+          <select id="layanan" name="layanan" required>
+            <option value="" disabled selected>Pilih salah satu</option>
+            <option>Sedot WC</option>
+            <option>Sedot Septic Tank</option>
+            <option>WC Mampet</option>
+            <option>Septic Tank Penuh</option>
+            <option>Sedot Limbah</option>
+            <option>Belum tahu / lainnya</option>
+          </select>
+          <p class="error-msg">Pilih jenis layanan.</p>
+        </div>
+        <div class="field">
+          <label for="catatan">Catatan tambahan (opsional)</label>
+          <textarea id="catatan" name="catatan" placeholder="Contoh: WC mampet sejak 2 hari, akses rumah masuk gang kecil"></textarea>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>LOKASI</h2>
+        <div id="map"></div>
+        <div class="map-actions">
+          <button type="button" class="btn-outline" id="btn-locate">📍 Gunakan lokasi saya</button>
+        </div>
+        <p class="loc-status" id="loc-status">Geser peta atau tap titik lokasi, atau tekan "Gunakan lokasi saya".</p>
+        <div class="field" id="f-alamat">
+          <label for="alamat">Alamat lengkap</label>
+          <textarea id="alamat" name="alamat" placeholder="Jalan, RT/RW, kelurahan, kecamatan, patokan" required></textarea>
+          <p class="hint">Terisi otomatis dari peta — silakan lengkapi atau perbaiki jika perlu.</p>
+          <p class="error-msg">Alamat wajib diisi.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>WAKTU PENGERJAAN</h2>
+        <div class="row2">
+          <div class="field" id="f-tanggal">
+            <label for="tanggal">Tanggal</label>
+            <input type="date" id="tanggal" name="tanggal" required>
+            <p class="error-msg">Pilih tanggal.</p>
+          </div>
+          <div class="field" id="f-jam">
+            <label for="jam">Jam</label>
+            <select id="jam" name="jam" required>
+              <option value="" disabled selected>Pilih jam</option>
+              <option value="Secepatnya">Secepatnya / Darurat</option>
+              <option value="07:00-09:00">07.00 – 09.00</option>
+              <option value="09:00-11:00">09.00 – 11.00</option>
+              <option value="11:00-13:00">11.00 – 13.00</option>
+              <option value="13:00-15:00">13.00 – 15.00</option>
+              <option value="15:00-17:00">15.00 – 17.00</option>
+              <option value="17:00-19:00">17.00 – 19.00</option>
+            </select>
+            <p class="error-msg">Pilih jam.</p>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submit-btn">Kirim Pesanan</button>
+      <p id="form-status"></p>
+    </form>
+
+    <div class="success-view" id="success-view">
+      <svg viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="27" stroke="#1B8A85" stroke-width="2"/><path d="M17 29 L24 36 L39 20" stroke="#1B8A85" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h2>Pesanan terkirim</h2>
+      <p>Terima kasih. Tim Naraya akan menghubungi Anda lewat WhatsApp untuk konfirmasi jadwal.</p>
+      <div class="order-ref" id="order-ref"></div>
+    </div>
+  </main>
+
+  <footer>Naraya Sanitasi Solusion</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+// ====== Sama seperti SUPABASE_URL / SUPABASE_ANON_KEY di assets/js/config.js situs utama ======
+const SUPABASE_URL = "https://pcgchdhivnjdwksxhufi.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_-EKyjVn34UHirICcFibu6Q_VuzUzZJD";
+const SUPABASE_TABLE = "leads"; // tabel yang sama dipakai kontak.html di situs
+// =================================================================================================
+
+let map, marker;
+let currentLatLng = { lat: -6.219763, lng: 106.9003752 }; // default: lokasi NARAYA (Jakarta Timur)
+let locationSource = null; // 'gps' | 'manual' | null — diisi otomatis, dipakai untuk kolom location_source
+let locationAccuracy = null; // meter, hanya terisi kalau dari GPS
+
+function initMap() {
+  map = L.map('map', { zoomControl: true }).setView([currentLatLng.lat, currentLatLng.lng], 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors',
+    maxZoom: 19
+  }).addTo(map);
+
+  marker = L.marker([currentLatLng.lat, currentLatLng.lng], { draggable: true }).addTo(map);
+
+  marker.on('dragend', () => {
+    const p = marker.getLatLng();
+    locationSource = 'manual';
+    locationAccuracy = null;
+    updateLocation(p.lat, p.lng);
+  });
+
+  map.on('click', (e) => {
+    marker.setLatLng(e.latlng);
+    locationSource = 'manual';
+    locationAccuracy = null;
+    updateLocation(e.latlng.lat, e.latlng.lng);
+  });
+}
+
+async function updateLocation(lat, lng) {
+  currentLatLng = { lat, lng };
+  const status = document.getElementById('loc-status');
+  status.textContent = 'Mencari alamat...';
+  status.classList.remove('ok');
+  try {
+    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`);
+    const data = await res.json();
+    if (data && data.display_name) {
+      document.getElementById('alamat').value = data.display_name;
+    }
+    status.textContent = 'Lokasi terpilih ✓ — cek alamat di bawah.';
+    status.classList.add('ok');
+  } catch (err) {
+    status.textContent = 'Titik lokasi tersimpan. Silakan isi alamat manual di bawah.';
+  }
+}
+
+document.getElementById('btn-locate').addEventListener('click', () => {
+  const status = document.getElementById('loc-status');
+  if (!navigator.geolocation) {
+    status.textContent = 'Perangkat tidak mendukung deteksi lokasi otomatis.';
+    return;
+  }
+  status.textContent = 'Mendeteksi lokasi...';
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      const { latitude, longitude, accuracy } = pos.coords;
+      locationSource = 'gps';
+      locationAccuracy = Math.round(accuracy) || null;
+      map.setView([latitude, longitude], 16);
+      marker.setLatLng([latitude, longitude]);
+      updateLocation(latitude, longitude);
+    },
+    () => { status.textContent = 'Izin lokasi ditolak. Silakan pilih titik manual di peta.'; },
+    { enableHighAccuracy: true, timeout: 8000 }
+  );
+});
+
+initMap();
+
+// ---------- Validasi & submit ----------
+const form = document.getElementById('order-form');
+const requiredFields = ['nama','whatsapp','layanan','alamat','tanggal','jam'];
+
+function validate() {
+  let ok = true;
+  requiredFields.forEach(id => {
+    const el = document.getElementById(id);
+    const wrap = document.getElementById('f-' + id);
+    if (!el.value.trim()) {
+      wrap.classList.add('invalid');
+      ok = false;
+    } else {
+      wrap.classList.remove('invalid');
+    }
+  });
+
+  const namaVal = document.getElementById('nama').value.trim();
+  if (namaVal && namaVal.length < 2) {
+    document.getElementById('f-nama').classList.add('invalid');
+    ok = false;
+  }
+  const waDigits = document.getElementById('whatsapp').value.replace(/[^0-9+]/g, '');
+  if (waDigits && waDigits.length < 8) {
+    document.getElementById('f-wa').classList.add('invalid');
+    ok = false;
+  }
+  return ok;
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!validate()) return;
+
+  const btn = document.getElementById('submit-btn');
+  const statusEl = document.getElementById('form-status');
+  btn.disabled = true;
+  btn.textContent = 'Mengirim...';
+  statusEl.style.display = 'block';
+  statusEl.textContent = 'Mohon tunggu sebentar.';
+
+  // Ambil utm_source dkk dari URL kalau link-nya sudah dibekali (misal dari
+  // broadcast WA campaign khusus). Kalau tidak ada, default ke "whatsapp"
+  // karena form ini memang khusus dibagikan lewat chat WA.
+  const urlParams = new URLSearchParams(window.location.search);
+  const alamatText = document.getElementById('alamat').value.trim();
+  const catatanText = document.getElementById('catatan').value.trim();
+  const pesanGabungan = [alamatText ? `Alamat: ${alamatText}` : '', catatanText]
+    .filter(Boolean)
+    .join('\n\n')
+    .slice(0, 1000);
+
+  const payload = {
+    name: document.getElementById('nama').value.trim().slice(0, 100),
+    phone: document.getElementById('whatsapp').value.trim().replace(/[^0-9+]/g, '').slice(0, 20),
+    service: document.getElementById('layanan').value,
+    message: pesanGabungan,
+    preferred_date: document.getElementById('tanggal').value || null,
+    preferred_time_slot: document.getElementById('jam').value || null,
+    location_lat: currentLatLng.lat,
+    location_lng: currentLatLng.lng,
+    location_accuracy_m: locationAccuracy,
+    location_source: locationSource,
+    source_page: 'wa-form-pemesanan',
+    utm_source: urlParams.get('utm_source') || 'whatsapp',
+    utm_medium: urlParams.get('utm_medium') || 'chat_link',
+    utm_campaign: urlParams.get('utm_campaign') || '',
+    status: 'new'
+  };
+
+  const mapsLink = `https://www.google.com/maps?q=${currentLatLng.lat},${currentLatLng.lng}`;
+
+  try {
+    if (SUPABASE_URL.includes('PASTE_') || SUPABASE_ANON_KEY.includes('PASTE_')) {
+      throw new Error('belum-dikonfigurasi');
+    }
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) {
+      const errText = await res.text().catch(() => '');
+      throw new Error(errText || 'gagal-kirim');
+    }
+
+    document.getElementById('order-form').style.display = 'none';
+    document.getElementById('success-view').style.display = 'block';
+    document.getElementById('order-ref').textContent = payload.phone + (payload.preferred_date ? ' · ' + payload.preferred_date : '');
+  } catch (err) {
+    if (err.message === 'belum-dikonfigurasi') {
+      statusEl.textContent = 'Form belum terhubung ke Supabase. Lihat SETUP-SUPABASE.sql.';
+    } else {
+      statusEl.textContent = 'Gagal mengirim. Cek koneksi internet dan coba lagi.';
+    }
+    btn.disabled = false;
+    btn.textContent = 'Kirim Pesanan';
+  }
+});
+</script>
+</body>
+</html>

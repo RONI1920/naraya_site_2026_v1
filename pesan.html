@@ -715,8 +715,7 @@ form.addEventListener('submit', async (e) => {
     document.getElementById('success-view').style.display = 'block';
     document.getElementById('order-ref').textContent = payload.phone + (payload.preferred_date ? ' · ' + payload.preferred_date : '');
 
-    const waMessage = encodeURIComponent(`Halo, saya baru saja mengisi form pemesanan (${payload.name}). Terima kasih.`);
-    const waReturnUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMessage}`;
+    const waReturnUrl = `https://wa.me/${WHATSAPP_NUMBER}`;
     document.getElementById('back-to-wa').href = waReturnUrl;
     document.getElementById('back-to-wa').addEventListener('click', (ev) => { ev.preventDefault(); window.location.href = waReturnUrl; });
     // Beri waktu ~2.5 detik supaya notifikasi "Pesanan terkirim" sempat

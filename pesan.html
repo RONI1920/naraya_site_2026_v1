@@ -3,12 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta property="og:title" content="Pesan Layanan NARAYA Sanitasi">
-<meta property="og:description" content="Pesan layanan Sedot WC & Solusi Sanitasi NARAYA dengan mudah.">
-<meta property="og:url" content="https://narayasanitasisolution.my.id/pesan/">
-<meta property="og:image" content="https://narayasanitasisolution.my.id/assets/images/naraya-share.jpg">
 <title>Naraya Sanitasi Solusion — Form Pemesanan</title>
-<link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%2310A28F'/%3E%3Cstop offset='100%25' stop-color='%230C7A6B'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='44' fill='%23fff' stroke='%230D2B29' stroke-width='5'/%3E%3Cpath d='M50 20 C 62 36, 70 46, 70 56 a 20 20 0 0 1 -40 0 c 0 -10, 8 -20, 20 -36 Z' fill='url(%23g)'/%3E%3Cpath d='M42 66 L42 46 L58 62 L58 42' fill='none' stroke='%23FFFFFF' stroke-width='5.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M78 26 a 34 34 0 0 1 6 20' fill='none' stroke='%23F5A524' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,107 +13,181 @@
     --ring-dark:#0D2B29;
     --drop-top:#10A28F;
     --drop-bottom:#0C7A6B;
-    --sand-50:#F6F3EC;
+    --sand-50:#F3F0E8;
     --paper:#FFFFFF;
     --ink:#182420;
-    --ink-soft:#5B6A64;
+    --ink-soft:#657069;
     --amber-500:#F5A524;
     --amber-600:#D48912;
-    --line:#DED7C6;
+    --line:#E4DECD;
     --error:#B4423C;
+    --shadow:0 1px 2px rgba(13,43,41,0.05), 0 6px 16px rgba(13,43,41,0.07);
     font-family:'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;background:var(--sand-50);color:var(--ink);}
   body{
     padding-top:env(safe-area-inset-top,0px);
-    padding-bottom:env(safe-area-inset-bottom,0px);
     -webkit-font-smoothing:antialiased;
   }
-  .wrap{max-width:480px;margin:0 auto;min-height:100%;background:var(--paper);}
+  .wrap{max-width:480px;margin:0 auto;min-height:100%;position:relative;}
 
+  /* ---------- header ---------- */
   header.brand{
-    background:linear-gradient(160deg, var(--ring-dark), var(--drop-bottom));
+    background:linear-gradient(165deg, var(--ring-dark) 0%, var(--drop-bottom) 100%);
     color:#fff;
-    padding:28px 24px 26px;
+    padding:30px 20px 34px;
     position:relative;
     overflow:hidden;
     display:flex;
     align-items:center;
     gap:14px;
+    border-radius:0 0 22px 22px;
   }
-  header.brand svg.pipe{position:absolute; right:-24px; top:-24px; opacity:0.12; width:150px; height:150px;}
-  .brand-mark{flex-shrink:0; width:52px; height:52px;}
-  .brand-text{min-width:0;}
-  .brand-name{font-size:21px; font-weight:800; letter-spacing:-0.01em; margin:0 0 4px;}
-  .brand-tag{font-size:14px; color:#D7EDEA; margin:0; line-height:1.5;}
+  header.brand::before{
+    content:"";
+    position:absolute; top:-60px; right:-50px;
+    width:200px; height:200px; border-radius:50%;
+    background:radial-gradient(circle, rgba(245,165,36,0.22), transparent 70%);
+  }
+  header.brand::after{
+    content:"";
+    position:absolute; bottom:-70px; left:-40px;
+    width:180px; height:180px; border-radius:50%;
+    background:radial-gradient(circle, rgba(16,162,143,0.28), transparent 70%);
+  }
+  .brand-mark{flex-shrink:0; width:54px; height:54px; position:relative; z-index:1;
+    filter:drop-shadow(0 3px 6px rgba(0,0,0,0.25));}
+  .brand-text{min-width:0; position:relative; z-index:1;}
+  .brand-name{font-size:20px; font-weight:800; letter-spacing:-0.01em; margin:0 0 5px;}
+  .brand-tag{font-size:13.5px; color:#D7EDEA; margin:0; line-height:1.55;}
 
-  main{padding:26px 24px 40px;}
-  .section{margin-bottom:30px;}
-  .section:last-of-type{margin-bottom:8px;}
+  /* ---------- layout ---------- */
+  main{padding:18px 16px 120px;}
+  .section{
+    background:var(--paper);
+    border:1px solid rgba(13,43,41,0.06);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    padding:18px 16px;
+    margin-bottom:14px;
+  }
   .section h2{
-    font-size:13px; font-weight:700; color:var(--drop-bottom);
-    margin:0 0 14px; padding-bottom:8px; border-bottom:1px solid var(--line);
+    display:flex; align-items:center; gap:9px;
+    font-size:15px; font-weight:700; color:var(--ink);
+    margin:0 0 15px;
   }
-  label{display:block; font-size:13.5px; font-weight:600; color:var(--ink); margin:0 0 6px;}
-  .field{margin-bottom:16px;}
-  .hint{font-size:12.5px; color:var(--ink-soft); margin:5px 0 0; line-height:1.5;}
+  .section h2 .icon-badge{
+    display:flex; align-items:center; justify-content:center;
+    width:28px; height:28px; border-radius:9px; font-size:14px; flex-shrink:0;
+    background:rgba(16,162,143,0.12);
+  }
+  label{display:block; font-size:13px; font-weight:600; color:var(--ink-soft); margin:0 0 6px;}
+  .field{margin-bottom:15px;}
+  .field:last-child{margin-bottom:0;}
+  .hint{font-size:12px; color:var(--ink-soft); margin:5px 0 0; line-height:1.5;}
 
-  input[type=text], input[type=tel], input[type=date], input[type=time], select, textarea{
-    width:100%; padding:11px 12px; font-size:15px; font-family:inherit; color:var(--ink);
-    border:1.5px solid var(--line); border-radius:8px; background:#fff;
-    transition:border-color .15s ease;
+  input[type=text], input[type=tel], input[type=date], select, textarea{
+    width:100%; padding:12px 13px; font-size:15px; font-family:inherit; color:var(--ink);
+    border:1.5px solid var(--line); border-radius:10px; background:#FBFAF6;
+    transition:border-color .15s ease, background .15s ease;
   }
   input:focus, select:focus, textarea:focus{
-    outline:none; border-color:var(--drop-top); box-shadow:0 0 0 3px rgba(16,162,143,0.16);
+    outline:none; border-color:var(--drop-top); background:#fff;
+    box-shadow:0 0 0 3px rgba(16,162,143,0.14);
   }
-  textarea{resize:vertical; min-height:64px; line-height:1.5;}
-  .row2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  textarea{resize:vertical; min-height:62px; line-height:1.5;}
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
 
-  #map{height:220px; border-radius:10px; border:1.5px solid var(--line); margin-bottom:10px;}
-  .map-actions{display:flex; gap:10px; margin-bottom:14px;}
+  #map{height:210px; width:100%;}
+  .map-frame{
+    border-radius:12px; overflow:hidden; border:1.5px solid var(--line);
+    margin-bottom:10px; contain:paint; isolation:isolate;
+    -webkit-mask-image:-webkit-radial-gradient(circle, #fff 100%, #fff 100%);
+  }
+  .map-actions{display:flex; gap:10px; margin-bottom:12px;}
   .btn-outline{
-    flex:1; padding:10px 12px; font-size:13.5px; font-weight:600;
+    flex:1; padding:11px 12px; font-size:13.5px; font-weight:600;
     border:1.5px solid var(--drop-bottom); color:var(--drop-bottom); background:#fff;
-    border-radius:8px; cursor:pointer; font-family:inherit;
+    border-radius:10px; cursor:pointer; font-family:inherit;
   }
   .btn-outline:active{background:#EFF7F6;}
-  .loc-status{font-size:12.5px; color:var(--ink-soft); margin:0 0 14px; min-height:16px;}
+  .loc-status{font-size:12.5px; color:var(--ink-soft); margin:0 0 14px; min-height:16px; line-height:1.4;}
   .loc-status.ok{color:var(--drop-bottom); font-weight:600;}
 
+  /* ---------- sticky submit bar ---------- */
+  .submit-bar{
+    position:fixed; left:50%; transform:translateX(-50%);
+    bottom:0; width:100%; max-width:480px;
+    padding:12px 16px calc(14px + env(safe-area-inset-bottom,0px));
+    background:rgba(243,240,232,0.9);
+    -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+    border-top:1px solid var(--line);
+    z-index:10;
+  }
   .submit-btn{
     width:100%; padding:15px; font-size:16px; font-weight:700; font-family:inherit;
-    background:var(--amber-500); color:#241705; border:none; border-radius:9px;
+    background:var(--amber-500); color:#241705; border:none; border-radius:12px;
     cursor:pointer; letter-spacing:0.01em;
+    box-shadow:0 4px 14px rgba(245,165,36,0.35);
+    transition:transform .1s ease, background .15s ease;
   }
-  .submit-btn:active{background:var(--amber-600);}
-  .submit-btn:disabled{opacity:0.55; cursor:default;}
+  .submit-btn:active{background:var(--amber-600); transform:scale(0.98);}
+  .submit-btn:disabled{opacity:0.55; cursor:default; box-shadow:none;}
 
-  .error-msg{font-size:12.5px; color:var(--error); margin-top:5px; display:none;}
+  .error-msg{font-size:12px; color:var(--error); margin-top:5px; display:none;}
   .field.invalid input, .field.invalid select, .field.invalid textarea{border-color:var(--error);}
   .field.invalid .error-msg{display:block;}
 
+  .field.has-suggest{position:relative;}
+  .suggest-list{
+    position:absolute; left:0; right:0; top:100%; margin-top:4px;
+    background:#fff; border:1.5px solid var(--line); border-radius:10px;
+    box-shadow:var(--shadow); z-index:20; overflow:hidden; display:none;
+    max-height:220px; overflow-y:auto;
+  }
+  .suggest-list.open{display:block;}
+  .suggest-item{
+    padding:11px 13px; font-size:13.5px; line-height:1.4; color:var(--ink);
+    cursor:pointer; border-bottom:1px solid var(--line);
+  }
+  .suggest-item:last-child{border-bottom:none;}
+  .suggest-item:active, .suggest-item.active{background:#EFF7F6;}
+  .suggest-loading{padding:10px 13px; font-size:12.5px; color:var(--ink-soft);}
+
   #form-status{
-    display:none; text-align:center; font-size:13.5px; color:var(--ink-soft); margin-top:14px;
+    display:none; text-align:center; font-size:13px; font-weight:600; color:var(--error); margin:10px 0 0;
   }
 
-  .success-view{display:none; padding:60px 24px 50px; text-align:center;}
-  .success-view svg{width:56px; height:56px; margin-bottom:18px;}
+  /* ---------- success view ---------- */
+  .success-view{display:none; padding:70px 24px 60px; text-align:center;}
+  .success-view .check-circle{
+    width:64px; height:64px; margin:0 auto 20px;
+    animation:pop-in .45s cubic-bezier(.26,1.4,.5,1);
+  }
+  @keyframes pop-in{
+    0%{transform:scale(0.3); opacity:0;}
+    100%{transform:scale(1); opacity:1;}
+  }
   .success-view h2{font-size:19px; font-weight:800; margin:0 0 10px;}
   .success-view p{font-size:14.5px; color:var(--ink-soft); line-height:1.6; margin:0 auto; max-width:300px;}
   .success-view .order-ref{
-    display:inline-block; margin-top:20px; padding:8px 16px; background:var(--sand-50);
-    border-radius:20px; font-size:13px; font-weight:600; color:var(--drop-bottom);
+    display:inline-block; margin-top:20px; padding:9px 18px; background:var(--paper);
+    border:1px solid var(--line); border-radius:20px; font-size:13px; font-weight:600; color:var(--drop-bottom);
   }
 
-  footer{padding:16px 24px 26px; text-align:center; font-size:12px; color:#9AA6A0;}
+  footer{padding:6px 24px 100px; text-align:center; font-size:12px; color:#9AA6A0;}
+
+  @media (prefers-reduced-motion: reduce){
+    .success-view .check-circle{animation:none;}
+    .submit-btn{transition:none;}
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <header class="brand">
-    <svg class="pipe" viewBox="0 0 160 160" fill="none"><path d="M20 140 L20 90 Q20 60 50 60 L110 60 Q140 60 140 30 L140 10" stroke="#fff" stroke-width="14" stroke-linecap="round"/></svg>
     <svg class="brand-mark" viewBox="0 0 100 100" role="img" aria-label="Logo NARAYA">
       <defs>
         <linearGradient id="nrDrop" x1="0" y1="0" x2="0" y2="1">
@@ -132,22 +202,29 @@
     </svg>
     <div class="brand-text">
       <p class="brand-name">Naraya Sanitasi Solusion</p>
-      <p class="brand-tag">Lengkapi data pesanan Anda di bawah ini <br>
-        Tim kami akan segera memproses dan mengatur jadwal kedatangan ke lokasi Anda.</p>
+      <p class="brand-tag">Lengkapi data pesanan Anda di bawah ini.<br>Tim kami akan segera memproses dan mengatur jadwal kedatangan ke lokasi Anda.</p>
     </div>
   </header>
 
   <main>
     <form id="order-form">
 
+      <!-- Honeypot anti-spam: harus tetap kosong. Manusia tidak melihat field
+           ini (disembunyikan lewat CSS), tapi bot pengisi form otomatis
+           biasanya mengisi semua field yang ada di DOM. -->
+      <div style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;" aria-hidden="true">
+        <label for="website">Jangan isi kolom ini</label>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+      </div>
+
       <div class="section">
-        <h2>DATA PEMESAN</h2>
+        <h2><span class="icon-badge">🧾</span>Data pemesan</h2>
         <div class="field" id="f-nama">
           <label for="nama">Nama lengkap</label>
           <input type="text" id="nama" name="nama" placeholder="Contoh: Budi Santoso" required>
           <p class="error-msg">Nama wajib diisi.</p>
         </div>
-        <div class="field" id="f-wa">
+        <div class="field" id="f-whatsapp">
           <label for="whatsapp">Nomor WhatsApp</label>
           <input type="tel" id="whatsapp" name="whatsapp" placeholder="08xxxxxxxxxx" required>
           <p class="error-msg">Nomor WhatsApp wajib diisi.</p>
@@ -155,7 +232,7 @@
       </div>
 
       <div class="section">
-        <h2>JENIS LAYANAN</h2>
+        <h2><span class="icon-badge">🛠️</span>Jenis layanan</h2>
         <div class="field" id="f-layanan">
           <label for="layanan">Pilih layanan</label>
           <select id="layanan" name="layanan" required>
@@ -169,34 +246,36 @@
           </select>
           <p class="error-msg">Pilih jenis layanan.</p>
         </div>
-        <div class="field">
-          <label for="catatan">Catatan tambahan (opsional)</label>
-          <textarea id="catatan" name="catatan" placeholder="Contoh: WC mampet sejak 2 hari, akses rumah masuk gang kecil"></textarea>
+        <div class="field" id="f-catatan">
+          <label for="catatan">Catatan tambahan</label>
+          <textarea id="catatan" name="catatan" placeholder="Contoh: WC mampet sejak 2 hari, akses rumah masuk gang kecil" required></textarea>
+          <p class="error-msg">Catatan wajib diisi.</p>
         </div>
       </div>
 
       <div class="section">
-        <h2>LOKASI</h2>
-        <div id="map"></div>
+        <h2><span class="icon-badge">📍</span>Lokasi</h2>
+        <div class="map-frame"><div id="map"></div></div>
         <div class="map-actions">
           <button type="button" class="btn-outline" id="btn-locate">📍 Gunakan lokasi saya</button>
         </div>
         <p class="loc-status" id="loc-status">Geser peta atau tap titik lokasi, atau tekan "Gunakan lokasi saya".</p>
-        <div class="field" id="f-alamat">
+        <div class="field has-suggest" id="f-alamat">
           <label for="alamat">Alamat lengkap</label>
-          <textarea id="alamat" name="alamat" placeholder="Jalan, RT/RW, kelurahan, kecamatan, patokan" required></textarea>
-          <p class="hint">Terisi otomatis dari peta — silakan lengkapi atau perbaiki jika perlu.</p>
+          <textarea id="alamat" name="alamat" placeholder="Jalan, RT/RW, kelurahan, kecamatan, patokan" autocomplete="off" required></textarea>
+          <div class="suggest-list" id="alamat-suggest"></div>
+          <p class="hint">Ketik alamat, pilih rekomendasi yang muncul, atau tandai lewat peta di atas — keduanya akan otomatis disamakan.</p>
           <p class="error-msg">Alamat wajib diisi.</p>
         </div>
       </div>
 
       <div class="section">
-        <h2>WAKTU PENGERJAAN</h2>
+        <h2><span class="icon-badge">🗓️</span>Waktu pengerjaan</h2>
         <div class="row2">
           <div class="field" id="f-tanggal">
             <label for="tanggal">Tanggal</label>
             <input type="date" id="tanggal" name="tanggal" required>
-            <p class="error-msg">Pilih tanggal.</p>
+            <p class="error-msg" id="tanggal-err">Pilih tanggal (tidak boleh tanggal yang sudah lewat).</p>
           </div>
           <div class="field" id="f-jam">
             <label for="jam">Jam</label>
@@ -215,32 +294,121 @@
         </div>
       </div>
 
-      <button type="submit" class="submit-btn" id="submit-btn">Kirim Pesanan</button>
       <p id="form-status"></p>
+
+      <div class="submit-bar">
+        <button type="submit" class="submit-btn" id="submit-btn">Kirim Pesanan</button>
+      </div>
     </form>
 
     <div class="success-view" id="success-view">
-      <svg viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="27" stroke="#10A28F" stroke-width="2"/><path d="M17 29 L24 36 L39 20" stroke="#10A28F" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg class="check-circle" viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="27" stroke="#10A28F" stroke-width="2"/><path d="M17 29 L24 36 L39 20" stroke="#10A28F" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <h2>Pesanan terkirim</h2>
       <p>Terima kasih. Pesanan Anda sudah kami terima dan akan segera diproses tim lapangan.</p>
       <div class="order-ref" id="order-ref"></div>
+      <p class="hint" id="redirect-hint" style="margin-top:16px;">Mengarahkan kembali ke WhatsApp...</p>
+      <a href="#" id="back-to-wa" class="btn-outline" style="display:inline-block; text-decoration:none; margin-top:6px;">Kembali ke WhatsApp sekarang</a>
     </div>
-  </main>
 
-  <footer>Naraya Sanitasi Solusion</footer>
+    <footer>Naraya Sanitasi Solusion</footer>
+  </main>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<!-- Sumber konfigurasi tunggal: sama persis dengan yang dipakai kontak.html.
+     Kalau URL/anon key Supabase berubah, cukup ubah di assets/js/config.js
+     dan otomatis ikut berubah di sini juga (tidak ada key duplikat lagi). -->
+<script src="assets/js/config.js"></script>
+<script src="assets/js/supabase-client.js"></script>
 <script>
-// ====== Sama seperti SUPABASE_URL / SUPABASE_ANON_KEY di assets/js/config.js situs utama ======
-const SUPABASE_URL = "https://pcgchdhivnjdwksxhufi.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_-EKyjVn34UHirICcFibu6Q_VuzUzZJD";
-const SUPABASE_TABLE = "leads"; // tabel yang sama dipakai kontak.html di situs
-// =================================================================================================
+// ====== Halaman ini sengaja berdiri sendiri (tanpa header/nav situs) ======
+// karena memang dibagikan lewat link chat WhatsApp — fokus cuma untuk isi
+// form pemesanan. Tabel & kolom Supabase yang dipakai identik dengan
+// kontak.html (tabel "leads"), lihat supabase/migrations/001_schema.sql,
+// 005_reservation_schedule.sql, 006_lead_location.sql.
+const SUPABASE_TABLE = "leads";
+const cfg = window.SITE_CONFIG || {};
+// Ambil nomor WA dari config.js (BUSINESS_WHATSAPP, format "+62...") lalu
+// buang karakter selain digit, karena wa.me butuh format digit polos.
+const WHATSAPP_NUMBER = (cfg.BUSINESS_WHATSAPP || "+6282298056092").replace(/[^0-9]/g, "");
 
+// Jaring pengaman #1: error JS sinkron apa pun (mis. elemen tidak
+// ditemukan) akan tetap ditampilkan ke pengguna, bukan diam-diam gagal.
+window.addEventListener('error', function (e) {
+  const statusEl = document.getElementById('form-status');
+  if (statusEl) {
+    statusEl.style.display = 'block';
+    statusEl.textContent = 'Terjadi error teknis (' + (e.message || 'tidak diketahui') + '). Silakan refresh halaman dan coba lagi, atau hubungi kami langsung via WhatsApp.';
+  }
+  const btn = document.getElementById('submit-btn');
+  if (btn) { btn.disabled = false; btn.textContent = 'Kirim Pesanan'; }
+});
+
+// Jaring pengaman #2 — PENTING: sebelumnya halaman ini punya bug di mana
+// error di dalam fungsi async (mis. saat validasi form) menjadi
+// "unhandled promise rejection", yang TIDAK tertangkap oleh listener
+// 'error' di atas. Itu sebabnya form bisa gagal total secara diam-diam
+// (tidak masuk ke Supabase, tidak ada notifikasi sukses/gagal sama
+// sekali). Listener ini menutup celah tersebut.
+window.addEventListener('unhandledrejection', function (e) {
+  const statusEl = document.getElementById('form-status');
+  if (statusEl) {
+    statusEl.style.display = 'block';
+    const reason = e.reason && e.reason.message ? e.reason.message : 'tidak diketahui';
+    statusEl.textContent = 'Terjadi error teknis (' + reason + '). Silakan refresh halaman dan coba lagi, atau hubungi kami langsung via WhatsApp.';
+  }
+  const btn = document.getElementById('submit-btn');
+  if (btn) { btn.disabled = false; btn.textContent = 'Kirim Pesanan'; }
+});
+
+// ---------- Helper: tanggal hari ini (timezone-aware, sama seperti
+// assets/js/contact-form.js) supaya "hari ini" dihitung di zona waktu
+// pelanggan, bukan UTC. ----------
+function todayIsoDate() {
+  const d = new Date();
+  const offset = d.getTimezoneOffset();
+  const local = new Date(d.getTime() - offset * 60 * 1000);
+  return local.toISOString().slice(0, 10);
+}
+
+// ---------- Helper: bersihkan '<' dan '>' dari input bebas sebelum
+// dikirim ke database, sama seperti assets/js/contact-form.js — supaya
+// tidak ada data "kotor" tersimpan di tabel leads. ----------
+function sanitize(str, maxLen) {
+  return String(str || '')
+    .trim()
+    .slice(0, maxLen || 500)
+    .replace(/[<>]/g, '');
+}
+
+// Anti-spam: waktu minimal isi form + jeda antar submit per browser,
+// sama seperti assets/js/contact-form.js.
+const MIN_FILL_SECONDS = 3;
+const THROTTLE_KEY = 'naraya_pesan_last_submit';
+const THROTTLE_MS = 60 * 1000;
+const pageLoadedAt = Date.now();
+
+function isThrottled() {
+  try {
+    const last = Number(window.localStorage.getItem(THROTTLE_KEY) || 0);
+    return Date.now() - last < THROTTLE_MS;
+  } catch (e) {
+    return false;
+  }
+}
+function setThrottle() {
+  try { window.localStorage.setItem(THROTTLE_KEY, String(Date.now())); } catch (e) {}
+}
+
+// window.sb sudah dibuat oleh assets/js/supabase-client.js (null kalau
+// config belum lengkap atau CDN Supabase gagal dimuat).
 let map, marker;
-let currentLatLng = { lat: -6.219763, lng: 106.9003752 }; // default: lokasi NARAYA (Jakarta Timur)
-let locationSource = null; // 'gps' | 'manual' | null — diisi otomatis, dipakai untuk kolom location_source
+let currentLatLng = {
+  lat: typeof cfg.BUSINESS_LATITUDE === "number" ? cfg.BUSINESS_LATITUDE : -6.219763,
+  lng: typeof cfg.BUSINESS_LONGITUDE === "number" ? cfg.BUSINESS_LONGITUDE : 106.9003752
+};
+let locationSource = null; // 'gps' | 'manual' | null
 let locationAccuracy = null; // meter, hanya terisi kalau dari GPS
 
 function initMap() {
@@ -251,6 +419,7 @@ function initMap() {
   }).addTo(map);
 
   marker = L.marker([currentLatLng.lat, currentLatLng.lng], { draggable: true }).addTo(map);
+  setTimeout(() => { map.invalidateSize(); }, 200);
 
   marker.on('dragend', () => {
     const p = marker.getLatLng();
@@ -297,26 +466,147 @@ document.getElementById('btn-locate').addEventListener('click', () => {
       const { latitude, longitude, accuracy } = pos.coords;
       locationSource = 'gps';
       locationAccuracy = Math.round(accuracy) || null;
-      map.setView([latitude, longitude], 16);
-      marker.setLatLng([latitude, longitude]);
+      if (map && marker) {
+        map.setView([latitude, longitude], 16);
+        marker.setLatLng([latitude, longitude]);
+      }
       updateLocation(latitude, longitude);
     },
-    () => { status.textContent = 'Izin lokasi ditolak. Silakan pilih titik manual di peta.'; },
+    () => { status.textContent = 'Izin lokasi ditolak. Silakan isi alamat manual di bawah.'; },
     { enableHighAccuracy: true, timeout: 8000 }
   );
 });
 
-initMap();
+// FIX: kunci date-picker supaya tanggal kemarin/lampau tidak bisa
+// dipilih sama sekali dari kalender bawaan browser.
+const tanggalInput = document.getElementById('tanggal');
+if (tanggalInput) tanggalInput.min = todayIsoDate();
+
+try {
+  initMap();
+} catch (mapErr) {
+  console.error('Gagal memuat peta:', mapErr);
+  const mapEl = document.getElementById('map');
+  if (mapEl) mapEl.innerHTML = '<div style="padding:16px; font-size:13px; color:var(--ink-soft);">Peta tidak dapat dimuat (cek koneksi internet). Anda tetap bisa isi alamat manual di bawah dan tetap kirim pesanan.</div>';
+}
+
+// ---------- Autocomplete alamat -> sinkron ke peta ----------
+// Selama ini sinkronisasi cuma satu arah (peta -> kotak alamat, lewat
+// reverse geocoding di updateLocation()). Bagian ini menambah arah
+// sebaliknya: begitu pelanggan MENGETIK alamat, munculkan rekomendasi
+// alamat nyata (lewat pencarian Nominatim, dibatasi area Jabodetabek
+// karena itu wilayah layanan NARAYA), dan begitu salah satu dipilih,
+// peta + pin ikut pindah ke koordinat yang sama persis. Dengan begitu
+// teks yang diketik pelanggan dan titik di peta selalu konsisten.
+const alamatInput = document.getElementById('alamat');
+const suggestBox = document.getElementById('alamat-suggest');
+let suggestTimer = null;
+let suggestAbort = null;
+let suggestActiveIndex = -1;
+// Kira-kira mencakup Jakarta, Bogor, Depok, Tangerang, Bekasi.
+const JABODETABEK_VIEWBOX = '106.20,-5.85,107.20,-6.85';
+
+function closeSuggest() {
+  suggestBox.classList.remove('open');
+  suggestBox.innerHTML = '';
+  suggestActiveIndex = -1;
+}
+
+function renderSuggestLoading() {
+  suggestBox.innerHTML = '<div class="suggest-loading">Mencari alamat…</div>';
+  suggestBox.classList.add('open');
+}
+
+function renderSuggestResults(results) {
+  if (!results || !results.length) {
+    suggestBox.innerHTML = '<div class="suggest-loading">Tidak ditemukan. Lanjutkan tulis alamat manual atau tandai lewat peta.</div>';
+    suggestBox.classList.add('open');
+    return;
+  }
+  suggestBox.innerHTML = '';
+  results.forEach((r, idx) => {
+    const item = document.createElement('div');
+    item.className = 'suggest-item';
+    item.textContent = r.display_name;
+    item.addEventListener('mousedown', (ev) => {
+      // mousedown (bukan click) supaya jalan duluan sebelum textarea
+      // kehilangan fokus (blur) menutup daftar saran.
+      ev.preventDefault();
+      selectSuggestion(r);
+    });
+    suggestBox.appendChild(item);
+  });
+  suggestBox.classList.add('open');
+}
+
+function selectSuggestion(r) {
+  const lat = parseFloat(r.lat);
+  const lng = parseFloat(r.lon);
+  alamatInput.value = r.display_name;
+  closeSuggest();
+  locationSource = 'manual';
+  locationAccuracy = null;
+  currentLatLng = { lat, lng };
+  if (map && marker) {
+    map.setView([lat, lng], 17);
+    marker.setLatLng([lat, lng]);
+  }
+  const status = document.getElementById('loc-status');
+  status.textContent = 'Lokasi disamakan dengan alamat yang dipilih ✓';
+  status.classList.add('ok');
+}
+
+async function searchAddress(query) {
+  if (suggestAbort) suggestAbort.abort();
+  suggestAbort = new AbortController();
+  try {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=id&viewbox=${JABODETABEK_VIEWBOX}&bounded=1&limit=5&addressdetails=1`;
+    const res = await fetch(url, { signal: suggestAbort.signal });
+    const data = await res.json();
+    renderSuggestResults(data);
+  } catch (err) {
+    if (err && err.name === 'AbortError') return; // permintaan lama dibatalkan, wajar
+    suggestBox.innerHTML = '<div class="suggest-loading">Gagal memuat rekomendasi. Anda tetap bisa lanjut tulis alamat manual.</div>';
+    suggestBox.classList.add('open');
+  }
+}
+
+alamatInput.addEventListener('input', () => {
+  const q = alamatInput.value.trim();
+  clearTimeout(suggestTimer);
+  if (q.length < 5) {
+    closeSuggest();
+    return;
+  }
+  renderSuggestLoading();
+  // Debounce 550ms supaya tidak membombardir Nominatim setiap ketukan
+  // huruf, dan tetap sopan terhadap kebijakan pemakaian wajarnya.
+  suggestTimer = setTimeout(() => searchAddress(q), 550);
+});
+
+// Tutup daftar saran kalau pelanggan tap di luar kotak alamat / daftar.
+document.addEventListener('click', (ev) => {
+  if (ev.target === alamatInput || suggestBox.contains(ev.target)) return;
+  closeSuggest();
+});
+alamatInput.addEventListener('keydown', (ev) => {
+  if (ev.key === 'Escape') closeSuggest();
+});
 
 // ---------- Validasi & submit ----------
 const form = document.getElementById('order-form');
-const requiredFields = ['nama','whatsapp','layanan','alamat','tanggal','jam'];
+// id pembungkus tiap field HARUS "f-" + id input (mis. whatsapp -> f-whatsapp).
+// Sebelumnya pembungkus WhatsApp salah ditulis id="f-wa", tidak cocok
+// dengan pola ini, sehingga validate() selalu error saat mencari elemen
+// yang tidak ada — itulah akar masalah form gagal total secara diam-diam.
+const requiredFields = ['nama','whatsapp','layanan','catatan','alamat','tanggal','jam'];
 
 function validate() {
   let ok = true;
   requiredFields.forEach(id => {
     const el = document.getElementById(id);
     const wrap = document.getElementById('f-' + id);
+    if (!el || !wrap) return; // jaga-jaga tambahan kalau ada id yang meleset lagi di masa depan
     if (!el.value.trim()) {
       wrap.classList.add('invalid');
       ok = false;
@@ -326,88 +616,116 @@ function validate() {
   });
 
   const namaVal = document.getElementById('nama').value.trim();
-  if (namaVal && namaVal.length < 2) {
+  if (namaVal && (namaVal.length < 2 || namaVal.length > 100)) {
     document.getElementById('f-nama').classList.add('invalid');
     ok = false;
   }
   const waDigits = document.getElementById('whatsapp').value.replace(/[^0-9+]/g, '');
-  if (waDigits && waDigits.length < 8) {
-    document.getElementById('f-wa').classList.add('invalid');
+  if (waDigits && (waDigits.length < 8 || waDigits.length > 20)) {
+    document.getElementById('f-whatsapp').classList.add('invalid');
     ok = false;
   }
+
+  // FIX: tolak tanggal yang sudah lewat juga saat submit, bukan cuma
+  // lewat atribut min di date-picker — karena browser lama / tab yang
+  // dibiarkan terbuka semalaman bisa membuat tanggal yang tadinya valid
+  // jadi sudah lampau di saat submit sebenarnya terjadi.
+  const tanggalVal = document.getElementById('tanggal').value;
+  if (tanggalVal && tanggalVal < todayIsoDate()) {
+    document.getElementById('f-tanggal').classList.add('invalid');
+    ok = false;
+  }
+
   return ok;
 }
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  if (!validate()) return;
 
   const btn = document.getElementById('submit-btn');
   const statusEl = document.getElementById('form-status');
-  btn.disabled = true;
-  btn.textContent = 'Mengirim...';
-  statusEl.style.display = 'block';
-  statusEl.textContent = 'Mohon tunggu sebentar.';
-
-  // Ambil utm_source dkk dari URL kalau link-nya sudah dibekali (misal dari
-  // broadcast WA campaign khusus). Kalau tidak ada, default ke "whatsapp"
-  // karena form ini memang khusus dibagikan lewat chat WA.
-  const urlParams = new URLSearchParams(window.location.search);
-  const alamatText = document.getElementById('alamat').value.trim();
-  const catatanText = document.getElementById('catatan').value.trim();
-  const pesanGabungan = [alamatText ? `Alamat: ${alamatText}` : '', catatanText]
-    .filter(Boolean)
-    .join('\n\n')
-    .slice(0, 1000);
-
-  const payload = {
-    name: document.getElementById('nama').value.trim().slice(0, 100),
-    phone: document.getElementById('whatsapp').value.trim().replace(/[^0-9+]/g, '').slice(0, 20),
-    service: document.getElementById('layanan').value,
-    message: pesanGabungan,
-    preferred_date: document.getElementById('tanggal').value || null,
-    preferred_time_slot: document.getElementById('jam').value || null,
-    location_lat: currentLatLng.lat,
-    location_lng: currentLatLng.lng,
-    location_accuracy_m: locationAccuracy,
-    location_source: locationSource,
-    source_page: 'wa-form-pemesanan',
-    utm_source: urlParams.get('utm_source') || 'whatsapp',
-    utm_medium: urlParams.get('utm_medium') || 'chat_link',
-    utm_campaign: urlParams.get('utm_campaign') || '',
-    status: 'new'
-  };
-
-  const mapsLink = `https://www.google.com/maps?q=${currentLatLng.lat},${currentLatLng.lng}`;
 
   try {
-    if (SUPABASE_URL.includes('PASTE_') || SUPABASE_ANON_KEY.includes('PASTE_')) {
-      throw new Error('belum-dikonfigurasi');
-    }
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SUPABASE_ANON_KEY,
-        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-        'Prefer': 'return=minimal'
-      },
-      body: JSON.stringify(payload)
-    });
-    if (!res.ok) {
-      const errText = await res.text().catch(() => '');
-      throw new Error(errText || 'gagal-kirim');
+    // Honeypot: kalau field tersembunyi ini terisi, hampir pasti bot.
+    // Pura-pura sukses supaya bot tidak tahu ditolak, tapi jangan insert.
+    const honeypot = document.getElementById('website');
+    if (honeypot && honeypot.value) {
+      document.getElementById('order-form').style.display = 'none';
+      document.getElementById('success-view').style.display = 'block';
+      return;
     }
 
+    if (!validate()) {
+      const firstInvalid = form.querySelector('.field.invalid');
+      if (firstInvalid) firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    const elapsedSeconds = (Date.now() - pageLoadedAt) / 1000;
+    if (elapsedSeconds < MIN_FILL_SECONDS) {
+      statusEl.style.display = 'block';
+      statusEl.textContent = 'Mohon tunggu sebentar sebelum mengirim.';
+      return;
+    }
+    if (isThrottled()) {
+      statusEl.style.display = 'block';
+      statusEl.textContent = 'Anda baru saja mengirim pesanan. Silakan tunggu sebentar, atau hubungi kami langsung via WhatsApp.';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Mengirim...';
+    statusEl.style.display = 'block';
+    statusEl.textContent = 'Mohon tunggu sebentar.';
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const alamatText = sanitize(document.getElementById('alamat').value, 500);
+    const catatanText = sanitize(document.getElementById('catatan').value, 500);
+    const pesanGabungan = [alamatText ? `Alamat: ${alamatText}` : '', catatanText]
+      .filter(Boolean)
+      .join('\n\n')
+      .slice(0, 1000);
+
+    const payload = {
+      name: sanitize(document.getElementById('nama').value, 100),
+      phone: document.getElementById('whatsapp').value.trim().replace(/[^0-9+]/g, '').slice(0, 20),
+      service: document.getElementById('layanan').value,
+      message: pesanGabungan,
+      preferred_date: document.getElementById('tanggal').value || null,
+      preferred_time_slot: document.getElementById('jam').value || null,
+      location_lat: currentLatLng.lat,
+      location_lng: currentLatLng.lng,
+      location_accuracy_m: locationAccuracy,
+      location_source: locationSource,
+      source_page: 'pesan.html',
+      utm_source: urlParams.get('utm_source') || 'whatsapp',
+      utm_medium: urlParams.get('utm_medium') || 'chat_link',
+      utm_campaign: urlParams.get('utm_campaign') || '',
+      status: 'new'
+    };
+
+    if (!window.sb) {
+      throw new Error('Koneksi ke database belum siap. Muat ulang halaman lalu coba lagi.');
+    }
+    const { error } = await window.sb.from(SUPABASE_TABLE).insert([payload]);
+    if (error) throw error;
+
+    setThrottle();
     document.getElementById('order-form').style.display = 'none';
     document.getElementById('success-view').style.display = 'block';
     document.getElementById('order-ref').textContent = payload.phone + (payload.preferred_date ? ' · ' + payload.preferred_date : '');
+
+    const waMessage = encodeURIComponent(`Halo, saya baru saja mengisi form pemesanan (${payload.name}). Terima kasih.`);
+    const waReturnUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMessage}`;
+    document.getElementById('back-to-wa').href = waReturnUrl;
+    document.getElementById('back-to-wa').addEventListener('click', (ev) => { ev.preventDefault(); window.location.href = waReturnUrl; });
+    // Beri waktu ~2.5 detik supaya notifikasi "Pesanan terkirim" sempat
+    // terbaca sebelum otomatis kembali ke WhatsApp (sebelumnya cuma 1 detik).
+    setTimeout(() => { window.location.href = waReturnUrl; }, 2500);
   } catch (err) {
-    if (err.message === 'belum-dikonfigurasi') {
-      statusEl.textContent = 'Form belum terhubung ke Supabase. Lihat SETUP-SUPABASE.sql.';
-    } else {
-      statusEl.textContent = 'Gagal mengirim. Cek koneksi internet dan coba lagi.';
-    }
+    console.error('Gagal mengirim pesanan:', err);
+    statusEl.style.display = 'block';
+    statusEl.textContent = 'Gagal mengirim: ' + (err && err.message ? err.message : 'silakan cek koneksi internet dan coba lagi.');
     btn.disabled = false;
     btn.textContent = 'Kirim Pesanan';
   }

@@ -237,6 +237,13 @@
               <input type="text" id="area" name="area" maxlength="100" placeholder="Contoh: Kebayoran Baru" />
             </div>
 
+            <div class="form-field has-suggest" id="f-alamat">
+              <label for="alamat">Alamat Lengkap (opsional, tapi sangat membantu)</label>
+              <textarea id="alamat" name="alamat" rows="2" maxlength="500" placeholder="Jalan, RT/RW, kelurahan, kecamatan, patokan"></textarea>
+              <div class="suggest-list" id="alamat-suggest"></div>
+              <p class="form-hint">Ketik alamat, lalu pilih rekomendasi yang muncul — atau tandai lewat peta di bawah. Keduanya akan otomatis disamakan.</p>
+            </div>
+
             <div class="location-picker">
               <span class="location-picker__label">Titik Lokasi di Peta (opsional, tapi sangat membantu)</span>
               <p class="location-picker__hint">Tandai lokasi persis rumah/tempat usaha Anda supaya tim lapangan tiba tepat sesuai koordinat Google Maps — sangat berguna untuk gang sempit atau lokasi yang sulit dijelaskan lewat alamat saja.</p>
@@ -316,6 +323,7 @@
 <script src="assets/js/whatsapp.js"></script>
 <script src="assets/js/consent.js"></script>
 <script src="assets/js/supabase-client.js"></script>
+<script src="assets/js/traffic-widget.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="assets/js/location-picker.js"></script>
 <script src="assets/js/contact-form.js"></script>

@@ -22,6 +22,15 @@
  *
  * Sepenuhnya OPSIONAL — form tetap valid & bisa dikirim tanpa lokasi
  * ditandai (misalnya pelanggan menolak izin GPS atau JS gagal load).
+ *
+ * Sinkronisasi 2 arah dengan field #alamat (kalau ada di halaman),
+ * format & perilaku sama persis dengan pesan.html:
+ *   - Peta/GPS -> alamat: setiap pin dipasang/digeser, otomatis reverse-
+ *     geocode via Nominatim lalu isi textarea #alamat.
+ *   - Alamat -> peta: setiap pelanggan mengetik di #alamat (>=5 huruf),
+ *     tampilkan daftar rekomendasi alamat nyata (dibatasi area layanan
+ *     NARAYA), dan begitu salah satu dipilih, peta + pin ikut pindah
+ *     ke koordinat yang sama persis.
  * ------------------------------------------------------------------
  */
 
@@ -30,6 +39,12 @@
 
   var DEFAULT_ZOOM = 16;
   var GEOLOCATION_TIMEOUT_MS = 12000;
+  var SUGGEST_DEBOUNCE_MS = 550;
+  var SUGGEST_MIN_CHARS = 5;
+  // Kira-kira mencakup area layanan saat ini: Jakarta Selatan, Depok, Bogor,
+  // dan Tangerang Selatan/Pondok Aren. Sama seperti viewbox di pesan.html —
+  // kalau area layanan berubah, sesuaikan juga di sana.
+  var SERVICE_AREA_VIEWBOX = "106.55,-6.15,107.00,-6.75";
 
   function fmtCoord(n) {
     return Number(n).toFixed(6);
@@ -74,6 +89,33 @@
     });
 
     var marker = null;
+    var alamatInput = document.getElementById("alamat");
+    var suggestBox = document.getElementById("alamat-suggest");
+
+    // ---------- Reverse geocoding: titik peta -> isi textarea alamat ----
+    // Best-effort saja: kalau gagal (offline / Nominatim down), form tetap
+    // valid dan pelanggan cukup isi alamat manual.
+    function reverseGeocodeToAlamat(lat, lng) {
+      if (!alamatInput) return;
+      fetch(
+        "https://nominatim.openstreetmap.org/reverse?format=json&lat=" +
+          lat +
+          "&lon=" +
+          lng +
+          "&zoom=18&addressdetails=1"
+      )
+        .then(function (res) {
+          return res.json();
+        })
+        .then(function (data) {
+          if (data && data.display_name) {
+            alamatInput.value = data.display_name;
+          }
+        })
+        .catch(function () {
+          /* diamkan — alamat manual tetap bisa diisi pelanggan */
+        });
+    }
 
     function setStatus(text, isError) {
       if (!statusEl) return;
@@ -82,7 +124,7 @@
       statusEl.classList.toggle("location-picker__status--set", !isError && !!text);
     }
 
-    function setCoords(lat, lng, source, accuracyM) {
+    function setCoords(lat, lng, source, accuracyM, skipReverseGeocode) {
       latInput.value = fmtCoord(lat);
       lngInput.value = fmtCoord(lng);
       srcInput.value = source;
@@ -110,6 +152,8 @@
         mapsLink.hidden = false;
       }
       if (clearBtn) clearBtn.hidden = false;
+
+      if (!skipReverseGeocode) reverseGeocodeToAlamat(lat, lng);
     }
 
     function clearCoords() {
@@ -179,7 +223,109 @@
     // Reset peta & pin saat form berhasil terkirim dan ter-reset.
     form.addEventListener("reset", function () {
       window.setTimeout(clearCoords, 0);
+      if (alamatInput) alamatInput.value = "";
+      if (suggestBox) {
+        suggestBox.classList.remove("open");
+        suggestBox.innerHTML = "";
+      }
     });
+
+    // ---------- Autocomplete alamat -> sinkron ke peta -------------------
+    // Begitu pelanggan MENGETIK alamat, munculkan rekomendasi alamat nyata
+    // (lewat pencarian Nominatim, dibatasi area layanan NARAYA), dan begitu
+    // salah satu dipilih, peta + pin ikut pindah ke koordinat yang sama
+    // persis — sama seperti di pesan.html.
+    if (alamatInput && suggestBox) {
+      var suggestTimer = null;
+      var suggestAbort = null;
+
+      var closeSuggest = function () {
+        suggestBox.classList.remove("open");
+        suggestBox.innerHTML = "";
+      };
+
+      var renderSuggestLoading = function () {
+        suggestBox.innerHTML = '<div class="suggest-loading">Mencari alamat\u2026</div>';
+        suggestBox.classList.add("open");
+      };
+
+      var selectSuggestion = function (r) {
+        var lat = parseFloat(r.lat);
+        var lng = parseFloat(r.lon);
+        alamatInput.value = r.display_name;
+        closeSuggest();
+        setCoords(lat, lng, "manual", null, /* skipReverseGeocode */ true);
+        setStatus("\u2713 Lokasi disamakan dengan alamat yang dipilih (" + fmtCoord(lat) + ", " + fmtCoord(lng) + ")");
+      };
+
+      var renderSuggestResults = function (results) {
+        if (!results || !results.length) {
+          suggestBox.innerHTML =
+            '<div class="suggest-loading">Tidak ditemukan. Lanjutkan tulis alamat manual atau tandai lewat peta.</div>';
+          suggestBox.classList.add("open");
+          return;
+        }
+        suggestBox.innerHTML = "";
+        results.forEach(function (r) {
+          var item = document.createElement("div");
+          item.className = "suggest-item";
+          item.textContent = r.display_name;
+          // mousedown (bukan click) supaya jalan duluan sebelum textarea
+          // kehilangan fokus (blur) menutup daftar saran.
+          item.addEventListener("mousedown", function (ev) {
+            ev.preventDefault();
+            selectSuggestion(r);
+          });
+          suggestBox.appendChild(item);
+        });
+        suggestBox.classList.add("open");
+      };
+
+      var searchAddress = function (query) {
+        if (suggestAbort) suggestAbort.abort();
+        suggestAbort = new AbortController();
+        var url =
+          "https://nominatim.openstreetmap.org/search?format=json&q=" +
+          encodeURIComponent(query) +
+          "&countrycodes=id&viewbox=" +
+          SERVICE_AREA_VIEWBOX +
+          "&bounded=1&limit=5&addressdetails=1";
+        fetch(url, { signal: suggestAbort.signal })
+          .then(function (res) {
+            return res.json();
+          })
+          .then(renderSuggestResults)
+          .catch(function (err) {
+            if (err && err.name === "AbortError") return; // permintaan lama dibatalkan, wajar
+            suggestBox.innerHTML =
+              '<div class="suggest-loading">Gagal memuat rekomendasi. Anda tetap bisa lanjut tulis alamat manual.</div>';
+            suggestBox.classList.add("open");
+          });
+      };
+
+      alamatInput.addEventListener("input", function () {
+        var q = alamatInput.value.trim();
+        window.clearTimeout(suggestTimer);
+        if (q.length < SUGGEST_MIN_CHARS) {
+          closeSuggest();
+          return;
+        }
+        renderSuggestLoading();
+        // Debounce supaya tidak membombardir Nominatim setiap ketukan huruf.
+        suggestTimer = window.setTimeout(function () {
+          searchAddress(q);
+        }, SUGGEST_DEBOUNCE_MS);
+      });
+
+      // Tutup daftar saran kalau pelanggan tap di luar kotak alamat / daftar.
+      document.addEventListener("click", function (ev) {
+        if (ev.target === alamatInput || suggestBox.contains(ev.target)) return;
+        closeSuggest();
+      });
+      alamatInput.addEventListener("keydown", function (ev) {
+        if (ev.key === "Escape") closeSuggest();
+      });
+    }
 
     // Peta Leaflet perlu tahu ukurannya kalau dibuat di dalam elemen
     // yang awalnya masih 0px (mis. di dalam tab/accordion tersembunyi).

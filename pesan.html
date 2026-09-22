@@ -776,8 +776,8 @@
     // Selama ini sinkronisasi cuma satu arah (peta -> kotak alamat, lewat
     // reverse geocoding di updateLocation()). Bagian ini menambah arah
     // sebaliknya: begitu pelanggan MENGETIK alamat, munculkan rekomendasi
-    // alamat nyata (lewat pencarian Nominatim, dibatasi area Jabodetabek
-    // karena itu wilayah layanan NARAYA), dan begitu salah satu dipilih,
+    // alamat nyata (lewat pencarian Nominatim, dibatasi area layanan
+    // NARAYA saat ini), dan begitu salah satu dipilih,
     // peta + pin ikut pindah ke koordinat yang sama persis. Dengan begitu
     // teks yang diketik pelanggan dan titik di peta selalu konsisten.
     const alamatInput = document.getElementById('alamat');
@@ -785,8 +785,10 @@
     let suggestTimer = null;
     let suggestAbort = null;
     let suggestActiveIndex = -1;
-    // Kira-kira mencakup Jakarta, Bogor, Depok, Tangerang, Bekasi.
-    const JABODETABEK_VIEWBOX = '106.20,-5.85,107.20,-6.85';
+    // Kira-kira mencakup area layanan saat ini: Jakarta Selatan, Depok,
+    // Bogor, dan Tangerang Selatan/Pondok Aren. Perkiraan kasar, boleh
+    // disetel lagi kalau area layanan berubah.
+    const SERVICE_AREA_VIEWBOX = '106.55,-6.15,107.00,-6.75';
 
     function closeSuggest() {
       suggestBox.classList.remove('open');
@@ -842,7 +844,7 @@
       if (suggestAbort) suggestAbort.abort();
       suggestAbort = new AbortController();
       try {
-        const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=id&viewbox=${JABODETABEK_VIEWBOX}&bounded=1&limit=5&addressdetails=1`;
+        const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=id&viewbox=${SERVICE_AREA_VIEWBOX}&bounded=1&limit=5&addressdetails=1`;
         const res = await fetch(url, { signal: suggestAbort.signal });
         const data = await res.json();
         renderSuggestResults(data);

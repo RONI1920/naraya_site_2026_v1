@@ -32,26 +32,20 @@
     generic: function () {
       return "Halo NARAYA, saya ingin bertanya tentang jasa sedot WC.";
     },
-    // Dipakai bar promo harga di header (semua halaman).
-    promo: function () {
+    // Dipakai tombol di halaman /harga.html dan tombol "Minta Estimasi"
+    // lainnya di seluruh situs.
+    estimasi: function (layanan) {
       return (
-        "Halo NARAYA, saya lihat promo sedot WC mulai Rp375.000 di website. " +
-        "Mohon info harga dan jadwal untuk lokasi saya."
-      );
-    },
-    // Dipakai tombol di halaman /harga.html.
-    harga: function (layanan) {
-      return (
-        "Halo NARAYA, saya ingin menanyakan harga" +
+        "Halo NARAYA, saya ingin menanyakan estimasi biaya" +
         (layanan ? " untuk layanan " + layanan : " layanan sedot WC") +
-        ". Mohon estimasi biaya dan jadwal terdekat."
+        ". Mohon info biaya dan jadwal terdekat."
       );
     },
     sedotWc: function () {
-      return "Halo NARAYA, saya ingin menggunakan jasa sedot WC (promo mulai Rp375.000). Mohon informasi harga dan jadwal.";
+      return "Halo NARAYA, saya ingin menggunakan jasa sedot WC. Mohon informasi biaya dan jadwal.";
     },
     sedotSepticTank: function () {
-      return "Halo NARAYA, saya ingin menggunakan jasa sedot septic tank (promo mulai Rp375.000). Mohon informasi harga dan jadwal.";
+      return "Halo NARAYA, saya ingin menggunakan jasa sedot septic tank. Mohon informasi biaya dan jadwal.";
     },
     wcMampet: function (area) {
       return (

@@ -91,6 +91,44 @@ grep -rl "narayasanitasisolution.my.id" . | xargs sed -i 's/narayasanitasi\.co\.
 
 ## BAGIAN 2 — APA YANG SUDAH DIKERJAKAN
 
+### Update 2026-09-22: area layanan dipersempit jadi 4, harga dihapus dari situs
+
+Atas permintaan langsung: tim lapangan saat ini hanya realistis menjangkau
+**Jakarta Selatan, Depok, Bogor, dan Tangerang Selatan**. Dan situs tidak lagi
+menampilkan angka harga di mana pun — biaya selalu dikonfirmasi lewat WhatsApp.
+
+- **Halaman area dihapus:** `jakarta-timur.html`, `jakarta-barat.html`,
+  `jakarta-pusat.html`, `jakarta-utara.html`, `bekasi.html`, `tangerang.html`
+  (beserta gambar `assets/img/area/*` masing-masing). Kalau area ini mulai
+  dilayani lagi nanti, halaman lama ada di riwayat git kalau perlu ditulis
+  ulang — jangan langsung dipulihkan mentah-mentah karena kontennya perlu
+  ditinjau ulang dulu (harga, jam, dsb).
+- **Pondok Aren** digabung ke `area-layanan/tangerang-selatan.html` (bukan
+  halaman sendiri) — ditambah FAQ, paragraf, dan `areaServed` schema khusus
+  Pondok Aren di halaman itu.
+- **Semua angka `Rp375.000` dihapus** dari: bar atas semua halaman, beranda,
+  `harga.html` (sekarang jadi halaman "Estimasi Biaya" tanpa angka),
+  badge di halaman layanan & area, footer, template pesan WhatsApp
+  (`assets/js/whatsapp.js`), dan seluruh schema.org (`priceRange`,
+  `priceSpecification`, `offers` di tiap Service dihapus dari JSON-LD —
+  `OfferCatalog` di `harga.html` tetap ada tapi tanpa field harga, jadi
+  sekadar daftar layanan).
+- `assets/js/config.js`: `BUSINESS_SERVICE_AREAS` dipangkas jadi 4 entri,
+  blok `BUSINESS_PRICE_*` / `BUSINESS_PROMO_HEADLINE` dihapus (diganti satu
+  `BUSINESS_PRICE_NOTE` generik tanpa angka).
+- `sitemap.xml`: 6 URL area yang dihapus juga dibuang dari sitemap.
+- `supabase/migrations/003_seed.sql`: seed `service_areas` diganti jadi 4
+  area aktif; 6 area lama disisipkan dengan `is_active = false` (dinonaktifkan,
+  bukan dihapus, supaya lead/reservasi lama yang mereferensikan slug itu
+  tetap valid).
+- `pesan.html`: bounding box Nominatim untuk autocomplete alamat dipersempit
+  dari seluruh Jabodetabek ke perkiraan kasar area 4 kota ini
+  (`SERVICE_AREA_VIEWBOX`) — sesuaikan lagi kalau area berubah.
+
+**Yang sengaja TIDAK diubah:** alamat kantor NARAYA sendiri tetap Jakarta
+Timur (Duren Sawit) — itu lokasi kantor/gudang, bukan klaim area layanan,
+jadi tidak masuk hitungan "area yang dilayani".
+
 ### Rebranding (tuntas, 0 sisa)
 
 Branding lama di situs ini **tidak konsisten**: file konfigurasi menulis
@@ -225,20 +263,43 @@ sekompetitif Jabodetabek sedang melebih-lebihkan.
 
 ---
 
-## BAGIAN 4 — CARA MENGUBAH HARGA NANTI
+## BAGIAN 4 — CARA MENAMPILKAN HARGA LAGI (KALAU SUATU SAAT MAU)
 
-Kalau promo berubah dari Rp375.000:
+Sejak update 2026-09-22, situs ini **sengaja tidak menampilkan angka harga
+di mana pun**. Biaya selalu dikonfirmasi lewat WhatsApp setelah pelanggan
+menjelaskan lokasi dan kondisi (lihat catatan di BAGIAN 2). Kalau nanti
+Anda ingin kembali menampilkan harga mulai di situs, ini titik-titik yang
+perlu diisi ulang:
 
-1. Ubah `BUSINESS_PRICE_STARTING_FROM` dan `BUSINESS_PRICE_DISPLAY` di
-   `assets/js/config.js`
-2. Cari dan ganti teks tampilannya di seluruh situs:
+1. **`assets/js/config.js`** — tambahkan kembali angka & teks harga (mis.
+   `BUSINESS_PRICE_STARTING_FROM`, `BUSINESS_PRICE_DISPLAY`,
+   `BUSINESS_PRICE_LABEL`) di bagian `PRICING / PROMO`. Sekarang bagian itu
+   cuma berisi `BUSINESS_PRICE_NOTE` generik tanpa angka.
+2. **Bar atas (`partials/header.html`)** — teks `.promo-bar__text` saat ini
+   berisi daftar area, bukan harga. Ganti isinya kalau mau menampilkan harga
+   lagi di sana, atau biarkan sebagai info area dan taruh harga di tempat
+   lain.
+3. **`harga.html`** — halaman ini sekarang jadi "Estimasi Biaya" tanpa angka
+   (blok `pricing-anchor`, tiap `pricing-row`, dan FAQ harga sudah ditulis
+   ulang tanpa Rp). Untuk menampilkan angka lagi, isi kembali
+   `pricing-anchor__amount` dan `pricing-row__price` di tiap kartu, lalu
+   sesuaikan ulang FAQ & JSON-LD `FAQPage`-nya.
+4. **Schema.org (JSON-LD)** — kalau mau harga muncul di hasil pencarian
+   Google lagi, tambahkan kembali `priceSpecification` / `offers` dengan
+   `price` dan `priceCurrency` di tiap `Service` yang relevan (dulu ada di
+   `harga.html`, `layanan/*.html`, dan `area-layanan/*.html`, sudah dibuang
+   semua saat update 2026-09-22).
+5. **Template WhatsApp (`assets/js/whatsapp.js`)** — kalau mau pesan
+   prefill menyebut angka harga lagi, edit fungsi template yang relevan
+   (`estimasi`, `sedotWc`, `sedotSepticTank`, dsb).
+6. Periksa ulang tidak ada sisa referensi ke frasa lama yang sudah dihapus:
+   `grep -rn "Jabodetabek\|estimasi via WhatsApp" --include="*.html" .`
+   dan sesuaikan supaya konsisten dengan harga baru yang Anda tampilkan.
 
-```bash
-grep -rl "375.000" --include="*.html" . | xargs sed -i 's/375\.000/ANGKA_BARU/g'
-grep -rl '"375000"' --include="*.html" . | xargs sed -i 's/"375000"/"ANGKA_BARU"/g'
-```
-
-3. Periksa ulang: `grep -rc "375" --include="*.html" .` — harus 0.
+> Kalau angka harganya sama untuk semua layanan (seperti dulu), cara paling
+> cepat tetap: taruh SATU angka di `config.js`, lalu tempel manual ke
+> titik-titik di atas — bukan pakai `sed` masal seperti versi lama, karena
+> sekarang tidak ada lagi placeholder angka yang seragam di seluruh file.
 
 ---
 
@@ -253,10 +314,11 @@ grep -rl '"375000"' --include="*.html" . | xargs sed -i 's/"375000"/"ANGKA_BARU"
   /layanan/wc-mampet.html
   /layanan/septic-tank-penuh.html
   /layanan/sedot-limbah.html
-/area-layanan.html              10 kota Jabodetabek
-  /area-layanan/jakarta-{selatan,timur,barat,pusat,utara}.html
-  /area-layanan/bekasi.html     ★ BARU
-  /area-layanan/{bogor,depok,tangerang,tangerang-selatan}.html
+/area-layanan.html              4 area (lihat catatan update di BAGIAN 2)
+  /area-layanan/jakarta-selatan.html
+  /area-layanan/bogor.html
+  /area-layanan/depok.html
+  /area-layanan/tangerang-selatan.html   termasuk Pondok Aren (tanpa halaman terpisah)
 /blog.html                      1 artikel — perlu ditambah
 /tentang-kami.html              ⚠️ masih placeholder
 /kontak.html

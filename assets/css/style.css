@@ -839,6 +839,47 @@ section { padding: 3rem 0; }
 .form-status--success { color: var(--teal-700); }
 .form-status--error { color: var(--red-flag); }
 
+/* Kotak "Alamat Lengkap" dengan rekomendasi otomatis (sama seperti pesan.html) */
+.form-field.has-suggest { position: relative; }
+.form-field .form-hint {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0.35rem 0 0;
+}
+.suggest-list {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin-top: 4px;
+  background: var(--paper-raised);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+  z-index: 20;
+  overflow-y: auto;
+  max-height: 220px;
+  display: none;
+}
+.suggest-list.open { display: block; }
+.suggest-item {
+  padding: 11px 13px;
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: var(--ink);
+  cursor: pointer;
+  border-bottom: 1px solid var(--line);
+}
+.suggest-item:last-child { border-bottom: none; }
+.suggest-item:hover,
+.suggest-item:active,
+.suggest-item.active { background: var(--surface-tint); }
+.suggest-loading {
+  padding: 10px 13px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
 /* ---------------------------------------------------------------------- */
 /* Location picker (peta titik lokasi di form kontak)                     */
 /* ---------------------------------------------------------------------- */
@@ -921,6 +962,49 @@ section { padding: 3rem 0; }
 .site-footer a { color: #B9CCC6; text-decoration: none; }
 .site-footer a:hover { color: #fff; text-decoration: underline; }
 .footer-grid { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+
+/* Widget "Statistik Pengunjung" (live, data asli dari Supabase sendiri) */
+.traffic-widget {
+  background: var(--paper-raised);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.traffic-widget__list { list-style: none; margin: 0; padding: 0.4rem 0.9rem; }
+.traffic-widget__list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.traffic-widget__list li:last-child { border-bottom: none; }
+.traffic-widget__list li span { color: var(--muted); font-size: 0.85rem; }
+.traffic-widget__list li strong { color: var(--ink); font-size: 1.05rem; font-family: var(--font-head); }
+.traffic-widget__foot {
+  margin: 0;
+  padding: 0.6rem 0.9rem;
+  background: var(--surface-tint);
+  color: var(--teal-700);
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.traffic-widget__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--teal);
+  display: inline-block;
+  animation: traffic-widget-pulse 1.6s ease-in-out infinite;
+}
+@keyframes traffic-widget-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.8); }
+}
 .footer-bottom {
   margin-top: 2.4rem;
   padding-top: 1.4rem;

@@ -116,7 +116,14 @@
       var phone = sanitize(form.phone.value, 20).replace(/[^0-9+]/g, "");
       var service = sanitize(form.service.value, 100);
       var area = sanitize(form.area.value, 100);
-      var message = sanitize(form.message.value, 1000);
+      var alamat = sanitize(form.alamat ? form.alamat.value : "", 500);
+      var messageRaw = sanitize(form.message.value, 1000);
+      // Gabungkan alamat lengkap (kalau diisi) ke depan pesan, sama seperti
+      // pesan.html — supaya tidak perlu kolom baru di tabel `leads`.
+      var message = [alamat ? "Alamat: " + alamat : "", messageRaw]
+        .filter(Boolean)
+        .join("\n\n")
+        .slice(0, 1000);
 
       var preferredDateRaw = form.preferred_date ? form.preferred_date.value : "";
       var preferredTimeSlotRaw = form.preferred_time_slot

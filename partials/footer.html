@@ -60,6 +60,29 @@
           </a>
         </div>
       </div>
+
+      <!--
+        Statistik pengunjung "live" — datanya asli dari Supabase milik
+        situs sendiri (lihat assets/js/traffic-widget.js), bukan widget
+        pihak ketiga. Disembunyikan (hidden) sampai data pertama berhasil
+        dimuat, supaya tidak sempat menampilkan angka kosong/salah.
+      -->
+      <div>
+        <h4>Statistik Pengunjung</h4>
+        <div class="traffic-widget" id="traffic-widget" hidden>
+          <ul class="traffic-widget__list">
+            <li><span>Hari ini</span><strong data-tw="today">&ndash;</strong></li>
+            <li><span>Kemarin</span><strong data-tw="yesterday">&ndash;</strong></li>
+            <li><span>Minggu ini</span><strong data-tw="week">&ndash;</strong></li>
+            <li><span>Bulan ini</span><strong data-tw="month">&ndash;</strong></li>
+            <li><span>Semua</span><strong data-tw="all">&ndash;</strong></li>
+          </ul>
+          <p class="traffic-widget__foot">
+            <span class="traffic-widget__dot" aria-hidden="true"></span>
+            <span data-tw="online">0</span> Online &middot; Live
+          </p>
+        </div>
+      </div>
     </div>
 
     <div class="footer-bottom">

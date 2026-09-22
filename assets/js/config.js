@@ -50,7 +50,7 @@ window.SITE_CONFIG = Object.freeze({
   BUSINESS_NAME_FULL: "NARAYA Sedot WC & Solusi Sanitasi",
   // BUSINESS_LEGAL_NAME: "CV Naraya Solusi Sanitasi", // ⚠️ ganti kalau badan usaha berbeda
   BUSINESS_DESCRIPTION:
-    "NARAYA Sedot WC & Solusi Sanitasi — jasa sedot WC, sedot septic tank, WC mampet, dan sedot limbah untuk rumah, kos, ruko, kantor, dan tempat usaha di seluruh Jabodetabek. Harga transparan mulai Rp375.000.",
+    "NARAYA Sedot WC & Solusi Sanitasi — jasa sedot WC, sedot septic tank, WC mampet, dan sedot limbah untuk rumah, kos, ruko, kantor, dan tempat usaha di Jakarta Selatan, Depok, Bogor, dan Tangerang Selatan (termasuk Pondok Aren). Biaya dikonfirmasi via WhatsApp sebelum teknisi berangkat.",
   BUSINESS_YEAR_ESTABLISHED: 2026,
 
   // ---- CONTACT ------------------------------------------------------
@@ -89,29 +89,17 @@ window.SITE_CONFIG = Object.freeze({
   // Keep this list to areas the business genuinely, reliably services.
   BUSINESS_SERVICE_AREAS: [
     { slug: "jakarta-selatan", name: "Jakarta Selatan" },
-    { slug: "jakarta-timur", name: "Jakarta Timur" },
-    { slug: "jakarta-barat", name: "Jakarta Barat" },
-    { slug: "jakarta-pusat", name: "Jakarta Pusat" },
-    { slug: "jakarta-utara", name: "Jakarta Utara" },
-    { slug: "bogor", name: "Bogor" },
     { slug: "depok", name: "Depok" },
-    { slug: "tangerang", name: "Tangerang" },
-    { slug: "tangerang-selatan", name: "Tangerang Selatan" },
-    { slug: "bekasi", name: "Bekasi" },
+    { slug: "bogor", name: "Bogor" },
+    { slug: "tangerang-selatan", name: "Tangerang Selatan" }, // termasuk Pondok Aren
   ],
 
   // ---- PRICING / PROMO --------------------------------------------------
-  // Harga promo yang ditampilkan di seluruh situs + schema.org Offer.
-  // Ubah SATU angka di sini, seluruh halaman ikut berubah.
-  BUSINESS_PRICE_STARTING_FROM: 375000,
-  BUSINESS_PRICE_CURRENCY: "IDR",
-  // Teks siap-tampil (dipakai badge promo di header, hero, dan kartu harga).
-  BUSINESS_PRICE_DISPLAY: "Rp375.000",
-  BUSINESS_PRICE_LABEL: "Mulai Rp375.000",
-  BUSINESS_PROMO_HEADLINE: "Promo Sedot WC Jabodetabek — Mulai Rp375.000",
-  // Catatan wajib agar klaim harga tetap jujur & tidak memicu komplain.
+  // Situs TIDAK menampilkan angka harga di mana pun (lihat harga.html).
+  // Biaya selalu dikonfirmasi lewat WhatsApp berdasarkan lokasi, akses,
+  // dan kondisi lapangan. Catatan siap-tampil untuk konteks itu:
   BUSINESS_PRICE_NOTE:
-    "Harga mulai Rp375.000 berlaku untuk penyedotan standar di area terjangkau. Biaya akhir dikonfirmasi via WhatsApp sebelum teknisi berangkat.",
+    "Biaya bergantung pada volume, akses lokasi, dan kondisi di lapangan, dan dikonfirmasi via WhatsApp sebelum teknisi berangkat.",
 
   // ---- SOCIAL / SAMEAS ---------------------------------------------------
   BUSINESS_INSTAGRAM: "", // e.g. "https://instagram.com/xxx" or "" to hide

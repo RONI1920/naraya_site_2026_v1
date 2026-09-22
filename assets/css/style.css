@@ -1204,8 +1204,8 @@ hr.rule { border: none; border-top: 1px solid var(--line); margin: 2rem 0; }
 body { max-width: 100%; }
 
 
-/* Bar promo di layar kecil: buang klausa penjelas supaya tidak memakan
-   tiga baris di layar pertama. Angka harga tetap tampil. */
+/* Bar info area di layar kecil: buang klausa penjelas supaya tidak memakan
+   tiga baris di layar pertama. Nama area tetap tampil. */
 @media (max-width: 699px) {
   .promo-bar { padding: 0.45rem 0; font-size: 0.78rem; }
     .promo-bar .container { gap: 0.35rem 0.5rem; }
@@ -1213,17 +1213,17 @@ body { max-width: 100%; }
 }
 
 @media (max-width: 699px) {
-  /* Teks dipadatkan jadi "Sedot WC mulai Rp375.000" supaya bar promo
-     cukup satu baris dan tidak memakan layar pertama di HP. */
+  /* Teks dipadatkan jadi nama area saja supaya bar cukup satu baris
+     dan tidak memakan layar pertama di HP. */
     .promo-bar__cta { font-size: 0.78rem; }
 }
 
 
 /* ---------------------------------------------------------------------- */
-/* Bar promo — tiga tingkat panjang teks, supaya selalu ringkas            */
-/*   < 700px  : "Sedot WC mulai Rp375.000"                                */
-/*   < 1000px : + "& septic tank Jabodetabek"                             */
-/*   >=1000px : + klausa "harga dikonfirmasi sebelum teknisi berangkat"   */
+/* Bar info area — tiga tingkat panjang teks, supaya selalu ringkas        */
+/*   < 700px  : "Jakarta Selatan, Depok, Bogor & Tangerang Selatan"       */
+/*   < 1000px : + "(termasuk Pondok Aren)"                                */
+/*   >=1000px : + klausa "biaya dikonfirmasi sebelum teknisi berangkat"   */
 /* ---------------------------------------------------------------------- */
 @media (max-width: 999px) {
   .promo-bar__note { display: none; }

@@ -18,14 +18,27 @@ on conflict (slug) do update set
   seo_title = excluded.seo_title,
   seo_description = excluded.seo_description;
 
+-- Area yang masih dilayani. Tangerang Selatan mencakup Pondok Aren (tidak
+-- punya halaman/slug terpisah — digabung ke halaman Tangerang Selatan).
 insert into service_areas (slug, name, city, province, is_active) values
   ('jakarta-selatan', 'Jakarta Selatan', 'Jakarta Selatan', 'DKI Jakarta', true),
-  ('jakarta-timur', 'Jakarta Timur', 'Jakarta Timur', 'DKI Jakarta', true),
-  ('jakarta-barat', 'Jakarta Barat', 'Jakarta Barat', 'DKI Jakarta', true),
-  ('jakarta-pusat', 'Jakarta Pusat', 'Jakarta Pusat', 'DKI Jakarta', true),
-  ('jakarta-utara', 'Jakarta Utara', 'Jakarta Utara', 'DKI Jakarta', true)
+  ('depok', 'Depok', 'Depok', 'Jawa Barat', true),
+  ('bogor', 'Bogor', 'Bogor', 'Jawa Barat', true),
+  ('tangerang-selatan', 'Tangerang Selatan', 'Tangerang Selatan', 'Banten', true)
 on conflict (slug) do update set
   name = excluded.name, city = excluded.city, province = excluded.province, is_active = excluded.is_active;
+
+-- Area yang sudah tidak dilayani lagi: dinonaktifkan, bukan dihapus, supaya
+-- histori lead/reservasi lama yang mereferensikan slug ini tetap valid.
+insert into service_areas (slug, name, city, province, is_active) values
+  ('jakarta-timur', 'Jakarta Timur', 'Jakarta Timur', 'DKI Jakarta', false),
+  ('jakarta-barat', 'Jakarta Barat', 'Jakarta Barat', 'DKI Jakarta', false),
+  ('jakarta-pusat', 'Jakarta Pusat', 'Jakarta Pusat', 'DKI Jakarta', false),
+  ('jakarta-utara', 'Jakarta Utara', 'Jakarta Utara', 'DKI Jakarta', false),
+  ('tangerang', 'Tangerang', 'Tangerang', 'Banten', false),
+  ('bekasi', 'Bekasi', 'Bekasi', 'Jawa Barat', false)
+on conflict (slug) do update set
+  name = excluded.name, city = excluded.city, province = excluded.province, is_active = false;
 
 insert into faqs (question, answer, category, is_published, sort_order) values
   ('Berapa harga sedot WC?', 'Harga tergantung lokasi, akses, dan volume yang perlu disedot. Chat WhatsApp untuk estimasi sebelum teknisi datang.', 'umum', true, 1),

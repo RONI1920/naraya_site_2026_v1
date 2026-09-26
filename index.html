@@ -45,7 +45,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/style.min.css" />
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -276,10 +276,16 @@
 
     <!-- HERO -->
     <section class="hero">
-      <img class="hero__bg" src="assets/img/hero-banner.jpg" alt="" aria-hidden="true" loading="eager"
+      <img class="hero__bg" src="assets/img/hero-banner-800.webp"
+        srcset="assets/img/hero-banner-800.webp 800w, assets/img/hero-banner.webp 1000w"
+        sizes="100vw" alt="" aria-hidden="true" loading="eager" fetchpriority="high"
         onload="this.classList.add('is-loaded')">
-      <img class="hero__bg" src="assets/img/hero-banner1.jpg" alt="" aria-hidden="true" loading="lazy">
-      <img class="hero__bg" src="assets/img/hero-banner2.jpg" alt="" aria-hidden="true" loading="lazy">
+      <img class="hero__bg" src="assets/img/hero-banner1-800.webp"
+        srcset="assets/img/hero-banner1-800.webp 800w, assets/img/hero-banner1.webp 1600w"
+        sizes="100vw" alt="" aria-hidden="true" loading="lazy">
+      <img class="hero__bg" src="assets/img/hero-banner2-800.webp"
+        srcset="assets/img/hero-banner2-800.webp 800w, assets/img/hero-banner2.webp 1600w"
+        sizes="100vw" alt="" aria-hidden="true" loading="lazy">
       <div class="hero__scrim" aria-hidden="true"></div>
       <div class="container">
         <div>
@@ -290,7 +296,7 @@
             Aren). Biaya dikonfirmasi lewat WhatsApp
             sebelum teknisi berangkat.</p>
           <div class="btn-row">
-            <a href="https://wa.me/6282298056092?text=Halo%20NARAYA%2C%20saya%20mau%20tanya%20soal%20jasa%20sedot%20WC">Chat
+            <a href="#" data-wa-message="generic" data-wa-context="hero-lead">Chat
               WhatsApp Sekarang</a>
             <a href="tel:+6285117419206" class="btn btn--ghost" data-context="hero">Telepon Sekarang</a>
           </div>
@@ -302,27 +308,6 @@
         </div>
 
         <div class="hero__visual">
-          <figure class="hero__art">
-            <svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg" role="img"
-              aria-label="Ilustrasi truk sedot WC dan septic tank">
-              <line x1="0" y1="112" x2="320" y2="112" stroke="var(--line)" stroke-width="2" />
-              <rect x="8" y="52" width="58" height="48" fill="none" stroke="var(--ink)" stroke-width="3" />
-              <rect x="18" y="60" width="22" height="20" fill="none" stroke="var(--ink)" stroke-width="2" />
-              <rect x="66" y="38" width="176" height="62" rx="6" fill="none" stroke="var(--teal-700)"
-                stroke-width="3" />
-              <line x1="108" y1="38" x2="108" y2="100" stroke="var(--teal-700)" stroke-width="2" />
-              <line x1="150" y1="38" x2="150" y2="100" stroke="var(--teal-700)" stroke-width="2" />
-              <line x1="192" y1="38" x2="192" y2="100" stroke="var(--teal-700)" stroke-width="2" />
-              <path d="M242 90 Q 268 90 268 108" fill="none" stroke="var(--amber-700)" stroke-width="4"
-                stroke-linecap="round" />
-              <circle cx="34" cy="106" r="13" fill="var(--paper-raised)" stroke="var(--ink)" stroke-width="3" />
-              <circle cx="128" cy="106" r="13" fill="var(--paper-raised)" stroke="var(--ink)" stroke-width="3" />
-              <circle cx="210" cy="106" r="13" fill="var(--paper-raised)" stroke="var(--ink)" stroke-width="3" />
-              <path d="M292 58c0 7-6.5 7-6.5 0 0-5 6.5-12 6.5-12s6.5 7 6.5 12c0 7-6.5 7-6.5 0z" fill="var(--amber)" />
-            </svg>
-            <figcaption>Ilustrasi — bukan foto armada sebenarnya</figcaption>
-          </figure>
-
           <!-- <div class="hero__badge">
           <span class="hero__badge-icon">★★★★★</span>
           <span class="hero__badge-text">Dipercaya pelanggan di Jaksel, Depok, Bogor &amp; Tangsel</span>
@@ -506,8 +491,8 @@
 
           <div>
             <div class="photo-slot">
-              <img class="photo-slot__img" src="assets/img/trust-photo.jpg" alt="Armada dan teknisi NARAYA"
-                loading="lazy" onload="this.classList.add('is-loaded')">
+              <img class="photo-slot__img" src="assets/img/trust-photo.webp" alt="Armada dan teknisi NARAYA"
+                width="1200" height="675" loading="lazy" onload="this.classList.add('is-loaded')">
 
               <div class="photo-slot__placeholder">
                 <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -698,7 +683,7 @@
     <a class="sticky-cta__tel" href="tel:+6285117419206" data-context="sticky-bar">Telepon</a>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="assets/js/config.js"></script>
   <script src="assets/js/include-header.js"></script>
   <script src="assets/js/include-footer.js"></script>
@@ -706,9 +691,9 @@
   <script src="assets/js/whatsapp.js"></script>
   <script src="assets/js/consent.js"></script>
   <script src="assets/js/hero-slider.js"></script>
-  <script src="assets/js/supabase-client.js"></script>
-  <script src="assets/js/traffic-widget.js"></script>
-  <script src="assets/js/testimonials.js"></script>
+  <script defer src="assets/js/supabase-client.js"></script>
+  <script defer src="assets/js/traffic-widget.js"></script>
+  <script defer src="assets/js/testimonials.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 

@@ -597,13 +597,13 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <!-- Sumber konfigurasi tunggal: sama persis dengan yang dipakai kontak.html.
      Kalau URL/anon key Supabase berubah, cukup ubah di assets/js/config.js
      dan otomatis ikut berubah di sini juga (tidak ada key duplikat lagi). -->
   <script src="assets/js/config.js"></script>
   <script src="assets/js/analytics.js"></script>
-  <script src="assets/js/supabase-client.js"></script>
+  <script defer src="assets/js/supabase-client.js"></script>
   <script>
     // ====== Halaman ini sengaja berdiri sendiri (tanpa header/nav situs) ======
     // karena memang dibagikan lewat link chat WhatsApp — fokus cuma untuk isi

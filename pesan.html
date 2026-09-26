@@ -602,6 +602,7 @@
      Kalau URL/anon key Supabase berubah, cukup ubah di assets/js/config.js
      dan otomatis ikut berubah di sini juga (tidak ada key duplikat lagi). -->
   <script src="assets/js/config.js"></script>
+  <script src="assets/js/analytics.js"></script>
   <script src="assets/js/supabase-client.js"></script>
   <script>
     // ====== Halaman ini sengaja berdiri sendiri (tanpa header/nav situs) ======
@@ -993,6 +994,10 @@
         }
         const { error } = await window.sb.from(SUPABASE_TABLE).insert([payload]);
         if (error) throw error;
+
+        if (typeof window.trackEvent === 'function') {
+          window.trackEvent('lead_form_submit', { service: payload.service, source_page: 'pesan.html' });
+        }
 
         setThrottle();
         document.getElementById('order-form').style.display = 'none';

@@ -4,7 +4,6 @@ Allow: /
 Disallow: /admin
 Disallow: /admin/
 Disallow: /supabase/
-Disallow: /partials/
 Disallow: /*?*utm_
 
 # Izinkan aset agar Google bisa me-render halaman dengan benar.

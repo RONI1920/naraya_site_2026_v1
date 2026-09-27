@@ -108,7 +108,27 @@
     if (el) el.textContent = value;
   }
 
-  function refreshCounts(sb, widget) {
+  var CHART_MAX_PX = 40; // tinggi bar maksimum dalam px (di dalam container 64px)
+  var CHART_MIN_PX = 4; // tinggi bar minimum, supaya nilai 0 tetap terlihat jelas (bukan cuma garis nyaris tak kasat mata)
+
+  // Grafik batang ringkas (Hari ini/Kemarin/Minggu ini/Bulan ini) di atas
+  // heading "Statistik Pengunjung". Dibuat dengan style inline (bukan
+  // menambah CSS/JS library baru) memakai angka yang SAMA dari
+  // refreshCounts, supaya tidak ada query tambahan ke Supabase.
+  function renderChart(chartEl, values) {
+    if (!chartEl) return;
+    var max = Math.max(values.today, values.yesterday, values.week, values.month, 1);
+    ["today", "yesterday", "week", "month"].forEach(function (key) {
+      var raw = values[key] || 0;
+      var px = Math.max(CHART_MIN_PX, Math.round((raw / max) * CHART_MAX_PX));
+      var fillEl = chartEl.querySelector('[data-tw-chart-fill="' + key + '"]');
+      if (fillEl) fillEl.style.height = px + "px";
+      var valEl = chartEl.querySelector('[data-tw-chart-val="' + key + '"]');
+      if (valEl) valEl.textContent = formatCount(raw);
+    });
+  }
+
+  function refreshCounts(sb, widget, chartEl) {
     var todayStart = startOfLocalDayIso(0);
     var yesterdayStart = startOfLocalDayIso(1);
     var weekStart = startOfWeekIso();
@@ -130,11 +150,20 @@
         setText(widget, "all", formatCount(results[4]));
         setText(widget, "online", String(results[5]));
         widget.hidden = false;
+
+        renderChart(chartEl, {
+          today: results[0],
+          yesterday: results[1],
+          week: results[2],
+          month: results[3],
+        });
+        if (chartEl) chartEl.hidden = false;
       })
       .catch(function () {
-        // Gagal ambil data -> sembunyikan widget saja, jangan tampilkan
+        // Gagal ambil data -> sembunyikan widget & chart, jangan tampilkan
         // angka kosong/menyesatkan.
         widget.hidden = true;
+        if (chartEl) chartEl.hidden = true;
       });
   }
 
@@ -151,13 +180,24 @@
       .catch(function () {});
   }
 
+  var initialized = false;
+
   function init() {
+    // Guard: cegah double-init kalau init() sempat terpanggil dua kali
+    // (lihat catatan race condition di bawah) -> mencegah heartbeat
+    // interval dobel dan page_views tercatat dua kali per page load.
+    if (initialized) return;
+
     var widget = document.getElementById("traffic-widget");
     if (!widget) return;
+    var chartEl = document.getElementById("traffic-widget-chart");
     if (!window.sb) {
       widget.hidden = true;
+      if (chartEl) chartEl.hidden = true;
       return;
     }
+    initialized = true;
+
     var sb = window.sb;
     var sessionId = getSessionId();
 
@@ -167,15 +207,18 @@
       sendHeartbeat(sb, sessionId);
     }, HEARTBEAT_MS);
 
-    refreshCounts(sb, widget);
+    refreshCounts(sb, widget, chartEl);
     // Refresh berkala supaya angka terlihat "hidup" tanpa perlu reload
     // halaman, terutama untuk angka Online.
     window.setInterval(function () {
-      refreshCounts(sb, widget);
+      refreshCounts(sb, widget, chartEl);
     }, HEARTBEAT_MS);
   }
 
   // Footer (tempat #traffic-widget berada) dimuat async lewat fetch
   // (lihat include-footer.js) dan baru siap saat event ini terpicu.
   document.addEventListener("footer:ready", init);
+  if (document.getElementById("traffic-widget")) {
+    init();
+  }
 })();

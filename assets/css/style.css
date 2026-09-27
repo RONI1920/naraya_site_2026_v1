@@ -1244,6 +1244,25 @@ hr.rule { border: none; border-top: 1px solid var(--line); margin: 2rem 0; }
 /* NARAYA — Penyesuaian footer (kolom bertambah + blok harga)             */
 /* ---------------------------------------------------------------------- */
 .footer-grid { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+
+/* Kolom "Kontak" dan "Statistik Pengunjung" dibungkus bareng dalam
+   .footer-grid__pair (lihat partials/footer.html) supaya tinggi
+   keduanya HANYA ditentukan oleh mereka berdua -- sebelumnya grid
+   menstretch semua 6 kolom footer ke tinggi kolom PALING tinggi
+   (paragraf "NARAYA" yang panjang), jadi walau sudah didorong ke
+   bawah, widget tetap terlihat jauh dari tombol "Petunjuk Arah"
+   karena baris acuannya salah. Dengan dibungkus terpisah, tinggi
+   pasangan ini cuma mengikuti yang lebih tinggi di antara Kontak
+   (peta + tombol) dan Statistik (chart + widget), lalu Statistik
+   didorong ke bawah supaya baris "Online" sejajar pas dengan
+   tombol "Petunjuk Arah". */
+.footer-grid > div.footer-grid__pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 2rem;
+}
+.footer-grid__pair > div { display: flex; flex-direction: column; }
+.footer-grid__pair > div:last-child { justify-content: flex-end; }
 .footer-tagline {
   color: var(--teal);
   font-weight: 700;

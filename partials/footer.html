@@ -31,56 +31,102 @@
         <p><a href="/blog.html">Blog</a></p>
         <p><a href="/kontak.html">Kontak</a></p>
       </div>
-      <div>
-        <h4>Kontak</h4>
-        <!-- Nomor diisi otomatis dari SITE_CONFIG.BUSINESS_PHONE (assets/js/config.js) oleh include-footer.js -->
-        <p>Telepon: <a href="#" data-config-phone></a></p>
-        <p>WhatsApp: <a href="#" data-wa-message="generic" data-wa-context="footer">Chat Sekarang</a></p>
-        <p>Jam operasional: setiap hari, 07.00&ndash;21.00</p>
-        <p>Alamat: Jl. A Tanah 80, Duren Sawit, Jakarta Timur</p>
-
-        <!--
-          Peta kantor (kecil). Koordinat HARUS sama dengan BUSINESS_LATITUDE /
-          BUSINESS_LONGITUDE di assets/js/config.js.
-          - iframe lazy: baru dimuat saat footer hampir terlihat.
-          - Lapisan .footer-map__overlay menutupi iframe supaya di HP jari tidak
-            "nyangkut" di peta saat scroll; diketuk = buka Google Maps.
-        -->
-        <div class="footer-map">
-          <div class="footer-map__frame">
-            <iframe src="https://www.google.com/maps?q=-6.219763,106.9003752&amp;z=17&amp;output=embed" loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade" tabindex="-1"
-              title="Peta lokasi kantor NARAYA di Google Maps"></iframe>
-            <a class="footer-map__overlay" tabindex="-1" aria-hidden="true" target="_blank" rel="noopener"
-              href="https://www.google.com/maps/place/Jl.+A+Tanah+80,+RW.8,+Klender,+Kec.+Duren+Sawit,+Kota+Jakarta+Timur,+Daerah+Khusus+Ibukota+Jakarta+13470/@-6.2197697,106.9003993,21z/data=!4m6!3m5!1s0x2e69f359f90f6213:0x264df22866fce177!8m2!3d-6.219763!4d106.9003752!16s%2Fg%2F1hm5q6_fr"></a>
-          </div>
-          <a class="footer-map__btn" target="_blank" rel="noopener"
-            href="https://www.google.com/maps/dir/?api=1&amp;destination=-6.219763,106.9003752">
-            &#128205; Petunjuk Arah
-          </a>
-        </div>
-      </div>
 
       <!--
-        Statistik pengunjung "live" — datanya asli dari Supabase milik
-        situs sendiri (lihat assets/js/traffic-widget.js), bukan widget
-        pihak ketiga. Disembunyikan (hidden) sampai data pertama berhasil
-        dimuat, supaya tidak sempat menampilkan angka kosong/salah.
+        Kontak + Statistik Pengunjung dibungkus dalam .footer-grid__pair
+        supaya tingginya HANYA ditentukan oleh dua kolom ini berdua
+        (bukan oleh kolom "NARAYA" dkk yang isinya lebih panjang).
+        Ini membuat baris "Online" pada widget bisa benar-benar sejajar
+        dengan tombol "Petunjuk Arah", bukan sejajar dengan kolom lain
+        yang lebih tinggi. Lihat aturan .footer-grid__pair di style.css.
       -->
-      <div>
-        <h4>Statistik Pengunjung</h4>
-        <div class="traffic-widget" id="traffic-widget" hidden>
-          <ul class="traffic-widget__list">
-            <li><span>Hari ini</span><strong data-tw="today">&ndash;</strong></li>
-            <li><span>Kemarin</span><strong data-tw="yesterday">&ndash;</strong></li>
-            <li><span>Minggu ini</span><strong data-tw="week">&ndash;</strong></li>
-            <li><span>Bulan ini</span><strong data-tw="month">&ndash;</strong></li>
-            <li><span>Semua</span><strong data-tw="all">&ndash;</strong></li>
-          </ul>
-          <p class="traffic-widget__foot">
-            <span class="traffic-widget__dot" aria-hidden="true"></span>
-            <span data-tw="online">0</span> Online &middot; Live
-          </p>
+      <div class="footer-grid__pair">
+        <div>
+          <h4>Kontak</h4>
+          <!-- Nomor diisi otomatis dari SITE_CONFIG.BUSINESS_PHONE (assets/js/config.js) oleh include-footer.js -->
+          <p>Telepon: <a href="#" data-config-phone></a></p>
+          <p>WhatsApp: <a href="#" data-wa-message="generic" data-wa-context="footer">Chat Sekarang</a></p>
+          <p>Jam operasional: setiap hari, 07.00&ndash;21.00</p>
+          <p>Alamat: Jl. A Tanah 80, Duren Sawit, Jakarta Timur</p>
+
+          <!--
+            Peta kantor (kecil). Koordinat HARUS sama dengan BUSINESS_LATITUDE /
+            BUSINESS_LONGITUDE di assets/js/config.js.
+            - iframe lazy: baru dimuat saat footer hampir terlihat.
+            - Lapisan .footer-map__overlay menutupi iframe supaya di HP jari tidak
+              "nyangkut" di peta saat scroll; diketuk = buka Google Maps.
+          -->
+          <div class="footer-map">
+            <div class="footer-map__frame">
+              <iframe src="https://www.google.com/maps?q=-6.219763,106.9003752&amp;z=17&amp;output=embed" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade" tabindex="-1"
+                title="Peta lokasi kantor NARAYA di Google Maps"></iframe>
+              <a class="footer-map__overlay" tabindex="-1" aria-hidden="true" target="_blank" rel="noopener"
+                href="https://www.google.com/maps/place/Jl.+A+Tanah+80,+RW.8,+Klender,+Kec.+Duren+Sawit,+Kota+Jakarta+Timur,+Daerah+Khusus+Ibukota+Jakarta+13470/@-6.2197697,106.9003993,21z/data=!4m6!3m5!1s0x2e69f359f90f6213:0x264df22866fce177!8m2!3d-6.219763!4d106.9003752!16s%2Fg%2F1hm5q6_fr"></a>
+            </div>
+            <a class="footer-map__btn" target="_blank" rel="noopener"
+              href="https://www.google.com/maps/dir/?api=1&amp;destination=-6.219763,106.9003752">
+              &#128205; Petunjuk Arah
+            </a>
+          </div>
+        </div>
+
+        <!--
+          Statistik pengunjung "live" — datanya asli dari Supabase milik
+          situs sendiri (lihat assets/js/traffic-widget.js), bukan widget
+          pihak ketiga. Disembunyikan (hidden) sampai data pertama berhasil
+          dimuat, supaya tidak sempat menampilkan angka kosong/salah.
+        -->
+        <div>
+          <!-- Grafik ringkas Hari ini/Kemarin/Minggu ini/Bulan ini. Style
+               inline sengaja dipakai (bukan style.min.css) supaya tidak
+               menyentuh CSS global. Disembunyikan sampai data pertama
+               berhasil dimuat, sama seperti widget angka di bawahnya. -->
+          <div class="traffic-widget__chart" id="traffic-widget-chart" hidden
+            style="display:flex;align-items:flex-end;gap:10px;height:64px;margin:0 0 14px;">
+            <div data-tw-chart-col="today"
+              style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;flex:1;height:100%;">
+              <span data-tw-chart-val="today" style="font-size:11px;line-height:1.2;opacity:.85;margin-bottom:3px;">0</span>
+              <span data-tw-chart-fill="today"
+                style="display:block;width:100%;max-width:20px;height:2px;background:var(--teal,#10A28F);border-radius:3px 3px 0 0;opacity:1;transition:height .4s ease;"></span>
+              <span style="font-size:10px;line-height:1.2;opacity:.6;margin-top:5px;white-space:nowrap;">Hari ini</span>
+            </div>
+            <div data-tw-chart-col="yesterday"
+              style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;flex:1;height:100%;">
+              <span data-tw-chart-val="yesterday" style="font-size:11px;line-height:1.2;opacity:.85;margin-bottom:3px;">0</span>
+              <span data-tw-chart-fill="yesterday"
+                style="display:block;width:100%;max-width:20px;height:2px;background:var(--teal,#10A28F);border-radius:3px 3px 0 0;opacity:1;transition:height .4s ease;"></span>
+              <span style="font-size:10px;line-height:1.2;opacity:.6;margin-top:5px;white-space:nowrap;">Kemarin</span>
+            </div>
+            <div data-tw-chart-col="week"
+              style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;flex:1;height:100%;">
+              <span data-tw-chart-val="week" style="font-size:11px;line-height:1.2;opacity:.85;margin-bottom:3px;">0</span>
+              <span data-tw-chart-fill="week"
+                style="display:block;width:100%;max-width:20px;height:2px;background:var(--teal,#10A28F);border-radius:3px 3px 0 0;opacity:1;transition:height .4s ease;"></span>
+              <span style="font-size:10px;line-height:1.2;opacity:.6;margin-top:5px;white-space:nowrap;">Minggu ini</span>
+            </div>
+            <div data-tw-chart-col="month"
+              style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;flex:1;height:100%;">
+              <span data-tw-chart-val="month" style="font-size:11px;line-height:1.2;opacity:.85;margin-bottom:3px;">0</span>
+              <span data-tw-chart-fill="month"
+                style="display:block;width:100%;max-width:20px;height:2px;background:var(--teal,#10A28F);border-radius:3px 3px 0 0;opacity:1;transition:height .4s ease;"></span>
+              <span style="font-size:10px;line-height:1.2;opacity:.6;margin-top:5px;white-space:nowrap;">Bulan ini</span>
+            </div>
+          </div>
+          <h4>Statistik Pengunjung</h4>
+          <div class="traffic-widget" id="traffic-widget" hidden>
+            <ul class="traffic-widget__list">
+              <li><span>Hari ini</span><strong data-tw="today">&ndash;</strong></li>
+              <li><span>Kemarin</span><strong data-tw="yesterday">&ndash;</strong></li>
+              <li><span>Minggu ini</span><strong data-tw="week">&ndash;</strong></li>
+              <li><span>Bulan ini</span><strong data-tw="month">&ndash;</strong></li>
+              <li><span>Semua</span><strong data-tw="all">&ndash;</strong></li>
+            </ul>
+            <p class="traffic-widget__foot">
+              <span class="traffic-widget__dot" aria-hidden="true"></span>
+              <span data-tw="online">0</span> Online &middot; Live
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -93,7 +139,7 @@
 
       <span>
         <a href="/privacy-policy.html">Kebijakan Privasi</a>
-        ·
+        &middot;
         <a href="/terms.html">Syarat &amp; Ketentuan</a>
       </span>
 

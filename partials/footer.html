@@ -78,51 +78,49 @@
           dimuat, supaya tidak sempat menampilkan angka kosong/salah.
         -->
         <div>
-          <!-- Grafik ringkas Hari ini/Kemarin/Minggu ini/Bulan ini. Style
-               inline sengaja dipakai (bukan style.min.css) supaya tidak
-               menyentuh CSS global. Disembunyikan sampai data pertama
-               berhasil dimuat, sama seperti widget angka di bawahnya. -->
-          <div class="traffic-widget__chart" id="traffic-widget-chart" hidden
-            style="display:flex;align-items:flex-end;gap:10px;height:64px;margin:0 0 14px;">
-            <div data-tw-chart-col="today"
-              style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;flex:1;height:100%;">
-              <span data-tw-chart-val="today" style="font-size:11px;line-height:1.2;opacity:.85;margin-bottom:3px;">0</span>
-              <span data-tw-chart-fill="today"
-                style="display:block;width:100%;max-width:20px;height:2px;background:var(--teal,#10A28F);border-radius:3px 3px 0 0;opacity:1;transition:height .4s ease;"></span>
-              <span style="font-size:10px;line-height:1.2;opacity:.6;margin-top:5px;white-space:nowrap;">Hari ini</span>
-            </div>
-            <div data-tw-chart-col="yesterday"
-              style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;flex:1;height:100%;">
-              <span data-tw-chart-val="yesterday" style="font-size:11px;line-height:1.2;opacity:.85;margin-bottom:3px;">0</span>
-              <span data-tw-chart-fill="yesterday"
-                style="display:block;width:100%;max-width:20px;height:2px;background:var(--teal,#10A28F);border-radius:3px 3px 0 0;opacity:1;transition:height .4s ease;"></span>
-              <span style="font-size:10px;line-height:1.2;opacity:.6;margin-top:5px;white-space:nowrap;">Kemarin</span>
-            </div>
-            <div data-tw-chart-col="week"
-              style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;flex:1;height:100%;">
-              <span data-tw-chart-val="week" style="font-size:11px;line-height:1.2;opacity:.85;margin-bottom:3px;">0</span>
-              <span data-tw-chart-fill="week"
-                style="display:block;width:100%;max-width:20px;height:2px;background:var(--teal,#10A28F);border-radius:3px 3px 0 0;opacity:1;transition:height .4s ease;"></span>
-              <span style="font-size:10px;line-height:1.2;opacity:.6;margin-top:5px;white-space:nowrap;">Minggu ini</span>
-            </div>
-            <div data-tw-chart-col="month"
-              style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;flex:1;height:100%;">
-              <span data-tw-chart-val="month" style="font-size:11px;line-height:1.2;opacity:.85;margin-bottom:3px;">0</span>
-              <span data-tw-chart-fill="month"
-                style="display:block;width:100%;max-width:20px;height:2px;background:var(--teal,#10A28F);border-radius:3px 3px 0 0;opacity:1;transition:height .4s ease;"></span>
-              <span style="font-size:10px;line-height:1.2;opacity:.6;margin-top:5px;white-space:nowrap;">Bulan ini</span>
-            </div>
-          </div>
+          <!-- Kartu daftar "Statistik Pengunjung" (Hari ini/Kemarin/Minggu
+               ini/Bulan ini/Semua) SENGAJA dihapus atas permintaan pemilik
+               situs — 4 dari 5 angkanya duplikat dengan grafik batang di
+               bawah ini. #traffic-widget sekarang membungkus grafik +
+               baris Online/Live saja. data-tw="online" dan id
+               traffic-widget/traffic-widget-chart dipertahankan persis
+               supaya assets/js/traffic-widget.js TIDAK perlu diubah. -->
           <h4>Statistik Pengunjung</h4>
-          <div class="traffic-widget" id="traffic-widget" hidden>
-            <ul class="traffic-widget__list">
-              <li><span>Hari ini</span><strong data-tw="today">&ndash;</strong></li>
-              <li><span>Kemarin</span><strong data-tw="yesterday">&ndash;</strong></li>
-              <li><span>Minggu ini</span><strong data-tw="week">&ndash;</strong></li>
-              <li><span>Bulan ini</span><strong data-tw="month">&ndash;</strong></li>
-              <li><span>Semua</span><strong data-tw="all">&ndash;</strong></li>
-            </ul>
-            <p class="traffic-widget__foot">
+          <div id="traffic-widget" hidden>
+            <!-- Style inline sengaja dipakai (bukan style.min.css) supaya
+                 tidak menyentuh CSS global. -->
+            <div class="traffic-widget__chart" id="traffic-widget-chart"
+              style="display:flex;align-items:flex-end;gap:10px;height:64px;margin:0 0 10px;">
+              <div data-tw-chart-col="today"
+                style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;flex:1;height:100%;">
+                <span data-tw-chart-val="today" style="font-size:11px;line-height:1.2;opacity:.85;margin-bottom:3px;">0</span>
+                <span data-tw-chart-fill="today"
+                  style="display:block;width:100%;max-width:20px;height:2px;background:var(--teal,#10A28F);border-radius:3px 3px 0 0;opacity:1;transition:height .4s ease;"></span>
+                <span style="font-size:10px;line-height:1.2;opacity:.6;margin-top:5px;white-space:nowrap;">Hari ini</span>
+              </div>
+              <div data-tw-chart-col="yesterday"
+                style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;flex:1;height:100%;">
+                <span data-tw-chart-val="yesterday" style="font-size:11px;line-height:1.2;opacity:.85;margin-bottom:3px;">0</span>
+                <span data-tw-chart-fill="yesterday"
+                  style="display:block;width:100%;max-width:20px;height:2px;background:var(--teal,#10A28F);border-radius:3px 3px 0 0;opacity:1;transition:height .4s ease;"></span>
+                <span style="font-size:10px;line-height:1.2;opacity:.6;margin-top:5px;white-space:nowrap;">Kemarin</span>
+              </div>
+              <div data-tw-chart-col="week"
+                style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;flex:1;height:100%;">
+                <span data-tw-chart-val="week" style="font-size:11px;line-height:1.2;opacity:.85;margin-bottom:3px;">0</span>
+                <span data-tw-chart-fill="week"
+                  style="display:block;width:100%;max-width:20px;height:2px;background:var(--teal,#10A28F);border-radius:3px 3px 0 0;opacity:1;transition:height .4s ease;"></span>
+                <span style="font-size:10px;line-height:1.2;opacity:.6;margin-top:5px;white-space:nowrap;">Minggu ini</span>
+              </div>
+              <div data-tw-chart-col="month"
+                style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;flex:1;height:100%;">
+                <span data-tw-chart-val="month" style="font-size:11px;line-height:1.2;opacity:.85;margin-bottom:3px;">0</span>
+                <span data-tw-chart-fill="month"
+                  style="display:block;width:100%;max-width:20px;height:2px;background:var(--teal,#10A28F);border-radius:3px 3px 0 0;opacity:1;transition:height .4s ease;"></span>
+                <span style="font-size:10px;line-height:1.2;opacity:.6;margin-top:5px;white-space:nowrap;">Bulan ini</span>
+              </div>
+            </div>
+            <p class="traffic-widget__foot" style="border-radius:8px;color:#111;">
               <span class="traffic-widget__dot" aria-hidden="true"></span>
               <span data-tw="online">0</span> Online &middot; Live
             </p>

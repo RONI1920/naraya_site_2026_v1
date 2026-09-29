@@ -94,6 +94,9 @@
         // Silently drop — likely a bot. Pretend success.
         setStatus(form, "Terima kasih, pesan Anda telah kami terima.");
         form.reset();
+        if (typeof window.showFormSuccessToast === "function") {
+          window.showFormSuccessToast();
+        }
         return;
       }
 
@@ -222,6 +225,9 @@
             "Terima kasih! Pesan Anda telah kami terima. Untuk respon tercepat, silakan hubungi kami langsung via WhatsApp."
           );
           form.reset();
+          if (typeof window.showFormSuccessToast === "function") {
+            window.showFormSuccessToast();
+          }
         })
         .catch(function () {
           setStatus(

@@ -129,7 +129,7 @@ window.SITE_CONFIG = Object.freeze({
   // (pilih konversi) > Tag setup > "Use Google Tag Manager/Event snippet",
   // bagian send_to: 'AW-1234567890/ABCdEfGhIjK' -> label = "ABCdEfGhIjK".
   // Biarkan "" bila belum ada: event tetap terkirim ke GA4.
-  GOOGLE_ADS_ID: "141-628-9054",
+  GOOGLE_ADS_ID: "AW-18459420864",
   GOOGLE_ADS_CONVERSIONS: {
     whatsapp_click: "",
     phone_click: "",

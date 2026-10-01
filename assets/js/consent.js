@@ -15,7 +15,7 @@
     bar.setAttribute("aria-label", "Persetujuan cookie");
     var BASE_PATH = window.__BASE_PATH || "";
     bar.innerHTML =
-      '<p class="consent-bar__text">Kami menggunakan cookie analitik untuk memahami penggunaan situs. ' +
+      '<p class="consent-bar__text">Kami menggunakan cookie analitik dan pengukuran iklan untuk memahami penggunaan situs. ' +
       '<a href="' + BASE_PATH + 'privacy-policy.html">Selengkapnya</a>.</p>' +
       '<div class="consent-bar__actions">' +
       '<button type="button" class="btn btn--ghost btn--sm" data-consent="deny">Tolak</button>' +

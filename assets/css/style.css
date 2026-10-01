@@ -1726,3 +1726,4 @@ body { max-width: 100%; }
 /* Langkah: varian 3 kolom, dan FAQ rata kiri */
 @media (min-width: 760px) { .steps.steps--3 { grid-template-columns: repeat(3, 1fr); } }
 .pricing-faq { max-width: 720px; }
+@media (max-width: 899px) { body { padding-bottom: 5.2rem; } }

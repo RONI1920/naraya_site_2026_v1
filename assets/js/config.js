@@ -123,5 +123,18 @@ window.SITE_CONFIG = Object.freeze({
   TESTIMONIAL_FORM_ENABLED: false,
 
   // ---- ANALYTICS -------------------------------------------------------
+  // ---- GOOGLE ADS -----------------------------------------------------
+  // Isi setelah akun Google Ads dibuat. Contoh ID: "AW-1234567890".
+  // Label konversi diambil dari Google Ads > Goals > Conversions >
+  // (pilih konversi) > Tag setup > "Use Google Tag Manager/Event snippet",
+  // bagian send_to: 'AW-1234567890/ABCdEfGhIjK' -> label = "ABCdEfGhIjK".
+  // Biarkan "" bila belum ada: event tetap terkirim ke GA4.
+  GOOGLE_ADS_ID: "141-628-9054",
+  GOOGLE_ADS_CONVERSIONS: {
+    whatsapp_click: "",
+    phone_click: "",
+    contact_form_submit: "",
+    lead_form_submit: "",
+  },
   GA_MEASUREMENT_ID: "G-34XLDS27M8", // e.g. "G-XXXXXXX" — leave "" to disable GA4
 });

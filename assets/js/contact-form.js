@@ -78,11 +78,40 @@
 
   function getUtmParams() {
     var params = new URLSearchParams(window.location.search);
+    var a = window.NarayaAttribution ? window.NarayaAttribution.get() : {};
+    function pick(k) { return sanitize(params.get(k) || a[k] || "", 100); }
     return {
-      utm_source: sanitize(params.get("utm_source"), 100),
-      utm_medium: sanitize(params.get("utm_medium"), 100),
-      utm_campaign: sanitize(params.get("utm_campaign"), 100),
+      utm_source: pick("utm_source"),
+      utm_medium: pick("utm_medium"),
+      utm_campaign: pick("utm_campaign"),
     };
+  }
+
+  // Kolom tambahan (butuh migrasi 009). Dipisah agar bisa dibuang
+  // otomatis kalau migrasi belum dijalankan, tanpa kehilangan lead.
+  function getAdsExtras() {
+    var params = new URLSearchParams(window.location.search);
+    var a = window.NarayaAttribution ? window.NarayaAttribution.get() : {};
+    function pick(k) { return sanitize(params.get(k) || a[k] || "", 200) || null; }
+    return {
+      gclid: pick("gclid") || sanitize(a.gbraid || a.wbraid || "", 200) || null,
+      utm_term: pick("utm_term"),
+      utm_content: pick("utm_content"),
+      landing_page: sanitize(a.landing_page || window.location.pathname, 200),
+    };
+  }
+
+  // Cadangan bila form gagal terkirim: lead dikirim lewat WhatsApp.
+  function fallbackToWhatsApp(p) {
+    try {
+      var text =
+        "Halo NARAYA, saya " + p.name + " (" + p.phone + ")" +
+        (p.service ? ", butuh " + p.service : "") +
+        (p.area ? " di " + p.area : "") + "." +
+        (p.message ? "\n\n" + p.message : "");
+      var url = window.WA ? window.WA.buildUrl(text) : "";
+      if (url) setTimeout(function () { window.location.href = url; }, 1800);
+    } catch (e) {}
   }
 
   function handleSubmit(form, loadedAt) {
@@ -211,7 +240,8 @@
           location_source: locationSource,
           source_page: window.location.pathname,
         },
-        getUtmParams()
+        getUtmParams(),
+        getAdsExtras()
       );
 
       var submitBtn = form.querySelector('[type="submit"]');
@@ -232,9 +262,10 @@
         .catch(function () {
           setStatus(
             form,
-            "Maaf, terjadi kendala saat mengirim. Silakan hubungi kami langsung via WhatsApp.",
+            "Pesan belum terkirim. Kami arahkan Anda ke WhatsApp supaya data Anda tetap sampai ke kami…",
             true
           );
+          fallbackToWhatsApp(payload);
         })
         .finally(function () {
           if (submitBtn) submitBtn.disabled = false;
@@ -242,23 +273,44 @@
     };
   }
 
+  // Kolom yang hanya ada setelah migrasi 009 dijalankan.
+  var EXTRA_COLS = ["gclid", "utm_term", "utm_content", "landing_page"];
+
+  function stripExtras(payload) {
+    var p = Object.assign({}, payload);
+    EXTRA_COLS.forEach(function (k) { delete p[k]; });
+    return p;
+  }
+
+  function insertLead(row) {
+    return window.sb.from("leads").insert([row]).then(function (res) {
+      if (res.error) throw res.error;
+    });
+  }
+
+  // Tidak pernah "pura-pura sukses": kalau database tidak tersedia atau
+  // insert gagal, promise di-reject sehingga pengunjung diarahkan ke
+  // WhatsApp (lihat fallbackToWhatsApp).
   function submitLead(payload) {
-    if (window.sb) {
-      return window.sb
-        .from("leads")
-        .insert([payload])
-        .then(function (res) {
-          if (res.error) throw res.error;
-          if (typeof window.trackEvent === "function") {
-            window.trackEvent("contact_form_submit", {
-              service: payload.service,
-            });
-          }
-        });
+    if (!window.sb) {
+      return Promise.reject(new Error("database-unavailable"));
     }
-    // No Supabase configured yet — do not fail hard, just resolve so
-    // the visitor still sees a friendly message and is nudged to WA.
-    return Promise.resolve();
+    return insertLead(payload)
+      .catch(function (err) {
+        var msg = String((err && (err.message || err.code)) || "");
+        var columnProblem = /PGRST204|42703|column/i.test(msg);
+        if (!columnProblem) throw err;
+        // Migrasi 009 belum dijalankan -> kirim ulang tanpa kolom tambahan.
+        return insertLead(stripExtras(payload));
+      })
+      .then(function () {
+        if (typeof window.trackEvent === "function") {
+          window.trackEvent("contact_form_submit", {
+            service: payload.service,
+            area: payload.area,
+          });
+        }
+      });
   }
 
   document.addEventListener("DOMContentLoaded", function () {

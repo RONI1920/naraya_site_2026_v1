@@ -202,6 +202,7 @@ function syncLeads() {
   }
 
   var rowsToAppend = [];
+  var newLeadsToNotify = [];
   leads.forEach(function (lead) {
     var rowValues = leadToRow_(lead);
     var existingRow = existingIds[String(lead.id)];
@@ -211,6 +212,10 @@ function syncLeads() {
       sheet.getRange(existingRow, SYNCED_AT_COL, 1, 1).setValues([[rowValues[15]]]);
     } else {
       rowsToAppend.push(rowValues);
+      // Hanya lead BARU (<= 30 menit) yang dinotifikasi, supaya sinkron
+      // pertama kali tidak mengirim ratusan email lama.
+      var ageMin = (Date.now() - new Date(lead.created_at).getTime()) / 60000;
+      if ((lead.status || 'new') === 'new' && ageMin <= 30) newLeadsToNotify.push(lead);
     }
   });
 
@@ -220,6 +225,38 @@ function syncLeads() {
   }
 
   sortByNewest_(sheet);
+  notifyNewLeads_(newLeadsToNotify);
+}
+
+/**
+ * Notifikasi lead baru lewat email (muncul sebagai notifikasi di HP bila
+ * aplikasi Gmail terpasang dan notifikasi diaktifkan).
+ * Atur penerima di Project Settings > Script Properties:
+ *   NOTIFY_EMAIL = email1@contoh.com,email2@contoh.com
+ * Kosong = tidak ada notifikasi.
+ */
+function notifyNewLeads_(leads) {
+  var to = getProp_('NOTIFY_EMAIL', '');
+  if (!to || !leads || leads.length === 0) return;
+  leads.forEach(function (lead) {
+    try {
+      var phone = String(lead.phone || '').replace(/[^0-9]/g, '');
+      var wa = phone ? 'https://wa.me/' + phone.replace(/^0/, '62') : '';
+      var body =
+        'LEAD BARU - segera hubungi.\n\n' +
+        'Nama    : ' + (lead.name || '-') + '\n' +
+        'HP/WA   : ' + (lead.phone || '-') + '\n' +
+        'Layanan : ' + (lead.service || '-') + '\n' +
+        'Area    : ' + (lead.area || '-') + '\n' +
+        'Pesan   : ' + (lead.message || '-') + '\n' +
+        'Peta    : ' + (mapsLink_(lead) || '-') + '\n' +
+        'Sumber  : ' + [lead.utm_source, lead.utm_campaign, lead.gclid ? '(gclid)' : ''].filter(Boolean).join(' / ') + '\n\n' +
+        (wa ? 'Chat WhatsApp: ' + wa + '\n' : '');
+      MailApp.sendEmail(to, 'LEAD BARU: ' + (lead.service || 'Sedot WC') + ' - ' + (lead.area || '?') + ' - ' + (lead.name || ''), body);
+    } catch (e) {
+      console.error('Gagal kirim notifikasi: ' + e);
+    }
+  });
 }
 
 function sortByNewest_(sheet) {
@@ -302,17 +339,16 @@ function setup() {
   syncLeads();
   createTriggerIfMissing_();
   SpreadsheetApp.getUi().alert(
-    'Setup selesai. Sinkron otomatis akan berjalan setiap 10 menit.\n' +
+    'Setup selesai. Sinkron otomatis akan berjalan setiap 1 menit.\n' +
+    'Isi Script Property NOTIFY_EMAIL agar lead baru dikirim ke email Anda.\n' +
     'Gunakan menu "Sedot WC" untuk sinkron manual atau push status.'
   );
 }
 
 function createTriggerIfMissing_() {
-  var triggers = ScriptApp.getProjectTriggers();
-  var exists = triggers.some(function (t) {
-    return t.getHandlerFunction() === 'syncLeads';
+  // Hapus trigger syncLeads lama (mis. yang 10 menit) lalu buat yang 1 menit.
+  ScriptApp.getProjectTriggers().forEach(function (t) {
+    if (t.getHandlerFunction() === 'syncLeads') ScriptApp.deleteTrigger(t);
   });
-  if (!exists) {
-    ScriptApp.newTrigger('syncLeads').timeBased().everyMinutes(10).create();
-  }
+  ScriptApp.newTrigger('syncLeads').timeBased().everyMinutes(1).create();
 }

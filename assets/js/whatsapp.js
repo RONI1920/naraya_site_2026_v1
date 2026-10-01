@@ -23,6 +23,10 @@
   function buildUrl(message) {
     var cfg = window.SITE_CONFIG || {};
     var number = digitsOnly(cfg.BUSINESS_WHATSAPP);
+    // Penanda sumber iklan (mis. "[ref: gads-sedot-wc-depok]") supaya chat
+    // dari iklan bisa dibedakan di WhatsApp. Kosong untuk trafik non-iklan.
+    var ref = window.NarayaAttribution ? window.NarayaAttribution.ref() : "";
+    if (message && ref) message += "\n\n[ref: " + ref + "]";
     var text = encodeURIComponent(message || "");
     return "https://wa.me/" + number + (text ? "?text=" + text : "");
   }

@@ -234,7 +234,14 @@
             </div>
             <div class="form-field">
               <label for="area">Area</label>
-              <input type="text" id="area" name="area" maxlength="100" placeholder="Contoh: Kebayoran Baru" />
+              <select id="area" name="area" required>
+                <option value="">Pilih area…</option>
+                <option value="Jakarta Selatan">Jakarta Selatan</option>
+                <option value="Depok">Depok</option>
+                <option value="Bogor">Bogor</option>
+                <option value="Tangerang Selatan">Tangerang Selatan</option>
+              </select>
+              <small>Di luar 4 area ini? Chat WhatsApp dulu untuk cek jangkauan.</small>
             </div>
 
             <div class="form-field has-suggest" id="f-alamat">
@@ -323,7 +330,6 @@
 <script src="assets/js/whatsapp.js"></script>
 <script src="assets/js/consent.js"></script>
 <script defer src="assets/js/supabase-client.js"></script>
-<script defer src="assets/js/traffic-widget.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="assets/js/location-picker.js"></script>
 <script src="assets/js/form-success-toast.js"></script>

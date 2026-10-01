@@ -131,10 +131,10 @@ window.SITE_CONFIG = Object.freeze({
   // Biarkan "" bila belum ada: event tetap terkirim ke GA4.
   GOOGLE_ADS_ID: "AW-18459420864",
   GOOGLE_ADS_CONVERSIONS: {
-    whatsapp_click: "",
-    phone_click: "",
-    contact_form_submit: "",
-    lead_form_submit: "",
+    whatsapp_click: "fXZMCOKk9owdEMDRkeJE",
+    phone_click: "fvocCK6y_YwdEMDRkeJE",
+    contact_form_submit: "g5sjCN_A_4wdEMDRkeJE",
+    lead_form_submit: "pJM-CI399owdEMDRkeJE",
   },
   GA_MEASUREMENT_ID: "G-34XLDS27M8", // e.g. "G-XXXXXXX" — leave "" to disable GA4
 });

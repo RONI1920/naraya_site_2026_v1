@@ -64,12 +64,20 @@
   // Form -> tabel leads di Supabase (sama seperti form di halaman kontak)
   var form = document.getElementById('leadForm'), msgEl = document.getElementById('formMsg');
   function say(t, cls) { msgEl.textContent = t; msgEl.className = 'msg ' + (cls || ''); }
+  function normPhone(v) {
+    var d = String(v || '').replace(/[^0-9]/g, '');
+    if (d.indexOf('0') === 0) d = '62' + d.slice(1);
+    else if (d.indexOf('8') === 0) d = '62' + d;
+    return d ? '+' + d : '';
+  }
+  var loadedAt = Date.now();
   function clean(s, n) { return String(s || '').replace(/[<>]/g, '').trim().slice(0, n); }
   function attr() {
     var a = window.NarayaAttribution ? window.NarayaAttribution.get() : {}, p = new URLSearchParams(location.search);
     function pick(k, n) { return clean(p.get(k) || a[k] || '', n || 100) || null; }
     return {utm_source: pick('utm_source'), utm_medium: pick('utm_medium'), utm_campaign: pick('utm_campaign'),
-      gclid: pick('gclid', 200) || clean(a.gbraid || a.wbraid || '', 200) || null, utm_term: pick('utm_term'), utm_content: pick('utm_content'),
+      gclid: pick('gclid', 200), gbraid: pick('gbraid', 200), wbraid: pick('wbraid', 200),
+      utm_term: pick('utm_term'), utm_content: pick('utm_content'),
       landing_page: clean(a.landing_page || location.pathname, 200)};
   }
   function insert(row) { return window.sb.from('leads').insert([row]).then(function (r) { if (r.error) throw r.error; }); }
@@ -77,29 +85,49 @@
     if (!window.sb) return Promise.reject(new Error('db'));
     return insert(row).catch(function (err) {
       if (!/PGRST204|42703|column/i.test(String((err && (err.message || err.code)) || ''))) throw err;
-      ['gclid', 'utm_term', 'utm_content', 'landing_page'].forEach(function (k) { delete row[k]; });
+      // Kolom atribusi belum ada di DB (migrasi 009/010 belum dijalankan): jangan hilangkan
+      // datanya, simpan di akhir kolom "message" dan catat sebagai event agar terlihat.
+      var keep = [];
+      ['gclid', 'gbraid', 'wbraid', 'utm_term', 'utm_content', 'landing_page'].forEach(function (k) {
+        if (row[k]) keep.push(k + '=' + row[k]);
+        delete row[k];
+      });
+      if (keep.length) row.message = ((row.message ? row.message + ' ' : '') + '[attr ' + keep.join(' ') + ']').slice(0, 1000);
+      track('lead_attr_fallback');
+      if (window.console) console.warn('[lp] Kolom atribusi belum ada di tabel leads. Jalankan migrasi 009 & 010.');
       return insert(row);
     });
   }
+  // Tampilkan tautan WhatsApp yang BISA DIKLIK (bukan window.open di callback async,
+  // yang diblokir popup blocker di banyak HP, terutama iOS).
+  function showWaFallback(text) {
+    msgEl.className = 'msg err';
+    msgEl.textContent = 'Form belum bisa terkirim. Ketuk tombol ini agar data Anda tetap sampai: ';
+    var a = document.createElement('a');
+    a.href = waUrl(text); a.target = '_blank'; a.rel = 'noopener';
+    a.className = 'btn btn-wa'; a.style.marginTop = '10px';
+    a.textContent = 'Kirim lewat WhatsApp';
+    a.addEventListener('click', function () { track('whatsapp_click', {context: 'lp-form-fallback'}); });
+    msgEl.appendChild(document.createElement('br')); msgEl.appendChild(a);
+  }
   if (form) form.addEventListener('submit', function (e) {
     e.preventDefault();
-    var f = form.elements, nama = clean(f.nama.value, 80), wa = f.wa.value.replace(/[^0-9+]/g, '');
+    var f = form.elements, nama = clean(f.nama.value, 80), wa = normPhone(f.wa.value);
     [f.nama, f.wa].forEach(function (i) { i.classList.remove('bad'); });
-    if (f.website.value) return;
-    if (!nama) { f.nama.classList.add('bad'); f.nama.focus(); return say('Isi nama Anda dulu.', 'err'); }
-    if (wa.replace('+', '').length < 9) { f.wa.classList.add('bad'); f.wa.focus(); return say('Nomor WhatsApp belum lengkap.', 'err'); }
+    if (f.website.value) return;                    // honeypot
+    if (Date.now() - loadedAt < 2500) return;       // terlalu cepat = bot
+    if (nama.length < 2) { f.nama.classList.add('bad'); f.nama.focus(); return say('Isi nama Anda (minimal 2 huruf).', 'err'); }
+    if (wa.replace('+', '').length < 9 || wa.replace('+', '').length > 15) { f.wa.classList.add('bad'); f.wa.focus(); return say('Nomor WhatsApp belum benar. Contoh: 0812 3456 7890.', 'err'); }
     if (!state.area) return say('Pilih lokasi Anda dulu (langkah 2).', 'err');
     var note = clean(f.catatan.value, 500), btn = form.querySelector('button[type=submit]');
     var row = Object.assign({name: nama, phone: wa, service: state.problem, area: state.area, message: note || null, source_page: location.pathname}, attr());
     btn.disabled = true; say('Mengirim…');
     save(row).then(function () {
-      track('lead_form_submit');
+      track('lead_form_submit', {form: 'lp'});
       say('Terkirim. Kami hubungi lewat WhatsApp secepatnya.', 'ok'); form.reset();
     }).catch(function () {
       var t = 'Halo NARAYA, saya ' + nama + ' (' + wa + '). Butuh: ' + state.problem + ' di ' + state.area + '.' + (note ? ' Catatan: ' + note + '.' : '') + ' Mohon info estimasi dan jadwal. [ref: lp]';
-      track('whatsapp_click', {context: 'lp-form-fallback'});
-      window.open(waUrl(t), '_blank');
-      say('Form belum bisa terkirim, kami buka WhatsApp supaya data Anda tetap sampai.', 'err');
+      showWaFallback(t);
     }).then(function () { btn.disabled = false; });
   });
 })();

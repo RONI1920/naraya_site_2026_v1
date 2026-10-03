@@ -11,18 +11,25 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/lp.css">
+<style>
+.lpfoot{padding:22px 18px 96px;text-align:center;font-size:.82rem;color:#35524e;background:#E4F0EA}
+.lpfoot a{color:#0D2B29;font-weight:700;margin:0 8px}
+.lpfoot p{margin:6px 0}
+.consentnote{font-size:.78rem;color:#35524e;text-align:center;margin:10px 0 0}
+.consentnote a{color:#0D2B29;font-weight:700}
+</style>
 </head>
 <body data-problem="WC mampet">
 
 <header class="top">
-  <a class="brand" href="../index.html" aria-label="NARAYA"><img src="../assets/img/logo.svg" width="34" height="34" alt=""><span>NARAYA <small>Sedot WC &amp; Solusi Sanitasi</small></span></a>
+  <a class="brand" href="#" aria-label="NARAYA"><img src="../assets/img/logo.svg" width="34" height="34" alt=""><span>NARAYA <small>Sedot WC &amp; Solusi Sanitasi</small></span></a>
   <div class="top__r"><span class="status" id="status"><i></i><span>Buka 07.00&ndash;21.00</span></span><a class="top__tel" href="tel:+6285117419206" data-context="lp-header">&#9742; Telepon</a></div>
 </header>
 
 <main>
   <section class="hero">
     <p class="kicker">Rumah, kos, ruko, kantor, restoran</p>
-    <h1><span class="l">WC mampet? Air tidak mau surut?</span><span class="l">Bisa beres hari ini.</span></h1>
+    <h1><span class="l">WC mampet? Air tidak mau surut?</span><span class="l">Kami bantu secepatnya.</span></h1>
     <p class="lead">Cek penyebabnya dulu, estimasi biaya kami kirim sebelum teknisi berangkat. Pilih kondisi, isi nama dan nomor WhatsApp, lalu kami hubungi.</p>
   </section>
 
@@ -55,9 +62,10 @@
         <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
         <button class="btn btn-send" type="submit">Minta Dihubungi</button>
         <p class="msg" id="formMsg" role="status"></p>
+        <p class="consentnote">Dengan mengirim, Anda setuju data dipakai untuk menghubungi Anda. <a href="../privacy-policy.html">Kebijakan Privasi</a></p>
       </form>
     </div>
-    <div class="trust"><span>Hanya nama &amp; nomor wajib</span><span>Biaya diinfokan dulu</span><span>Data tidak dibagikan</span></div>
+    <div class="trust"><span>Isi kurang dari 1 menit</span><span>Biaya diinfokan dulu</span><span>Data hanya untuk menghubungi Anda</span></div>
   </section>
 
   <section class="strip">
@@ -75,7 +83,7 @@
     <h2>Takut apa saat memanggil tukang sedot?</h2>
     <div class="fears">
       <div><h3>"Nanti harganya naik di lokasi."</h3><p>Estimasi kami kirim lewat WhatsApp dulu. Kalau ada kondisi yang memengaruhi biaya, teknisi memberi tahu sebelum menambah tindakan.</p></div>
-      <div><h3>"Ribet, harus isi data banyak."</h3><p>Hanya nama dan nomor WhatsApp yang wajib diisi, kurang dari 1 menit. Kami yang menghubungi dan mengatur jadwal serta teknisi.</p></div>
+      <div><h3>"Ribet, harus isi data banyak."</h3><p>Hanya nama, nomor WhatsApp, dan lokasi yang wajib diisi, kurang dari 1 menit. Kami yang menghubungi dan mengatur jadwal serta teknisi.</p></div>
       <div><h3>"Akses rumah atau kos sempit."</h3><p>Ceritakan aksesnya saat chat, supaya teknisi tahu apa yang harus dibawa.</p></div>
       <div><h3>"Tempat saya jadi kotor."</h3><p>Setelah penyedotan, lokasi dibersihkan kembali.</p></div>
     </div>
@@ -98,17 +106,6 @@
     <details><summary>Jam operasional?</summary><p>Setiap hari pukul 07.00 sampai 21.00 WIB.</p></details>
   </section>
 
-  <section class="block">
-    <h2>Ingin tahu lebih lengkap tentang NARAYA?</h2>
-    <div class="more">
-      <a href="../layanan.html">Semua layanan</a>
-      <a href="../harga.html">Estimasi biaya</a>
-      <a href="../area-layanan.html">Area layanan</a>
-      <a href="../tentang-kami.html">Tentang kami</a>
-    </div>
-    <a class="more-link" href="../index.html">Kunjungi website utama &rarr;</a>
-  </section>
-
   <section class="final">
     <h2>Jangan tunggu sampai meluap.</h2>
     <p>Chat sebentar untuk tahu estimasi biaya dan jadwal.</p>
@@ -116,7 +113,11 @@
   </section>
 </main>
 
-<div id="site-footer"></div>
+<footer class="lpfoot">
+  <p><b>NARAYA Sedot WC &amp; Solusi Sanitasi</b><br>Jl. A Tanah 80, Klender, Duren Sawit, Jakarta Timur</p>
+  <p>Buka setiap hari 07.00&ndash;21.00 WIB</p>
+  <p><a href="../privacy-policy.html">Kebijakan Privasi</a><a href="../terms.html">Syarat &amp; Ketentuan</a></p>
+</footer>
 
 <div class="sticky" id="sticky">
   <a class="btn btn-wa" data-track="form_sticky" href="#form">Pesan Sekarang</a>
@@ -124,7 +125,6 @@
 </div>
 
 <script src="../assets/js/config.js"></script>
-<script src="../assets/js/include-footer.js"></script>
 <script src="../assets/js/analytics.js"></script>
 <script src="../assets/js/whatsapp.js"></script>
 <script src="../assets/js/consent.js"></script>

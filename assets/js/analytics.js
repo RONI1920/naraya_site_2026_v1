@@ -39,7 +39,7 @@
       var found = false;
       ATTR_PARAMS.forEach(function (k) {
         var v = qs.get(k);
-        if (v) { stored[k] = String(v).slice(0, 100); found = true; }
+        if (v) { stored[k] = String(v).slice(0, 200); found = true; }
       });
       if (found || !stored.landing_page) {
         if (!stored.landing_page) stored.landing_page = window.location.pathname;

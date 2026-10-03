@@ -43,7 +43,9 @@ var HEADERS = [
   'Titik Lokasi (Google Maps)',
   'Pesan', 'Tanggal Diminta', 'Jam Diminta', 'Halaman Sumber',
   'UTM Source', 'UTM Medium', 'UTM Campaign', 'Status', 'Catatan Admin',
-  'Terakhir Disinkron'
+  'Terakhir Disinkron',
+  // Kolom atribusi iklan (ditambah di akhir agar posisi kolom lama tidak bergeser)
+  'GCLID', 'GBRAID', 'WBRAID', 'UTM Term', 'UTM Content', 'Landing Page'
 ];
 var ID_COL = 1; // kolom A
 var RAW_DATA_COL_COUNT = 14; // A..N: seluruh data mentah dari Supabase (sebelum Status)
@@ -170,6 +172,12 @@ function leadToRow_(lead) {
     lead.status || 'new',
     lead.notes || '',
     Utilities.formatDate(new Date(), tz_(), 'yyyy-MM-dd HH:mm:ss'),
+    lead.gclid || '',
+    lead.gbraid || '',
+    lead.wbraid || '',
+    lead.utm_term || '',
+    lead.utm_content || '',
+    lead.landing_page || '',
   ];
 }
 
@@ -207,9 +215,13 @@ function syncLeads() {
     var rowValues = leadToRow_(lead);
     var existingRow = existingIds[String(lead.id)];
     if (existingRow) {
-      // A..M = data mentah (13 kolom), biarkan N (Status) & O (Catatan)
-      sheet.getRange(existingRow, 1, 1, 13).setValues([rowValues.slice(0, 13)]);
-      sheet.getRange(existingRow, SYNCED_AT_COL, 1, 1).setValues([[rowValues[15]]]);
+      // A..N = data mentah (14 kolom), biarkan O (Status) & P (Catatan Admin).
+      // (Sebelumnya hanya 13 kolom + salah ambil indeks "Terakhir Disinkron".)
+      sheet.getRange(existingRow, 1, 1, RAW_DATA_COL_COUNT).setValues([rowValues.slice(0, RAW_DATA_COL_COUNT)]);
+      sheet.getRange(existingRow, SYNCED_AT_COL, 1, 1).setValues([[rowValues[SYNCED_AT_COL - 1]]]);
+      // Kolom atribusi iklan (R..W)
+      sheet.getRange(existingRow, SYNCED_AT_COL + 1, 1, HEADERS.length - SYNCED_AT_COL)
+        .setValues([rowValues.slice(SYNCED_AT_COL)]);
     } else {
       rowsToAppend.push(rowValues);
       // Hanya lead BARU (<= 30 menit) yang dinotifikasi, supaya sinkron
